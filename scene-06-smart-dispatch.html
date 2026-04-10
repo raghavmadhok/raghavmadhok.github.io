@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scene 6 — Smart Dispatch | T1 Pro Dispatcher</title>
+  <style>
+    /* ── Reset & Tokens ────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --t1-primary: #4285f4;
+      --t1-primary-hover: #0060ff;
+      --t1-primary-light: #ebf4ff;
+      --t1-error: #c42106;
+      --t1-error-light: #f9e2e0;
+      --t1-white: #ffffff;
+      --t1-bg: #f4f5f6;
+      --t1-bg-hover: #edeef0;
+      --t1-bg-active: #e8e9eb;
+      --t1-surface-dark: #1a2332;
+      --t1-topbar-bg: #0d1117;
+      --t1-text-primary: #161616;
+      --t1-text-secondary: #3f4757;
+      --t1-text-tertiary: #6d707a;
+      --t1-text-quaternary: #969aa3;
+      --t1-border: #e8e9eb;
+      --t1-border-strong: #969aa3;
+      --t1-font: "Proxima Nova", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --t1-radius-sm: 2px;
+      --t1-radius-md: 4px;
+      --t1-radius-lg: 8px;
+      --t1-radius-xl: 12px;
+      --t1-radius-full: 100px;
+      --success: #3c8635;
+      --success-light: #e8f5e9;
+      --warning: #e67e22;
+      --warning-light: #fff3e0;
+      --t1-gradient: linear-gradient(143.74deg, rgb(231,247,249) 0%, rgb(251,248,242) 100%);
+      --tekion-green: #00c853;
+    }
+
+    body {
+      font-family: var(--t1-font);
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--t1-text-primary);
+      background: var(--t1-bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       TEKION DMS SHELL — Pixel-matched from production
+       ══════════════════════════════════════════════════════════ */
+
+    /* ── Top Navigation Bar (48px, dark) ────────────────────────── */
+    .tekion-topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 48px;
+      background: var(--t1-topbar-bg);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      z-index: 200;
+      gap: 8px;
+    }
+
+    .tekion-topbar__grid-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: var(--t1-radius-md);
+      color: #8b949e;
+      flex-shrink: 0;
+    }
+    .tekion-topbar__grid-icon:hover { background: rgba(255,255,255,0.08); }
+
+    .tekion-topbar__logo {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--tekion-green);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-right: 8px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .tekion-topbar__ai-search {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 4px;
+      flex-shrink: 0;
+    }
+    .tekion-topbar__ai-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--t1-radius-md);
+      background: linear-gradient(135deg, #2dd4bf22, #4285f422);
+      border: 1px solid rgba(45,212,191,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .tekion-topbar__search-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--t1-radius-md);
+      background: rgba(255,255,255,0.08);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #8b949e;
+      cursor: pointer;
+    }
+
+    .tekion-topbar__search-bar {
+      flex: 1;
+      max-width: 400px;
+      height: 34px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--t1-radius-md);
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      color: #6b7280;
+      font-size: 13px;
+      margin: 0 auto;
+      cursor: text;
+    }
+    .tekion-topbar__search-bar svg { margin-right: 8px; flex-shrink: 0; }
+
+    .tekion-topbar__actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .tekion-topbar__get-help {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: var(--tekion-green);
+      color: #fff;
+      border: none;
+      border-radius: var(--t1-radius-md);
+      font-family: var(--t1-font);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .tekion-topbar__get-help svg { width: 14px; height: 14px; }
+    .tekion-topbar__get-help::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 4px solid white;
+      margin-left: 4px;
+    }
+
+    .tekion-topbar__icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #8b949e;
+      cursor: pointer;
+      position: relative;
+      border: none;
+      background: none;
+    }
+    .tekion-topbar__icon-btn:hover { background: rgba(255,255,255,0.08); }
+
+    .tekion-topbar__badge {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      min-width: 16px;
+      height: 16px;
+      background: #ef4444;
+      color: white;
+      font-size: 9px;
+      font-weight: 700;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+    }
+
+    .tekion-topbar__dealer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 8px 4px 4px;
+      margin-left: 8px;
+      cursor: pointer;
+      border-radius: var(--t1-radius-md);
+      flex-shrink: 0;
+    }
+    .tekion-topbar__dealer:hover { background: rgba(255,255,255,0.06); }
+
+    .tekion-topbar__dealer-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #2dd4bf;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .tekion-topbar__dealer-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e5e7eb;
+      white-space: nowrap;
+    }
+    .tekion-topbar__dealer-chevron {
+      color: #6b7280;
+      font-size: 10px;
+    }
+
+    /* ── Left Sidebar (56px, dark) ───────────────────────────────── */
+    .tekion-sidebar {
+      position: fixed;
+      top: 48px;
+      left: 0;
+      width: 56px;
+      height: calc(100vh - 48px);
+      background: var(--t1-surface-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 0 8px;
+      gap: 2px;
+      z-index: 100;
+      overflow-y: auto;
+    }
+
+    .tekion-sidebar__item {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: var(--t1-radius-md);
+      position: relative;
+      flex-shrink: 0;
+    }
+    .tekion-sidebar__item:hover { background: rgba(255,255,255,0.06); }
+
+    .tekion-sidebar__icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.3px;
+    }
+
+    .tekion-sidebar__icon--t1 { background: none; position: relative; }
+    .tekion-sidebar__icon--ro { background: #3b82f6; }
+    .tekion-sidebar__icon--ds { background: #3b82f6; }
+    .tekion-sidebar__icon--om { background: #22c55e; }
+    .tekion-sidebar__icon--a { background: #8b5cf6; }
+    .tekion-sidebar__icon--dc { background: #3b82f6; }
+    .tekion-sidebar__icon--cd { background: #3b82f6; }
+    .tekion-sidebar__icon--settings { background: #22c55e; }
+    .tekion-sidebar__icon--alert { background: #ef4444; }
+    .tekion-sidebar__icon--clock { background: #f59e0b; }
+    .tekion-sidebar__icon--pg { background: #6b7280; }
+
+    .tekion-sidebar__item--active .tekion-sidebar__icon {
+      box-shadow: 0 0 0 2px #4285f4;
+    }
+    .tekion-sidebar__item--active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      bottom: 10px;
+      width: 3px;
+      background: #4285f4;
+      border-radius: 0 2px 2px 0;
+    }
+
+    .tekion-sidebar__spacer { flex: 1; }
+
+    .tekion-sidebar__time {
+      font-size: 10px;
+      color: #6b7280;
+      text-align: center;
+      margin-top: 4px;
+      line-height: 1.2;
+      flex-shrink: 0;
+    }
+
+    /* ── Scene Label Bar ──────────────────────────────────────── */
+    .scene-label {
+      position: fixed;
+      top: 48px;
+      left: 56px;
+      right: 0;
+      background: #161b22;
+      color: #8899aa;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 24px;
+      z-index: 90;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .scene-label strong { color: white; font-weight: 600; }
+    .scene-label__tag {
+      background: rgba(66,133,244,0.2);
+      color: #4285f4;
+      padding: 1px 8px;
+      border-radius: var(--t1-radius-sm);
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    /* ── Main Content Area ────────────────────────────────────── */
+    .dms-main {
+      margin-left: 56px;
+      margin-top: 72px;
+      padding: 24px;
+      max-width: 1400px;
+    }
+
+    /* ── Page Header ─────────────────────────────────────────── */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .page-header__greeting { font-size: 24px; font-weight: 700; color: var(--t1-text-primary); }
+    .page-header__subtitle { font-size: 13px; color: var(--t1-text-tertiary); margin-top: 2px; }
+    .page-header__meta { text-align: right; }
+    .page-header__date { font-size: 13px; color: var(--t1-text-tertiary); }
+    .page-header__date strong { display: block; font-size: 14px; color: var(--t1-text-secondary); font-weight: 600; }
+
+    /* ══════════════════════════════════════════════════════════
+       T1 SURFACE AREA — HERO COMPONENT (shared with Scene 12)
+       ══════════════════════════════════════════════════════════ */
+
+    .t1-surface-area {
+      background: var(--t1-white);
+      border: 1px solid var(--t1-border);
+      border-radius: var(--t1-radius-xl);
+      overflow: hidden;
+      margin-bottom: 28px;
+      position: relative;
+    }
+    .t1-surface-area::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--t1-gradient);
+    }
+
+    .t1-surface-area__header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--t1-border);
+      justify-content: space-between;
+    }
+    .t1-surface-area__left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .t1-surface-area__icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--t1-radius-lg);
+      background: var(--t1-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .t1-surface-area__icon svg {
+      width: 16px;
+      height: 16px;
+    }
+    .t1-surface-area__title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--t1-text-primary);
+    }
+    .t1-surface-area__right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .t1-surface-area__timestamp {
+      font-size: 12px;
+      color: var(--t1-text-quaternary);
+    }
+    .t1-surface-area__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: var(--t1-radius-full);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .t1-surface-area__badge--decide {
+      background: var(--t1-primary-light);
+      color: var(--t1-primary);
+    }
+
+    .t1-surface-area__body {
+      padding: 24px;
+    }
+
+    /* ── Smart Dispatch Intro ────────────────────────────────── */
+    .dispatch-intro {
+      margin-bottom: 20px;
+    }
+    .dispatch-intro__ro {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--t1-text-primary);
+      margin-bottom: 8px;
+    }
+    .dispatch-intro__ro-detail {
+      font-size: 13px;
+      color: var(--t1-text-secondary);
+      margin-bottom: 4px;
+    }
+    .dispatch-intro__jobs {
+      font-size: 12px;
+      color: var(--t1-text-tertiary);
+      margin-bottom: 14px;
+    }
+    .dispatch-intro__recommendation {
+      font-size: 14px;
+      color: var(--t1-text-secondary);
+      font-weight: 500;
+    }
+
+    /* ── Tech Recommendation Cards (3 columns) ───────────────── */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .tech-card {
+      border: 2px solid var(--t1-border);
+      border-radius: var(--t1-radius-lg);
+      padding: 18px;
+      position: relative;
+      transition: border-color 120ms ease, box-shadow 120ms ease;
+      background: var(--t1-white);
+    }
+    .tech-card:hover {
+      border-color: var(--t1-primary);
+      box-shadow: 0 2px 8px rgba(66,133,244,0.08);
+    }
+
+    .tech-card--recommended {
+      border-color: var(--t1-primary);
+      box-shadow: 0 4px 16px rgba(66,133,244,0.12);
+    }
+
+    .tech-card__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .tech-card__name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--t1-text-primary);
+      margin-bottom: 3px;
+    }
+    .tech-card__score {
+      font-size: 12px;
+      color: var(--t1-text-tertiary);
+    }
+    .tech-card__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 4px 8px;
+      border-radius: var(--t1-radius-md);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      background: var(--t1-primary-light);
+      color: var(--t1-primary);
+    }
+
+    .tech-card__skills {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .tech-card__skill {
+      font-size: 12px;
+      color: var(--t1-text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tech-card__skill svg {
+      width: 14px;
+      height: 14px;
+      color: var(--success);
+      flex-shrink: 0;
+    }
+    .tech-card__skill--unavail {
+      color: var(--t1-text-quaternary);
+    }
+    .tech-card__skill--unavail svg {
+      color: var(--t1-text-quaternary);
+      opacity: 0.5;
+    }
+
+    .tech-card__meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--t1-border);
+    }
+    .tech-card__meta-item {
+      font-size: 12px;
+      color: var(--t1-text-secondary);
+      display: flex;
+      justify-content: space-between;
+    }
+    .tech-card__meta-label {
+      color: var(--t1-text-tertiary);
+    }
+    .tech-card__meta-value {
+      font-weight: 600;
+      color: var(--t1-text-primary);
+    }
+
+    .tech-card__action {
+      width: 100%;
+      padding: 10px 14px;
+      border: none;
+      border-radius: var(--t1-radius-lg);
+      font-family: var(--t1-font);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 120ms ease;
+    }
+    .tech-card__action--primary {
+      background: var(--t1-primary);
+      color: white;
+    }
+    .tech-card__action--primary:hover {
+      background: var(--t1-primary-hover);
+    }
+    .tech-card__action--outline {
+      background: transparent;
+      color: var(--t1-text-secondary);
+      border: 1px solid var(--t1-border);
+    }
+    .tech-card__action--outline:hover {
+      background: var(--t1-bg);
+      border-color: var(--t1-border-strong);
+    }
+
+    /* ── Scoring Rationale (Expandable) ──────────────────────── */
+    .dispatch-footer {
+      border-top: 1px solid var(--t1-border);
+      padding-top: 18px;
+    }
+
+    .scoring-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0;
+      border: none;
+      background: none;
+      font-family: var(--t1-font);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--t1-primary);
+      cursor: pointer;
+      margin-bottom: 12px;
+      transition: color 120ms ease;
+    }
+    .scoring-toggle:hover { color: var(--t1-primary-hover); }
+    .scoring-toggle svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 200ms ease;
+    }
+    .scoring-toggle.open svg {
+      transform: rotate(180deg);
+    }
+
+    .scoring-details {
+      display: none;
+      margin-bottom: 16px;
+      padding: 12px;
+      background: var(--t1-bg);
+      border-radius: var(--t1-radius-lg);
+      font-size: 12px;
+      color: var(--t1-text-secondary);
+      line-height: 1.6;
+    }
+    .scoring-details.open { display: block; }
+    .scoring-details strong { color: var(--t1-text-primary); }
+    .scoring-details ul { margin: 8px 0 0 16px; }
+    .scoring-details li { margin-bottom: 4px; }
+
+    .quick-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .quick-action-btn {
+      padding: 8px 14px;
+      border: 1px solid var(--t1-border);
+      border-radius: var(--t1-radius-lg);
+      background: var(--t1-white);
+      color: var(--t1-text-secondary);
+      font-family: var(--t1-font);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 120ms ease;
+    }
+    .quick-action-btn:hover {
+      border-color: var(--t1-primary);
+      color: var(--t1-primary);
+      background: var(--t1-primary-light);
+    }
+
+    /* ── Assigned State History ────────────────────────────── */
+    .assigned-history {
+      margin-bottom: 20px;
+    }
+    .assigned-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: var(--success-light);
+      border: 1px solid #c6e9c9;
+      border-radius: var(--t1-radius-lg);
+      margin-bottom: 8px;
+    }
+    .assigned-item__icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--success);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .assigned-item__text {
+      font-size: 12px;
+      color: #2d5a2d;
+      font-weight: 500;
+    }
+    .assigned-item__time {
+      margin-left: auto;
+      font-size: 11px;
+      color: #2d5a2d;
+      opacity: 0.8;
+      flex-shrink: 0;
+    }
+
+    /* ── KPI Row (below T1 Surface) ──────────────────────────── */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-card {
+      background: var(--t1-white);
+      border: 1px solid var(--t1-border);
+      border-radius: var(--t1-radius-lg);
+      padding: 16px 18px;
+    }
+    .kpi-card__label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--t1-text-tertiary);
+      margin-bottom: 8px;
+    }
+    .kpi-card__value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--t1-text-primary);
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .kpi-card__trend {
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .kpi-card__trend--up { color: var(--success); }
+    .kpi-card__trend--down { color: var(--t1-error); }
+    .kpi-card__sub {
+      font-size: 11px;
+      color: var(--t1-text-quaternary);
+      margin-top: 6px;
+    }
+
+    /* ── Compact RO Queue Table ──────────────────────────────── */
+    .ro-queue {
+      background: var(--t1-white);
+      border: 1px solid var(--t1-border);
+      border-radius: var(--t1-radius-xl);
+      overflow: hidden;
+    }
+    .ro-queue__header {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--t1-border);
+    }
+    .ro-queue__title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--t1-text-primary);
+    }
+    .ro-queue__count {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--t1-text-quaternary);
+      background: var(--t1-bg);
+      padding: 2px 10px;
+      border-radius: var(--t1-radius-full);
+    }
+
+    .ro-queue__list {
+      display: flex;
+      flex-direction: column;
+    }
+    .ro-item {
+      display: grid;
+      grid-template-columns: 100px 180px 120px 120px 100px;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--t1-border);
+      align-items: center;
+      transition: background 100ms ease;
+    }
+    .ro-item:last-child { border-bottom: none; }
+    .ro-item:hover { background: var(--t1-bg-hover); }
+
+    .ro-item--highlighted {
+      background: #fef7e8;
+      border-left: 3px solid var(--warning);
+      padding-left: 17px;
+    }
+    .ro-item--highlighted:hover {
+      background: #fdf3d8;
+    }
+
+    .ro-item__cell {
+      font-size: 13px;
+      color: var(--t1-text-secondary);
+    }
+    .ro-item__ro-num {
+      font-weight: 600;
+      color: var(--t1-text-primary);
+    }
+    .ro-item__customer {
+      color: var(--t1-text-secondary);
+    }
+    .ro-item__status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: var(--t1-radius-md);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .ro-item__status--unassigned {
+      background: var(--warning-light);
+      color: #92400e;
+    }
+    .ro-item__status--assigned {
+      background: var(--success-light);
+      color: #1b4620;
+    }
+    .ro-item__priority {
+      font-weight: 600;
+      color: var(--warning);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       T1 FLOATING CHAT POPUP — Matches production pattern
+       ══════════════════════════════════════════════════════════ */
+    .t1-chat-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--t1-gradient);
+      border: 1px solid rgba(66,133,244,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      z-index: 300;
+      transition: transform 200ms ease, box-shadow 200ms ease;
+    }
+    .t1-chat-fab:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(0,0,0,0.18); }
+    .t1-chat-fab.hidden { display: none; }
+
+    /* ── Annotation Panel ────────────────────────────────────── */
+    .annotation-toggle {
+      position: fixed;
+      bottom: 24px;
+      left: 72px;
+      padding: 8px 14px;
+      background: var(--t1-surface-dark);
+      color: white;
+      border: none;
+      border-radius: var(--t1-radius-full);
+      font-family: var(--t1-font);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 100ms ease;
+    }
+    .annotation-toggle:hover { background: #2a3a4e; }
+
+    .annotation-panel {
+      position: fixed;
+      bottom: 60px;
+      left: 72px;
+      width: 420px;
+      max-height: 500px;
+      overflow-y: auto;
+      background: var(--t1-white);
+      border: 1px solid var(--t1-border);
+      border-radius: var(--t1-radius-xl);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      padding: 20px;
+      display: none;
+      z-index: 200;
+    }
+    .annotation-panel.open { display: block; }
+    .annotation-panel h3 { font-size: 14px; font-weight: 700; color: var(--t1-text-primary); margin-bottom: 12px; }
+    .annotation-panel h4 { font-size: 12px; font-weight: 600; color: var(--t1-text-secondary); margin: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.3px; }
+    .annotation-panel p, .annotation-panel li { font-size: 12px; line-height: 1.6; color: var(--t1-text-tertiary); }
+    .annotation-panel ul { padding-left: 16px; }
+    .annotation-panel li { margin-bottom: 6px; }
+    .annotation-panel code { font-size: 11px; background: var(--t1-bg); padding: 2px 6px; border-radius: var(--t1-radius-sm); color: var(--t1-primary); font-family: monospace; }
+
+  </style>
+</head>
+<body>
+
+<!-- ═══ TEKION TOP BAR ═══ -->
+<div class="tekion-topbar">
+  <div class="tekion-topbar__grid-icon">
+    <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+      <circle cx="3" cy="3" r="1.5"/><circle cx="8" cy="3" r="1.5"/><circle cx="13" cy="3" r="1.5"/>
+      <circle cx="3" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="13" cy="8" r="1.5"/>
+      <circle cx="3" cy="13" r="1.5"/><circle cx="8" cy="13" r="1.5"/><circle cx="13" cy="13" r="1.5"/>
+    </svg>
+  </div>
+  <div class="tekion-topbar__logo">TEKION</div>
+  <div class="tekion-topbar__ai-search">
+    <button class="tekion-topbar__ai-btn">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">
+        <circle cx="8" cy="8" r="6" stroke="#2dd4bf"/><path d="M11 11l3 3" stroke="#4285f4"/>
+      </svg>
+    </button>
+  </div>
+  <input type="text" class="tekion-topbar__search-bar" placeholder="Search...">
+  <div class="tekion-topbar__actions">
+    <button class="tekion-topbar__icon-btn">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">
+        <circle cx="8" cy="4" r="1"/><circle cx="8" cy="8" r="1"/><circle cx="8" cy="12" r="1"/>
+      </svg>
+    </button>
+    <button class="tekion-topbar__icon-btn">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M2 8h12M8 2v12M2 2l12 12M14 2L2 14"/>
+      </svg>
+      <span class="tekion-topbar__badge">4</span>
+    </button>
+  </div>
+  <button class="tekion-topbar__get-help">Get Help</button>
+  <div class="tekion-topbar__dealer">
+    <div class="tekion-topbar__dealer-avatar">J</div>
+    <div class="tekion-topbar__dealer-name">Jake</div>
+    <div class="tekion-topbar__dealer-chevron">▾</div>
+  </div>
+</div>
+
+<!-- ═══ SIDEBAR ═══ -->
+<div class="tekion-sidebar">
+  <div class="tekion-sidebar__item tekion-sidebar__item--active">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--t1">T1</div>
+  </div>
+  <div class="tekion-sidebar__item">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--ro">RO</div>
+  </div>
+  <div class="tekion-sidebar__item">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--ds">DS</div>
+  </div>
+  <div class="tekion-sidebar__spacer"></div>
+  <div class="tekion-sidebar__item">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--settings">⚙</div>
+  </div>
+  <div class="tekion-sidebar__time">7:05<br>AM</div>
+</div>
+
+<!-- ═══ SCENE LABEL ═══ -->
+<div class="scene-label">
+  <strong>Act 3, Scene 6</strong> — Smart Dispatch
+  <span class="scene-label__tag">DISP-D01 AssignTechToRO</span>
+  <span class="scene-label__tag">DECIDE</span>
+  <span style="margin-left: auto; color: #6b7280;">7:05 AM · Dispatcher T1 Homepage · Desktop</span>
+</div>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<div class="dms-main">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <div class="page-header__greeting">Good morning, Jake</div>
+      <div class="page-header__subtitle">3 unassigned ROs, 4 techs available</div>
+    </div>
+    <div class="page-header__meta">
+      <div class="page-header__date"><strong>Tuesday, April 8</strong></div>
+      <div class="page-header__date">7:05 AM</div>
+    </div>
+  </div>
+
+  <!-- T1 Surface Area: Smart Dispatch (HERO COMPONENT) -->
+  <div class="t1-surface-area">
+    <div class="t1-surface-area__header">
+      <div class="t1-surface-area__left">
+        <div class="t1-surface-area__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+        <div class="t1-surface-area__title">T1 Smart Dispatch</div>
+      </div>
+      <div class="t1-surface-area__right">
+        <span class="t1-surface-area__timestamp">Just now</span>
+        <div class="t1-surface-area__badge t1-surface-area__badge--decide">DECIDE</div>
+      </div>
+    </div>
+
+    <div class="t1-surface-area__body">
+
+      <!-- Previous assignment (collapsed state) -->
+      <div class="assigned-history">
+        <div class="assigned-item">
+          <div class="assigned-item__icon">✓</div>
+          <div class="assigned-item__text">RO #4498 assigned to Marcus Williams</div>
+          <div class="assigned-item__time">6:52 AM</div>
+        </div>
+      </div>
+
+      <!-- Current dispatch recommendation -->
+      <div class="dispatch-intro">
+        <div class="dispatch-intro__ro">RO #4501 — Linda Chen's 2021 Honda Accord</div>
+        <div class="dispatch-intro__ro-detail">
+          <strong>3 jobs:</strong> Oil Change, Brake Pad Replacement, 60K Maintenance
+        </div>
+        <div class="dispatch-intro__jobs">
+          Estimated total: 2.5–3.8 hours
+        </div>
+        <div class="dispatch-intro__recommendation">Here's my recommendation:</div>
+      </div>
+
+      <!-- Tech Recommendation Cards -->
+      <div class="tech-grid">
+        <!-- Card 1: Recommended -->
+        <div class="tech-card tech-card--recommended">
+          <div class="tech-card__header">
+            <div>
+              <div class="tech-card__name">Marcus Williams</div>
+              <div class="tech-card__score">Score: 94%</div>
+            </div>
+            <div class="tech-card__badge">Best Match</div>
+          </div>
+
+          <div class="tech-card__skills">
+            <div class="tech-card__skill">
+              <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+              Honda Certified
+            </div>
+            <div class="tech-card__skill">
+              <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+              Brake Specialist
+            </div>
+          </div>
+
+          <div class="tech-card__meta">
+            <div class="tech-card__meta-item">
+              <span class="tech-card__meta-label">Current Load:</span>
+              <span class="tech-card__meta-value">1 job</span>
+            </div>
+            <div class="tech-card__meta-item">
+              <span class="tech-card__meta-label">Available in:</span>
+              <span class="tech-card__meta-value">15 min</span>
+            </div>
+            <div class="tech-card__meta-item">
+              <span class="tech-card__meta-label">ETA to complete:</span>
+              <span class="tech-card__meta-value">2.5 hours</span>
+            </div>
+          </div>
+
+          <button class="tech-card__action tech-card__action--primary" onclick="assignTech('Marcus')">
+            Assign Marcus
+          </button>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="tech-card">
+          <div class="tech-card__header">
+            <div>
+              <div class="tech-card__name">Sarah Park</div>
+              <div class="tech-card__score">Score: 82%</div>
+            </div>
+          </div>
+
+          <div class="tech-card__skills">
+            <div class="tech-card__skill">
+              <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+              Honda Certified
+            </div>
+            <div class="tech-card__skill tech-card__skill--unavail">
+              <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+              Limited brake experience
+            </div>
+          </div>
+
+          <div class="tech-card__meta">
+            <div class="tech-card__meta-item">
+              <span class="tech-card__meta-label">Current Load:</span>
+              <span class="tech-card__meta-value">2 jobs</span>
+            </div>
+            <div class="tech-card__meta-item">
+              <span class="tech-card__meta-label">Available in:</span>
+              <span class="tech-card__meta-value">45 min</span>
+            </div>
+            <div class="tech-card__meta-item">
+              <span class="tech-card__meta-label">ETA to complete:</span>
+              <span class="tech-card__meta-value">3.1 hours</span>
+            </div>
+          </div>
+
+          <button class="tech-card__action tech-card__action--outline" onclick="assignTech('Sarah')">
+            Assign Sarah
+          </button>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="tech-card">
+          <div class="tech-card__header">
+            <div>
+              <div class="tech-card__name">Tony Reeves</div>
+              <div class="tech-card__score">Score: 68%</div>
+            </div>
+          </div>
+
+          <div class="tech-card__skills">
+            <div class="tech-card__skill tech-card__skill--unavail">
+              <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+              No Honda cert
+            </div>
+            <div class="tech-card__skill tech-card__skill--unavail">
+              <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+              Lower brake experience
+            </div>
+          </div>
+
+          <div class="tech-card__meta">
+            <div class="tech-card__meta-item">
+              <span class="tech-card__meta-label">Current Load:</span>
+              <span class="tech-card__meta-value">0 jobs</span>
+            </div>
+            <div class="tech-card__meta-item">
+              <span class="tech-card__meta-label">Available:</span>
+              <span class="tech-card__meta-value">now</span>
+            </div>
+            <div class="tech-card__meta-item">
+              <span class="tech-card__meta-label">ETA to complete:</span>
+              <span class="tech-card__meta-value">3.8 hours</span>
+            </div>
+          </div>
+
+          <button class="tech-card__action tech-card__action--outline" onclick="assignTech('Tony')">
+            Assign Tony
+          </button>
+        </div>
+      </div>
+
+      <!-- Scoring Rationale & Quick Actions -->
+      <div class="dispatch-footer">
+        <button class="scoring-toggle" onclick="toggleScoring(event)">
+          <span>Why Marcus?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+
+        <div class="scoring-details" id="scoring-details">
+          <strong>Scoring Formula:</strong><br>
+          Marcus scores highest because:
+          <ul>
+            <li>Honda certification (20 pts) + active brake specialist credential (15 pts)</li>
+            <li>Available soonest (15 min vs 45 min) = 15 pts</li>
+            <li>Lowest current load (1 job) = 10 pts</li>
+            <li>Consistent historical performance on brake jobs (17 pts)</li>
+            <li>Customer preference match (7 pts)</li>
+          </ul>
+        </div>
+
+        <div class="quick-actions">
+          <button class="quick-action-btn" onclick="showModal('split')">Split Jobs Across Techs</button>
+          <button class="quick-action-btn" onclick="showModal('delay')">Delay Assignment</button>
+          <button class="quick-action-btn" onclick="showModal('alternatives')">Ask T1 for alternatives</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- KPI Row -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-card__label">Unassigned ROs</div>
+      <div class="kpi-card__value">
+        3
+      </div>
+      <div class="kpi-card__sub">1 from yesterday</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card__label">Avg Wait Time</div>
+      <div class="kpi-card__value">
+        18<span style="font-size: 14px; font-weight: 500;">m</span>
+      </div>
+      <div class="kpi-card__sub">3 min vs avg</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card__label">Tech Utilization</div>
+      <div class="kpi-card__value">
+        72<span style="font-size: 14px; font-weight: 500;">%</span>
+      </div>
+      <div class="kpi-card__sub">8% from last week</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card__label">At-Risk</div>
+      <div class="kpi-card__value">
+        1
+      </div>
+      <div class="kpi-card__sub">Delayed pickup</div>
+    </div>
+  </div>
+
+  <!-- Compact RO Queue -->
+  <div class="ro-queue">
+    <div class="ro-queue__header">
+      <div class="ro-queue__title">Dispatch Queue</div>
+      <div class="ro-queue__count">5 ROs</div>
+    </div>
+    <div class="ro-queue__list">
+      <div class="ro-item ro-item--highlighted">
+        <div class="ro-item__cell ro-item__ro-num">#4501</div>
+        <div class="ro-item__cell ro-item__customer">Linda Chen · Honda Accord</div>
+        <div class="ro-item__cell">
+          <span class="ro-item__status ro-item__status--unassigned">Unassigned</span>
+        </div>
+        <div class="ro-item__cell">—</div>
+        <div class="ro-item__cell ro-item__priority">⚠ High</div>
+      </div>
+      <div class="ro-item">
+        <div class="ro-item__cell ro-item__ro-num">#4500</div>
+        <div class="ro-item__cell ro-item__customer">Mike Johnson · Toyota Camry</div>
+        <div class="ro-item__cell">
+          <span class="ro-item__status ro-item__status--unassigned">Unassigned</span>
+        </div>
+        <div class="ro-item__cell">—</div>
+        <div class="ro-item__cell">Normal</div>
+      </div>
+      <div class="ro-item">
+        <div class="ro-item__cell ro-item__ro-num">#4499</div>
+        <div class="ro-item__cell ro-item__customer">Sarah Lee · Honda Civic</div>
+        <div class="ro-item__cell">
+          <span class="ro-item__status ro-item__status--assigned">Assigned</span>
+        </div>
+        <div class="ro-item__cell">Alex Torres</div>
+        <div class="ro-item__cell">Normal</div>
+      </div>
+      <div class="ro-item">
+        <div class="ro-item__cell ro-item__ro-num">#4498</div>
+        <div class="ro-item__cell ro-item__customer">James Park · Ford F-150</div>
+        <div class="ro-item__cell">
+          <span class="ro-item__status ro-item__status--assigned">Assigned</span>
+        </div>
+        <div class="ro-item__cell">Marcus Williams</div>
+        <div class="ro-item__cell">Normal</div>
+      </div>
+      <div class="ro-item">
+        <div class="ro-item__cell ro-item__ro-num">#4497</div>
+        <div class="ro-item__cell ro-item__customer">Elena Mendez · Hyundai Elantra</div>
+        <div class="ro-item__cell">
+          <span class="ro-item__status ro-item__status--assigned">Assigned</span>
+        </div>
+        <div class="ro-item__cell">Maria Garcia</div>
+        <div class="ro-item__cell">Normal</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- T1 Chat FAB -->
+<button class="t1-chat-fab" onclick="toggleChat()">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+</button>
+
+<!-- Annotation Toggle -->
+<button class="annotation-toggle" onclick="toggleAnnotations()">
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+    <path d="M8 1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm.5 10H7V7h1.5v4zm0-5H7V5h1.5v1z"/>
+  </svg>
+  Design Notes
+</button>
+
+<!-- Annotation Panel -->
+<div class="annotation-panel" id="annotation-panel">
+  <h3>T1 Surface Area Documentation</h3>
+
+  <h4>Component Overview</h4>
+  <p>
+    The <strong>T1 Surface Area</strong> is a reusable homepage component that serves as the primary interface for T1 interactions on dispatcher-facing dashboards. This same component is used across multiple scenes to surface different types of proactive or responsive information.
+  </p>
+
+  <h4>Smart Dispatch (Scene 6) — DECIDE Mode</h4>
+  <p>
+    In this scene, the T1 Surface Area presents a tech assignment recommendation for an unassigned RO. The dispatcher has three clear options:
+  </p>
+  <ul>
+    <li><strong>Assign the recommended tech</strong> (primary action, blue button)</li>
+    <li><strong>Choose an alternative</strong> (secondary options)</li>
+    <li><strong>Modify the decision</strong> (split jobs, delay, ask for more options)</li>
+  </ul>
+
+  <h4>Surface Area Variants</h4>
+  <p>
+    <code>DECIDE</code> (Scene 6): Tech recommendations, job assignments, priority decisions<br>
+    <code>INFORM</code> (Scene 12): Risk alerts, pattern warnings, proactive notifications<br>
+    <code>ASK</code> (Scene 3): Query interface, "ask T1 for..." entry point
+  </p>
+
+  <h4>Scoring Formula Rationale</h4>
+  <p>
+    The "Why Marcus?" expandable section shows the breakdown of how T1 scored the recommendations. This transparency is critical for:
+  </p>
+  <ul>
+    <li>Dispatcher trust in the algorithm</li>
+    <li>Quick verification of recommendation logic</li>
+    <li>Easy identification of edge cases</li>
+    <li>Audit trail for compliance</li>
+  </ul>
+
+  <h4>Assigned State Transition</h4>
+  <p>
+    When a dispatcher clicks "Assign Marcus," the component could:
+  </p>
+  <ul>
+    <li>Show success confirmation (green banner with check icon)</li>
+    <li>Move the assigned RO to a "history" section (collapsed)</li>
+    <li>Surface the next unassigned RO with a new recommendation</li>
+    <li>Fade or dim the surface area briefly before refreshing</li>
+  </ul>
+
+  <h4>Key Design Patterns</h4>
+  <ul>
+    <li><strong>T1 gradient top border</strong> (3px) identifies all T1-driven surfaces</li>
+    <li><strong>Mode badge</strong> (DECIDE/INFORM/ASK) clarifies the interaction pattern</li>
+    <li><strong>Ranked cards with "Best Match" highlight</strong> for quick scanning</li>
+    <li><strong>Skill checkmarks</strong> show qualification match at a glance</li>
+    <li><strong>Quick actions below</strong> provide escape routes without losing context</li>
+  </ul>
+
+  <h4>Responsive Considerations</h4>
+  <p>
+    The tech card grid (3 columns) collapses to 2 columns on tablet and 1 column on mobile. The scoring rationale should remain expandable but offscreen as a sheet on mobile.
+  </p>
+
+</div>
+
+<script>
+function toggleChat() {
+  const fab = document.querySelector('.t1-chat-fab');
+  fab.classList.toggle('hidden');
+}
+
+function toggleAnnotations() {
+  const panel = document.getElementById('annotation-panel');
+  panel.classList.toggle('open');
+}
+
+function toggleScoring(event) {
+  const toggle = event.target.closest('.scoring-toggle');
+  const details = document.getElementById('scoring-details');
+  toggle.classList.toggle('open');
+  details.classList.toggle('open');
+}
+
+function assignTech(techName) {
+  alert(`RO #4501 would be assigned to ${techName}. Surface area transitions to success state.`);
+}
+
+function showModal(action) {
+  alert(`Action: ${action}\n\nIn a real implementation, this would show a modal or side panel for that action.`);
+}
+</script>
+
+</body>
+</html>

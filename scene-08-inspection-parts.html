@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scene 8 - Inspection & Parts Lookup</title>
+    <style>
+        :root {
+            --t1-primary: #4285f4;
+            --t1-primary-hover: #0060ff;
+            --t1-primary-light: #ebf4ff;
+            --t1-error: #c42106;
+            --t1-error-light: #f9e2e0;
+            --t1-white: #ffffff;
+            --t1-bg: #f4f5f6;
+            --t1-bg-hover: #edeef0;
+            --t1-bg-active: #e8e9eb;
+            --t1-surface-dark: #1a2332;
+            --t1-topbar-bg: #0d1117;
+            --t1-text-primary: #161616;
+            --t1-text-secondary: #3f4757;
+            --t1-text-tertiary: #6d707a;
+            --t1-text-quaternary: #969aa3;
+            --t1-border: #e8e9eb;
+            --t1-border-strong: #969aa3;
+            --t1-font: "Proxima Nova", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --t1-radius-sm: 2px;
+            --t1-radius-md: 4px;
+            --t1-radius-lg: 8px;
+            --t1-radius-xl: 12px;
+            --t1-radius-full: 100px;
+            --success: #3c8635;
+            --success-light: #e8f5e9;
+            --warning: #e67e22;
+            --warning-light: #fff3e0;
+            --t1-gradient: linear-gradient(143.74deg, rgb(231,247,249) 0%, rgb(251,248,242) 100%);
+            --tekion-green: #00c853;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--t1-font);
+            background: var(--t1-bg);
+            padding: 20px;
+            display: flex;
+            gap: 40px;
+            min-height: 100vh;
+        }
+
+        /* Main container */
+        .prototype-container {
+            display: flex;
+            gap: 40px;
+            flex: 1;
+        }
+
+        /* Mobile phone frame */
+        .phone-frame {
+            width: 390px;
+            height: 844px;
+            background: #000;
+            border-radius: 50px;
+            padding: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .phone-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 28px;
+            background: #000;
+            border-radius: 0 0 25px 25px;
+            z-index: 100;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 40px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Status Bar - Dark Tekion */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 16px;
+            background: var(--t1-topbar-bg);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 11px;
+            color: #fff;
+            font-weight: 500;
+            height: 44px;
+            padding-top: 12px;
+        }
+
+        .status-left {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .status-center {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--tekion-green);
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+        .status-right {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        /* Scene label bar */
+        .scene-label-bar {
+            background: var(--t1-bg);
+            padding: 8px 12px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--t1-text-secondary);
+            letter-spacing: 0.5px;
+        }
+
+        /* Tab navigation */
+        .state-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--t1-border);
+            background: #fff;
+        }
+
+        .state-tab {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            background: transparent;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--t1-text-tertiary);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .state-tab.active {
+            color: var(--t1-primary);
+            border-bottom-color: var(--t1-primary);
+        }
+
+        /* Content area */
+        .phone-content {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .state-content {
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .state-content.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== STATE 1: MPI Tool ===== */
+        .mpi-header {
+            padding: 16px;
+            background: #fff;
+            border-bottom: 1px solid var(--t1-border);
+        }
+
+        .mpi-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--t1-text-primary);
+            margin-bottom: 12px;
+        }
+
+        .capture-button {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--t1-primary);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .capture-button:hover {
+            background: var(--t1-primary-hover);
+        }
+
+        .camera-icon {
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+        }
+
+        /* MPI Content */
+        .mpi-content {
+            padding: 16px;
+            flex: 1;
+            overflow-y: auto;
+            background: white;
+        }
+
+        .inspection-category {
+            margin-bottom: 20px;
+        }
+
+        .category-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--t1-text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-items {
+            display: grid;
+            gap: 8px;
+        }
+
+        .inspection-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--t1-bg);
+            border: 1px solid var(--t1-border);
+            border-radius: 6px;
+        }
+
+        .status-indicator {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .status-green {
+            background: var(--success);
+        }
+
+        .status-yellow {
+            background: var(--warning);
+        }
+
+        .status-red {
+            background: var(--t1-error);
+        }
+
+        .item-label {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .item-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--t1-text-primary);
+        }
+
+        .item-measurement {
+            font-size: 12px;
+            color: var(--t1-text-tertiary);
+        }
+
+        /* Process video button */
+        .process-button-container {
+            padding: 16px;
+            border-top: 1px solid var(--t1-border);
+            background: #fff;
+        }
+
+        .process-button {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--success);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .process-button:hover {
+            background: #2f6d2a;
+        }
+
+        .ai-badge {
+            background: rgba(255,255,255,0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* ===== STATE 2: Parts Lookup ===== */
+        .parts-content {
+            padding: 16px;
+            flex: 1;
+            overflow-y: auto;
+            background: var(--t1-bg);
+        }
+
+        .chat-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message {
+            display: flex;
+            gap: 8px;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.assistant {
+            justify-content: flex-start;
+        }
+
+        .message-bubble {
+            max-width: 85%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .user-bubble {
+            background: var(--t1-primary);
+            color: #fff;
+            border-radius: 12px;
+        }
+
+        .assistant-bubble {
+            background: transparent;
+        }
+
+        /* Parts Card */
+        .parts-card {
+            background: #fff;
+            border: 1px solid var(--t1-border);
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .parts-item {
+            margin-bottom: 12px;
+        }
+
+        .parts-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .parts-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .part-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--t1-text-primary);
+            flex: 1;
+        }
+
+        .stock-badge {
+            background: var(--success);
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .part-details {
+            font-size: 12px;
+            color: var(--t1-text-tertiary);
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .part-location-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--t1-text-primary);
+        }
+
+        /* Voice Bottom Sheet */
+        .voice-bottom-sheet {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 180px;
+            background: white;
+            border-radius: 16px 16px 0 0;
+            border-top: 1px solid var(--t1-border);
+            display: flex;
+            flex-direction: column;
+            z-index: 50;
+            animation: slideUp 0.3s ease-out;
+            box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .sheet-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--t1-border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .sheet-mic-indicator {
+            width: 12px;
+            height: 12px;
+            background: var(--tekion-green);
+            border-radius: 50%;
+            animation: micPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes micPulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 6px rgba(0, 200, 83, 0.3);
+            }
+        }
+
+        .sheet-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--t1-text-primary);
+            flex: 1;
+        }
+
+        .sheet-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px 16px;
+        }
+
+        /* Annotation panel */
+        .annotation-panel {
+            width: 320px;
+            background: #fff;
+            border: 1px solid var(--t1-border);
+            border-radius: 8px;
+            padding: 16px;
+            height: fit-content;
+            max-height: 844px;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .annotation-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--t1-text-primary);
+            margin-bottom: 12px;
+        }
+
+        .annotation-section {
+            margin-bottom: 16px;
+        }
+
+        .annotation-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--t1-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .annotation-text {
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--t1-text-secondary);
+        }
+
+        .annotation-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .annotation-list li {
+            font-size: 13px;
+            color: var(--t1-text-secondary);
+            margin-bottom: 6px;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .annotation-list li:before {
+            content: '•';
+            position: absolute;
+            left: 6px;
+            color: var(--t1-primary);
+            font-weight: bold;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d0d0d0;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="prototype-container">
+        <!-- Phone Frame -->
+        <div class="phone-frame">
+            <div class="phone-screen">
+                <!-- Status Bar with Tekion -->
+                <div class="status-bar">
+                    <div class="status-left">9:42</div>
+                    <div class="status-center">
+                        <span style="width: 8px; height: 8px; background: var(--tekion-green); border-radius: 50%; display: inline-block; margin-right: 4px;"></span>
+                        TEKION
+                    </div>
+                    <div class="status-right">
+                        <span>📶</span>
+                        <span>🔋</span>
+                    </div>
+                </div>
+
+                <div class="scene-label-bar">SCENE 8 — INSPECTION & PARTS LOOKUP</div>
+
+                <div class="state-tabs">
+                    <button class="state-tab active" data-state="mpi">MPI Tool</button>
+                    <button class="state-tab" data-state="parts">Parts Lookup</button>
+                </div>
+
+                <!-- STATE 1: MPI Tool -->
+                <div class="state-content active" id="mpi-state">
+                    <div class="mpi-header">
+                        <div class="mpi-title">Multi-Point Inspection · RO #4501</div>
+                        <button class="capture-button">
+                            <svg class="camera-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                                <circle cx="12" cy="13" r="4"></circle>
+                            </svg>
+                            Capture Video
+                        </button>
+                    </div>
+
+                    <div class="mpi-content">
+                        <!-- Tires -->
+                        <div class="inspection-category">
+                            <div class="category-title">Tires</div>
+                            <div class="category-items">
+                                <div class="inspection-item">
+                                    <div class="status-indicator status-green"></div>
+                                    <div class="item-label">
+                                        <div class="item-name">Front L</div>
+                                    </div>
+                                </div>
+                                <div class="inspection-item">
+                                    <div class="status-indicator status-green"></div>
+                                    <div class="item-label">
+                                        <div class="item-name">Front R</div>
+                                    </div>
+                                </div>
+                                <div class="inspection-item">
+                                    <div class="status-indicator status-green"></div>
+                                    <div class="item-label">
+                                        <div class="item-name">Rear L</div>
+                                    </div>
+                                </div>
+                                <div class="inspection-item">
+                                    <div class="status-indicator status-yellow"></div>
+                                    <div class="item-label">
+                                        <div class="item-name">Rear R</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Brakes -->
+                        <div class="inspection-category">
+                            <div class="category-title">Brakes</div>
+                            <div class="category-items">
+                                <div class="inspection-item">
+                                    <div class="status-indicator status-red"></div>
+                                    <div class="item-label">
+                                        <div class="item-name">Front Pads</div>
+                                        <div class="item-measurement">4mm (Threshold: 6mm)</div>
+                                    </div>
+                                </div>
+                                <div class="inspection-item">
+                                    <div class="status-indicator status-yellow"></div>
+                                    <div class="item-label">
+                                        <div class="item-name">Rear Pads</div>
+                                        <div class="item-measurement">6mm (Threshold: 6mm)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fluids -->
+                        <div class="inspection-category">
+                            <div class="category-title">Fluids</div>
+                            <div class="category-items">
+                                <div class="inspection-item">
+                                    <div class="status-indicator status-green"></div>
+                                    <div class="item-label">
+                                        <div class="item-name">Engine Oil</div>
+                                    </div>
+                                </div>
+                                <div class="inspection-item">
+                                    <div class="status-indicator status-green"></div>
+                                    <div class="item-label">
+                                        <div class="item-name">Coolant</div>
+                                    </div>
+                                </div>
+                                <div class="inspection-item">
+                                    <div class="status-indicator status-yellow"></div>
+                                    <div class="item-label">
+                                        <div class="item-name">Brake Fluid</div>
+                                    </div>
+                                </div>
+                                <div class="inspection-item">
+                                    <div class="status-indicator status-green"></div>
+                                    <div class="item-label">
+                                        <div class="item-name">Trans Fluid</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Belts -->
+                        <div class="inspection-category">
+                            <div class="category-title">Belts</div>
+                            <div class="category-items">
+                                <div class="inspection-item">
+                                    <div class="status-indicator status-green"></div>
+                                    <div class="item-label">
+                                        <div class="item-name">Serpentine</div>
+                                    </div>
+                                </div>
+                                <div class="inspection-item">
+                                    <div class="status-indicator status-green"></div>
+                                    <div class="item-label">
+                                        <div class="item-name">Timing</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Under Vehicle -->
+                        <div class="inspection-category">
+                            <div class="category-title">Under Vehicle</div>
+                            <div class="category-items">
+                                <div class="inspection-item">
+                                    <div class="status-indicator status-red"></div>
+                                    <div class="item-label">
+                                        <div class="item-name">Exhaust</div>
+                                        <div class="item-measurement">Loose heat shield bolt</div>
+                                    </div>
+                                </div>
+                                <div class="inspection-item">
+                                    <div class="status-indicator status-green"></div>
+                                    <div class="item-label">
+                                        <div class="item-name">Suspension</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="process-button-container">
+                        <button class="process-button">
+                            Process Video
+                            <span class="ai-badge">AI Pre-filled 14 of 18</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STATE 2: Parts Lookup with T1 Bottom Sheet -->
+                <div class="state-content" id="parts-state">
+                    <div class="parts-content">
+                        <div class="chat-messages">
+                            <div class="message user">
+                                <div class="message-bubble user-bubble">
+                                    Check parts for front brake pads and a catalytic converter heat shield bolt — 2021 Accord.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- T1 Voice Bottom Sheet for Parts -->
+                    <div class="voice-bottom-sheet">
+                        <div class="sheet-header">
+                            <div class="sheet-mic-indicator"></div>
+                            <div class="sheet-title">T1 Voice · Parts Available</div>
+                        </div>
+                        <div class="sheet-content">
+                            <div class="parts-card">
+                                <div class="parts-item">
+                                    <div class="parts-header">
+                                        <div class="part-name">Front Brake Pad Set</div>
+                                        <div class="stock-badge">In Stock</div>
+                                    </div>
+                                    <div class="part-details">
+                                        OEM Honda 45022-TBA-A01
+                                    </div>
+                                    <div class="part-location-price">
+                                        <span>Bin 14-C</span>
+                                        <span>$68.50</span>
+                                    </div>
+                                </div>
+
+                                <div class="parts-item">
+                                    <div class="parts-header">
+                                        <div class="part-name">Cat Heat Shield Bolt Kit</div>
+                                        <div class="stock-badge">In Stock</div>
+                                    </div>
+                                    <div class="part-details">
+                                        OEM Honda 90116-SA5-013
+                                    </div>
+                                    <div class="part-location-price">
+                                        <span>Bin 22-A</span>
+                                        <span>$12.30</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Annotation Panel -->
+        <div class="annotation-panel">
+            <div class="annotation-title">Annotations</div>
+
+            <div class="annotation-section">
+                <div class="annotation-label">Scene Title</div>
+                <div class="annotation-text">
+                    Inspection & Parts Lookup (Tech Mobile, MPI Tool)
+                </div>
+            </div>
+
+            <div class="annotation-section">
+                <div class="annotation-label">User Context</div>
+                <div class="annotation-text">
+                    Marcus performs multi-point inspection on RO #4501 using mobile/tablet MPI tool. He captures walk-around video, which T1 AI analyzes to pre-fill 14 of 18 inspection items. He manually confirms results and enters brake pad measurement (4mm — RED, below threshold). Switches to T1 Voice to query parts availability via bottom-sheet overlay.
+                </div>
+            </div>
+
+            <div class="annotation-section">
+                <div class="annotation-label">State 1: MPI Tool</div>
+                <ul class="annotation-list">
+                    <li>Header shows RO #4501</li>
+                    <li>"Capture Video" button with camera icon at top</li>
+                    <li>Inspection grid with 5 categories (Tires, Brakes, Fluids, Belts, Under Vehicle)</li>
+                    <li>18 total items with color-coded status (green/yellow/red)</li>
+                    <li>Measurement fields for numeric values</li>
+                    <li>"Process Video" button with AI pre-fill badge (14/18 items)</li>
+                </ul>
+            </div>
+
+            <div class="annotation-section">
+                <div class="annotation-label">State 2: Parts Lookup</div>
+                <ul class="annotation-list">
+                    <li>Chat-style conversation with user message</li>
+                    <li>T1 Voice bottom-sheet overlay with pulsing mic indicator</li>
+                    <li>Parts Availability Card with 2 items</li>
+                    <li>Each item shows: name, part number, green "In Stock" badge, bin location, price</li>
+                </ul>
+            </div>
+
+            <div class="annotation-section">
+                <div class="annotation-label">Design Notes</div>
+                <ul class="annotation-list">
+                    <li>Mobile viewport: 390x844 with notch</li>
+                    <li>Dark status bar with Tekion branding</li>
+                    <li>Tab navigation to switch between MPI and Parts states</li>
+                    <li>Primary color (#4285f4) for interactive elements</li>
+                    <li>Success green (#3c8635) for "In Stock" and positive statuses</li>
+                    <li>Error red (#c42106) for items below threshold</li>
+                    <li>T1 Voice appears as bottom-sheet, not desktop popup</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        const tabs = document.querySelectorAll('.state-tab');
+        const states = document.querySelectorAll('.state-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const state = tab.getAttribute('data-state');
+
+                // Remove active from all tabs and states
+                tabs.forEach(t => t.classList.remove('active'));
+                states.forEach(s => s.classList.remove('active'));
+
+                // Add active to clicked tab and corresponding state
+                tab.classList.add('active');
+                document.getElementById(`${state}-state`).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

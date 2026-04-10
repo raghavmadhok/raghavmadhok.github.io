@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scene 3 — Mrs. Chen Arrives at Lane 2 | SA T1 Homepage</title>
+<style>
+/* ── Reset & Tokens ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --t1-primary: #4285f4;
+  --t1-primary-hover: #0060ff;
+  --t1-primary-light: #ebf4ff;
+  --t1-error: #c42106;
+  --t1-error-light: #f9e2e0;
+  --t1-white: #ffffff;
+  --t1-bg: #f4f5f6;
+  --t1-bg-hover: #edeef0;
+  --t1-bg-active: #e8e9eb;
+  --t1-surface-dark: #1a2332;
+  --t1-topbar-bg: #0d1117;
+  --t1-text-primary: #161616;
+  --t1-text-secondary: #3f4757;
+  --t1-text-tertiary: #6d707a;
+  --t1-text-quaternary: #969aa3;
+  --t1-border: #e8e9eb;
+  --t1-border-strong: #969aa3;
+  --t1-font: "Proxima Nova", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --t1-radius-sm: 2px;
+  --t1-radius-md: 4px;
+  --t1-radius-lg: 8px;
+  --t1-radius-xl: 12px;
+  --t1-radius-full: 100px;
+  --success: #3c8635;
+  --success-light: #e8f5e9;
+  --warning: #e67e22;
+  --warning-light: #fff3e0;
+  --t1-gradient: linear-gradient(143.74deg, rgb(231,247,249) 0%, rgb(251,248,242) 100%);
+  --tekion-green: #00c853;
+}
+
+body {
+  font-family: var(--t1-font);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--t1-text-primary);
+  background: var(--t1-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══════════════════════════════════════════════════════════
+   TEKION DMS SHELL — Pixel-matched from production
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Top Navigation Bar (48px, dark) ─────────────────────── */
+.tekion-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: var(--t1-topbar-bg);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 200;
+  gap: 8px;
+}
+
+.tekion-topbar__grid-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: var(--t1-radius-md);
+  color: #8b949e;
+  flex-shrink: 0;
+}
+.tekion-topbar__grid-icon:hover { background: rgba(255,255,255,0.08); }
+
+.tekion-topbar__logo {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--tekion-green);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-right: 8px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.tekion-topbar__ai-search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+.tekion-topbar__ai-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--t1-radius-md);
+  background: linear-gradient(135deg, #2dd4bf22, #4285f422);
+  border: 1px solid rgba(45,212,191,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.tekion-topbar__search-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--t1-radius-md);
+  background: rgba(255,255,255,0.08);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b949e;
+  cursor: pointer;
+}
+
+.tekion-topbar__search-bar {
+  flex: 1;
+  max-width: 400px;
+  height: 34px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--t1-radius-md);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  color: #6b7280;
+  font-size: 13px;
+  margin: 0 auto;
+  cursor: text;
+}
+.tekion-topbar__search-bar svg { margin-right: 8px; flex-shrink: 0; }
+
+.tekion-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.tekion-topbar__get-help {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--tekion-green);
+  color: #fff;
+  border: none;
+  border-radius: var(--t1-radius-md);
+  font-family: var(--t1-font);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tekion-topbar__get-help svg { width: 14px; height: 14px; }
+.tekion-topbar__get-help::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid white;
+  margin-left: 4px;
+}
+
+.tekion-topbar__icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b949e;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background: none;
+}
+.tekion-topbar__icon-btn:hover { background: rgba(255,255,255,0.08); }
+
+.tekion-topbar__badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  background: #ef4444;
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+.tekion-topbar__dealer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 4px 4px;
+  margin-left: 8px;
+  cursor: pointer;
+  border-radius: var(--t1-radius-md);
+  flex-shrink: 0;
+}
+.tekion-topbar__dealer:hover { background: rgba(255,255,255,0.06); }
+
+.tekion-topbar__dealer-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #2dd4bf;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tekion-topbar__dealer-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e5e7eb;
+  white-space: nowrap;
+}
+.tekion-topbar__dealer-chevron {
+  color: #6b7280;
+  font-size: 10px;
+}
+
+/* ── Left Sidebar (56px, dark) ────────────────────────────── */
+.tekion-sidebar {
+  position: fixed;
+  top: 48px;
+  left: 0;
+  width: 56px;
+  height: calc(100vh - 48px);
+  background: var(--t1-surface-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0 8px;
+  gap: 2px;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+.tekion-sidebar__item {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: var(--t1-radius-md);
+  position: relative;
+  flex-shrink: 0;
+}
+.tekion-sidebar__item:hover { background: rgba(255,255,255,0.06); }
+
+.tekion-sidebar__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.3px;
+}
+
+.tekion-sidebar__icon--t1 {
+  background: none;
+  position: relative;
+}
+.tekion-sidebar__icon--ro { background: #3b82f6; }
+.tekion-sidebar__icon--ds { background: #3b82f6; }
+.tekion-sidebar__icon--om { background: #22c55e; }
+.tekion-sidebar__icon--a { background: #8b5cf6; }
+.tekion-sidebar__icon--dc { background: #3b82f6; }
+.tekion-sidebar__icon--cd { background: #3b82f6; }
+.tekion-sidebar__icon--settings { background: #22c55e; }
+.tekion-sidebar__icon--alert { background: #ef4444; }
+.tekion-sidebar__icon--clock { background: #f59e0b; }
+.tekion-sidebar__icon--pg { background: #6b7280; }
+
+.tekion-sidebar__item--active .tekion-sidebar__icon {
+  box-shadow: 0 0 0 2px #4285f4;
+}
+.tekion-sidebar__item--active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  background: #4285f4;
+  border-radius: 0 2px 2px 0;
+}
+
+.tekion-sidebar__spacer { flex: 1; }
+
+.tekion-sidebar__time {
+  font-size: 10px;
+  color: #6b7280;
+  text-align: center;
+  margin-top: 4px;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+/* ── Scene Label Bar ──────────────────────────────────────── */
+.scene-label {
+  position: fixed;
+  top: 48px;
+  left: 56px;
+  right: 0;
+  background: #161b22;
+  color: #8899aa;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 24px;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.scene-label strong { color: white; font-weight: 600; }
+.scene-label__tag {
+  background: rgba(66,133,244,0.2);
+  color: #4285f4;
+  padding: 1px 8px;
+  border-radius: var(--t1-radius-sm);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* ── Main Content Area ────────────────────────────────────── */
+.dms-main {
+  margin-left: 56px;
+  margin-top: 72px;
+  padding: 24px;
+  max-width: 1200px;
+}
+
+/* ── Page Header ─────────────────────────────────────────── */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.page-header__greeting { font-size: 22px; font-weight: 700; color: var(--t1-text-primary); }
+.page-header__subtitle { font-size: 13px; color: var(--t1-text-tertiary); margin-top: 2px; }
+
+/* ══════════════════════════════════════════════════════════
+   T1 SURFACE AREA — Inline T1 Response on Homepage
+   ══════════════════════════════════════════════════════════ */
+.t1-surface-area {
+  background: var(--t1-white);
+  border: 1px solid var(--t1-border);
+  border-radius: var(--t1-radius-xl);
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.t1-surface-area::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--t1-gradient);
+}
+
+.t1-surface-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--t1-border);
+  position: relative;
+}
+
+.t1-surface-header__icon {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--t1-radius-md);
+  background: var(--t1-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.t1-surface-header__icon svg {
+  width: 16px;
+  height: 16px;
+  fill: #4285f4;
+}
+
+.t1-surface-header__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t1-text-primary);
+}
+
+.t1-surface-header__timestamp {
+  font-size: 12px;
+  color: var(--t1-text-quaternary);
+  margin-left: auto;
+}
+
+/* ── Conversation Container ──────────────────────────────── */
+.t1-conversation {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Maya's Query (Chat Bubble) ──────────────────────────── */
+.t1-message {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.t1-message--maya {
+  justify-content: flex-end;
+}
+
+.t1-message--maya .t1-message__bubble {
+  background: #d1e3ff;
+  color: var(--t1-text-primary);
+  border-radius: 16px 4px 16px 16px;
+}
+
+.t1-message__bubble {
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: 4px 16px 16px 16px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.t1-message__voice-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4285f4;
+  font-size: 11px;
+  margin-right: 4px;
+}
+
+/* ── T1's Response Content ─────────────────────────────── */
+.t1-response {
+  background: var(--t1-white);
+  border-left: 3px solid var(--t1-primary);
+  padding: 16px;
+  border-radius: var(--t1-radius-lg);
+  margin-top: 12px;
+}
+
+.t1-response__section {
+  margin-bottom: 16px;
+}
+.t1-response__section:last-child {
+  margin-bottom: 0;
+}
+
+.t1-response__label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--t1-text-quaternary);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.t1-response__content {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--t1-text-secondary);
+}
+
+/* ── Customer Profile ───────────────────────────────────── */
+.customer-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.customer-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t1-text-primary);
+}
+
+.customer-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--t1-text-secondary);
+}
+
+.customer-meta__item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.customer-satisfaction {
+  color: var(--warning);
+  font-weight: 600;
+}
+
+/* ── Vehicle Info ───────────────────────────────────────── */
+.vehicle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vehicle-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--t1-text-primary);
+}
+
+.vehicle-specs {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--t1-text-secondary);
+  flex-wrap: wrap;
+}
+
+.vehicle-specs__item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Service History (Clickable Links) ──────────────────── */
+.service-history {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.service-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--t1-bg);
+  border-radius: var(--t1-radius-md);
+  transition: background 120ms ease;
+}
+
+.service-item:hover {
+  background: var(--t1-bg-hover);
+}
+
+.service-item__date {
+  font-size: 12px;
+  color: var(--t1-text-tertiary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.service-item__details {
+  flex: 1;
+  min-width: 0;
+}
+
+.service-item__ro {
+  display: inline-block;
+  color: var(--t1-primary);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 120ms ease;
+}
+
+.service-item__ro:hover {
+  color: var(--t1-primary-hover);
+  text-decoration: underline;
+}
+
+.service-item__description {
+  font-size: 13px;
+  color: var(--t1-text-secondary);
+  margin-bottom: 4px;
+}
+
+.service-item__price {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--t1-text-secondary);
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.service-item__status {
+  font-size: 12px;
+  display: inline-block;
+}
+
+.service-item__status--complete {
+  color: var(--success);
+}
+
+.service-item__status--warning {
+  color: var(--t1-error);
+}
+
+/* ── Today's Appointment ────────────────────────────────── */
+.appointment-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--success-light);
+  border-radius: var(--t1-radius-md);
+}
+
+.appointment-time {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--success);
+}
+
+.appointment-details {
+  font-size: 13px;
+  color: var(--t1-text-secondary);
+}
+
+/* ── T1 Recommendations ────────────────────────────────── */
+.t1-recommendations {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recommendation-card {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: var(--t1-bg);
+  border-left: 3px solid var(--warning);
+  border-radius: var(--t1-radius-md);
+}
+
+.recommendation-card__icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.recommendation-card__content {
+  flex: 1;
+}
+
+.recommendation-card__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--t1-text-primary);
+  margin-bottom: 4px;
+}
+
+.recommendation-card__description {
+  font-size: 12px;
+  color: var(--t1-text-secondary);
+  line-height: 1.5;
+}
+
+.recommendation-card__highlight {
+  font-weight: 600;
+  color: var(--t1-text-primary);
+}
+
+/* ── Quick Actions (Bottom of T1 Response) ─────────────── */
+.t1-quick-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--t1-border);
+}
+
+.t1-action-btn {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid var(--t1-border);
+  background: var(--t1-white);
+  color: var(--t1-primary);
+  border-radius: var(--t1-radius-md);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.t1-action-btn:hover {
+  background: var(--t1-primary-light);
+  border-color: var(--t1-primary);
+}
+
+/* ── KPI Row (H3) ────────────────────────────────────────── */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.kpi-card {
+  background: var(--t1-white);
+  border: 1px solid var(--t1-border);
+  border-radius: var(--t1-radius-lg);
+  padding: 16px 18px;
+}
+
+.kpi-card__label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--t1-text-tertiary);
+  margin-bottom: 6px;
+}
+
+.kpi-card__value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--t1-text-primary);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.kpi-card__trend {
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.kpi-card__trend--up { color: var(--success); }
+.kpi-card__trend--down { color: var(--t1-error); }
+
+.kpi-card__sub {
+  font-size: 11px;
+  color: var(--t1-text-quaternary);
+  margin-top: 4px;
+}
+
+/* ── Task Board ──────────────────────────────────────── */
+.task-board {
+  background: var(--t1-white);
+  border: 1px solid var(--t1-border);
+  border-radius: var(--t1-radius-xl);
+  overflow: hidden;
+}
+
+.task-board__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--t1-border);
+}
+
+.task-board__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--t1-text-primary);
+}
+
+.task-board__count {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--t1-text-quaternary);
+  background: var(--t1-bg);
+  padding: 2px 10px;
+  border-radius: var(--t1-radius-full);
+}
+
+.task-board__list {
+  padding: 8px 12px 12px;
+}
+
+/* ── Task Items ──────────────────────────────────────────── */
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--t1-radius-lg);
+  cursor: pointer;
+  transition: background 100ms ease;
+  border: 1px solid transparent;
+}
+
+.task-item:hover {
+  background: var(--t1-bg);
+  border-color: var(--t1-border);
+}
+
+.task-item__priority {
+  width: 4px;
+  min-height: 40px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.task-item__priority--high { background: var(--t1-error); }
+.task-item__priority--medium { background: var(--warning); }
+.task-item__priority--low { background: var(--success); }
+
+.task-item__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-item__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--t1-text-primary);
+  margin-bottom: 3px;
+}
+
+.task-item__meta {
+  font-size: 12px;
+  color: var(--t1-text-tertiary);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.task-item__badge {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  padding: 2px 6px;
+  border-radius: var(--t1-radius-sm);
+}
+
+.task-item__badge--waiter { background: #fee2e2; color: #991b1b; }
+.task-item__badge--upsell { background: var(--warning-light); color: #92400e; }
+.task-item__badge--review { background: var(--t1-primary-light); color: #1d4ed8; }
+
+.task-item__time {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--t1-text-quaternary);
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+/* ══════════════════════════════════════════════════════════
+   T1 FLOATING CHAT POPUP (FAB in closed state)
+   ══════════════════════════════════════════════════════════ */
+.t1-chat-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--t1-gradient);
+  border: 1px solid rgba(66,133,244,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  z-index: 300;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.t1-chat-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+}
+
+.t1-chat-fab svg {
+  width: 24px;
+  height: 24px;
+}
+</style>
+</head>
+<body>
+
+<!-- TEKION TOPBAR -->
+<div class="tekion-topbar">
+  <div class="tekion-topbar__grid-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+    </svg>
+  </div>
+  <div class="tekion-topbar__logo">TEKION</div>
+  <div class="tekion-topbar__ai-search">
+    <div class="tekion-topbar__ai-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8m3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5m-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11m3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
+      </svg>
+    </div>
+  </div>
+  <div class="tekion-topbar__search-bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    Search or ask anything...
+  </div>
+  <div class="tekion-topbar__actions">
+    <button class="tekion-topbar__search-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+        <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+      </svg>
+    </button>
+    <button class="tekion-topbar__icon-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" color="#8b949e">
+        <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 100-16 8 8 0 000 16zm0-13a1 1 0 011 1v4a1 1 0 11-2 0V8a1 1 0 011-1zm0 9a1 1 0 110 2 1 1 0 010-2z"/>
+      </svg>
+      <span class="tekion-topbar__badge">2</span>
+    </button>
+    <button class="tekion-topbar__icon-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" color="#8b949e">
+        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+      </svg>
+    </button>
+    <button class="tekion-topbar__get-help">Get Help</button>
+    <div class="tekion-topbar__dealer">
+      <div class="tekion-topbar__dealer-avatar">AD</div>
+      <div class="tekion-topbar__dealer-name">Apex Dealers</div>
+      <div class="tekion-topbar__dealer-chevron">▼</div>
+    </div>
+  </div>
+</div>
+
+<!-- TEKION SIDEBAR -->
+<div class="tekion-sidebar">
+  <div class="tekion-sidebar__item tekion-sidebar__item--active">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--t1">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" style="color: #4285f4;">
+        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="14" font-weight="700" fill="currentColor">T</text>
+      </svg>
+    </div>
+  </div>
+  <div class="tekion-sidebar__item">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--ro">RO</div>
+  </div>
+  <div class="tekion-sidebar__item">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--ds">DS</div>
+  </div>
+  <div class="tekion-sidebar__item">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--om">OM</div>
+  </div>
+  <div class="tekion-sidebar__item">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--a">A</div>
+  </div>
+  <div class="tekion-sidebar__spacer"></div>
+  <div class="tekion-sidebar__item">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--settings">⚙</div>
+  </div>
+  <div class="tekion-sidebar__time">7:55 AM</div>
+</div>
+
+<!-- SCENE LABEL -->
+<div class="scene-label">
+  <strong>Act 2, Scene 3 — Mrs. Chen Arrives at Lane 2</strong>
+  <span class="scene-label__tag">SA-A02 GetCustomerVehicleContext</span>
+  <span class="scene-label__tag">ASK — T1 Base</span>
+  <span style="margin-left: auto;">7:55 AM · SA T1 Homepage · Desktop</span>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="dms-main">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <div class="page-header__greeting">Good morning, Maya</div>
+      <div class="page-header__subtitle">Service Advisor Dashboard</div>
+    </div>
+  </div>
+
+  <!-- T1 SURFACE AREA (NEW) -->
+  <div class="t1-surface-area">
+    <div class="t1-surface-header">
+      <div class="t1-surface-header__icon">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="14" font-weight="700" fill="currentColor">T</text>
+        </svg>
+      </div>
+      <div class="t1-surface-header__title">T1 Assistant</div>
+      <div class="t1-surface-header__timestamp">Just now</div>
+    </div>
+
+    <div class="t1-conversation">
+
+      <!-- MAYA'S QUERY -->
+      <div class="t1-message t1-message--maya">
+        <div class="t1-message__bubble">
+          <span class="t1-message__voice-icon">🎤</span>
+          Tell me about Mrs. Chen's 2021 Honda Accord — she's coming in at 8 AM
+        </div>
+      </div>
+
+      <!-- T1'S RESPONSE -->
+      <div class="t1-response">
+
+        <!-- CUSTOMER PROFILE -->
+        <div class="t1-response__section">
+          <label class="t1-response__label">Customer Profile</label>
+          <div class="customer-profile">
+            <div class="customer-name">Linda Chen</div>
+            <div class="customer-meta">
+              <div class="customer-meta__item">Loyalty: 4 years</div>
+              <div class="customer-meta__item">LTV: $14,200</div>
+              <div class="customer-meta__item">Last Visit: Jan 15, 2026</div>
+              <div class="customer-meta__item customer-satisfaction">★★★★★ 5/5</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VEHICLE INFO -->
+        <div class="t1-response__section">
+          <label class="t1-response__label">Vehicle: 2021 Honda Accord EX</label>
+          <div class="vehicle-specs">
+            <div class="vehicle-specs__item">57,832 mi</div>
+            <div class="vehicle-specs__item">VIN: ...4827</div>
+            <div class="vehicle-specs__item">Purchased from Napleton Honda</div>
+          </div>
+        </div>
+
+        <!-- SERVICE HISTORY -->
+        <div class="t1-response__section">
+          <label class="t1-response__label">Service History</label>
+          <div class="service-history">
+            <div class="service-item">
+              <div class="service-item__date">Jan 15, 2026</div>
+              <div class="service-item__details">
+                <a href="#" class="service-item__ro">RO #4312</a>
+                <div class="service-item__description">Oil Change + Brake Inspection</div>
+                <span class="service-item__price">$142</span>
+                <span class="service-item__status service-item__status--warning">⚠️ Brake pads declined (5mm)</span>
+              </div>
+            </div>
+            <div class="service-item">
+              <div class="service-item__date">Sep 8, 2025</div>
+              <div class="service-item__details">
+                <a href="#" class="service-item__ro">RO #4198</a>
+                <div class="service-item__description">Tire Rotation + MPI</div>
+                <span class="service-item__price">$89</span>
+                <span class="service-item__status service-item__status--complete">✓ All clear</span>
+              </div>
+            </div>
+            <div class="service-item">
+              <div class="service-item__date">Apr 22, 2025</div>
+              <div class="service-item__details">
+                <a href="#" class="service-item__ro">RO #4021</a>
+                <div class="service-item__description">30K Maintenance Package</div>
+                <span class="service-item__price">$389</span>
+                <span class="service-item__status service-item__status--complete">✓ Complete</span>
+              </div>
+            </div>
+            <div class="service-item">
+              <div class="service-item__date">Nov 3, 2024</div>
+              <div class="service-item__details">
+                <a href="#" class="service-item__ro">RO #3891</a>
+                <div class="service-item__description">Oil Change</div>
+                <span class="service-item__price">$79</span>
+                <span class="service-item__status service-item__status--complete">✓ Complete</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TODAY'S APPOINTMENT -->
+        <div class="t1-response__section">
+          <label class="t1-response__label">Today's Appointment</label>
+          <div class="appointment-info">
+            <div class="appointment-time">8:00 AM</div>
+            <div class="appointment-details">Oil Change (Customer Pay) · Waiter</div>
+          </div>
+        </div>
+
+        <!-- T1 RECOMMENDATIONS -->
+        <div class="t1-response__section">
+          <label class="t1-response__label">T1 Recommendations</label>
+          <div class="t1-recommendations">
+            <div class="recommendation-card">
+              <div class="recommendation-card__icon">🔶</div>
+              <div class="recommendation-card__content">
+                <div class="recommendation-card__title">Upsell Opportunity: Brake Pad Replacement</div>
+                <div class="recommendation-card__description">Pads were 5mm in January, estimated 3mm now. <span class="recommendation-card__highlight">$380 (73% acceptance)</span></div>
+              </div>
+            </div>
+            <div class="recommendation-card">
+              <div class="recommendation-card__icon">📋</div>
+              <div class="recommendation-card__content">
+                <div class="recommendation-card__title">OEM Schedule: 60K Maintenance Due</div>
+                <div class="recommendation-card__description">Vehicle at current mileage (57,832 mi). <span class="recommendation-card__highlight">Package: $289</span></div>
+              </div>
+            </div>
+            <div class="recommendation-card" style="border-left-color: var(--success); background: var(--success-light);">
+              <div class="recommendation-card__icon">💰</div>
+              <div class="recommendation-card__content">
+                <div class="recommendation-card__title" style="color: var(--success);">Combined Revenue Potential</div>
+                <div class="recommendation-card__description" style="color: var(--success);">Brake pads + 60K maintenance = <span class="recommendation-card__highlight" style="color: var(--success);">$669 additional revenue</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUICK ACTION BUTTONS -->
+        <div class="t1-quick-actions">
+          <button class="t1-action-btn">Start RO for Mrs. Chen</button>
+          <button class="t1-action-btn">View Full History</button>
+          <button class="t1-action-btn">Check Parts Availability</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI ROW -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-card__label">Today's Revenue</div>
+      <div class="kpi-card__value">$4,290 <span class="kpi-card__trend kpi-card__trend--up">↑ 12%</span></div>
+      <div class="kpi-card__sub">vs. yesterday</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card__label">Appointments Today</div>
+      <div class="kpi-card__value">8 <span class="kpi-card__trend kpi-card__trend--down">↓ 2</span></div>
+      <div class="kpi-card__sub">vs. yesterday</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card__label">Upsell Acceptance</div>
+      <div class="kpi-card__value">68% <span class="kpi-card__trend kpi-card__trend--up">↑ 5%</span></div>
+      <div class="kpi-card__sub">this week</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card__label">Parts Availability</div>
+      <div class="kpi-card__value">92% <span class="kpi-card__trend kpi-card__trend--up">✓</span></div>
+      <div class="kpi-card__sub">in stock</div>
+    </div>
+  </div>
+
+  <!-- TASK BOARD (Condensed) -->
+  <div class="task-board">
+    <div class="task-board__header">
+      <div class="task-board__title">Today's Tasks</div>
+      <div class="task-board__count">4 active</div>
+    </div>
+    <div class="task-board__list">
+      <div class="task-item">
+        <div class="task-item__priority task-item__priority--high"></div>
+        <div class="task-item__content">
+          <div class="task-item__title">Call Mrs. Chen about brake pads (Mrs. Chen appointment)</div>
+          <div class="task-item__meta">
+            <span class="task-item__badge task-item__badge--upsell">UPSELL</span>
+            <span>After check-in at 8 AM</span>
+          </div>
+        </div>
+        <div class="task-item__time">8:00 AM</div>
+      </div>
+      <div class="task-item">
+        <div class="task-item__priority task-item__priority--medium"></div>
+        <div class="task-item__content">
+          <div class="task-item__title">Order brake pads (stock running low)</div>
+          <div class="task-item__meta">
+            <span>T1 alert</span>
+          </div>
+        </div>
+        <div class="task-item__time">9:30 AM</div>
+      </div>
+      <div class="task-item">
+        <div class="task-item__priority task-item__priority--low"></div>
+        <div class="task-item__content">
+          <div class="task-item__title">Follow-up on Mr. Johnson's RO #4280</div>
+          <div class="task-item__meta">
+            <span class="task-item__badge task-item__badge--review">REVIEW</span>
+            <span>Waiting on parts</span>
+          </div>
+        </div>
+        <div class="task-item__time">10:15 AM</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- T1 CHAT FLOATING BUTTON (FAB) -->
+<div class="t1-chat-fab">
+  <svg viewBox="0 0 24 24" fill="currentColor">
+    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="16" font-weight="700" fill="white">T</text>
+  </svg>
+</div>
+
+</body>
+</html>

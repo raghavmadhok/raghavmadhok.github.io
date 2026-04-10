@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scene 2 — Jake's Dispatch Board | SA T1 Dispatcher</title>
+<style>
+/* ── Reset & Tokens ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --t1-primary: #4285f4;
+  --t1-primary-hover: #0060ff;
+  --t1-primary-light: #ebf4ff;
+  --t1-error: #c42106;
+  --t1-error-light: #f9e2e0;
+  --t1-white: #ffffff;
+  --t1-bg: #f4f5f6;
+  --t1-bg-hover: #edeef0;
+  --t1-bg-active: #e8e9eb;
+  --t1-surface-dark: #1a2332;
+  --t1-topbar-bg: #0d1117;
+  --t1-text-primary: #161616;
+  --t1-text-secondary: #3f4757;
+  --t1-text-tertiary: #6d707a;
+  --t1-text-quaternary: #969aa3;
+  --t1-border: #e8e9eb;
+  --t1-border-strong: #969aa3;
+  --t1-font: "Proxima Nova", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --t1-radius-sm: 2px;
+  --t1-radius-md: 4px;
+  --t1-radius-lg: 8px;
+  --t1-radius-xl: 12px;
+  --t1-radius-full: 100px;
+  --success: #3c8635;
+  --success-light: #e8f5e9;
+  --warning: #e67e22;
+  --warning-light: #fff3e0;
+  --t1-gradient: linear-gradient(143.74deg, rgb(231,247,249) 0%, rgb(251,248,242) 100%);
+  --tekion-green: #00c853;
+}
+
+body {
+  font-family: var(--t1-font);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--t1-text-primary);
+  background: var(--t1-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══════════════════════════════════════════════════════════
+   TEKION DMS SHELL — Pixel-matched from production
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Top Navigation Bar (48px, dark) ─────────────────────── */
+.tekion-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: var(--t1-topbar-bg);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 200;
+  gap: 8px;
+}
+
+.tekion-topbar__grid-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: var(--t1-radius-md);
+  color: #8b949e;
+  flex-shrink: 0;
+}
+.tekion-topbar__grid-icon:hover { background: rgba(255,255,255,0.08); }
+
+.tekion-topbar__logo {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--tekion-green);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-right: 8px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.tekion-topbar__ai-search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+.tekion-topbar__ai-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--t1-radius-md);
+  background: linear-gradient(135deg, #2dd4bf22, #4285f422);
+  border: 1px solid rgba(45,212,191,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.tekion-topbar__search-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--t1-radius-md);
+  background: rgba(255,255,255,0.08);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b949e;
+  cursor: pointer;
+}
+
+.tekion-topbar__search-bar {
+  flex: 1;
+  max-width: 400px;
+  height: 34px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--t1-radius-md);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  color: #6b7280;
+  font-size: 13px;
+  margin: 0 auto;
+  cursor: text;
+}
+.tekion-topbar__search-bar svg { margin-right: 8px; flex-shrink: 0; }
+
+.tekion-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.tekion-topbar__get-help {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--tekion-green);
+  color: #fff;
+  border: none;
+  border-radius: var(--t1-radius-md);
+  font-family: var(--t1-font);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tekion-topbar__get-help svg { width: 14px; height: 14px; }
+.tekion-topbar__get-help::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid white;
+  margin-left: 4px;
+}
+
+.tekion-topbar__icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b949e;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background: none;
+}
+.tekion-topbar__icon-btn:hover { background: rgba(255,255,255,0.08); }
+
+.tekion-topbar__badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  background: #ef4444;
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+.tekion-topbar__dealer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 4px 4px;
+  margin-left: 8px;
+  cursor: pointer;
+  border-radius: var(--t1-radius-md);
+  flex-shrink: 0;
+}
+.tekion-topbar__dealer:hover { background: rgba(255,255,255,0.06); }
+
+.tekion-topbar__dealer-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #2dd4bf;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tekion-topbar__dealer-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e5e7eb;
+  white-space: nowrap;
+}
+.tekion-topbar__dealer-chevron {
+  color: #6b7280;
+  font-size: 10px;
+}
+
+/* ── Left Sidebar (56px, dark) ────────────────────────────── */
+.tekion-sidebar {
+  position: fixed;
+  top: 48px;
+  left: 0;
+  width: 56px;
+  height: calc(100vh - 48px);
+  background: var(--t1-surface-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0 8px;
+  gap: 2px;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+.tekion-sidebar__item {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: var(--t1-radius-md);
+  position: relative;
+  flex-shrink: 0;
+}
+.tekion-sidebar__item:hover { background: rgba(255,255,255,0.06); }
+
+.tekion-sidebar__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.3px;
+}
+
+/* Module icon colors matching production */
+.tekion-sidebar__icon--t1 {
+  background: none;
+  position: relative;
+}
+.tekion-sidebar__icon--ro { background: #3b82f6; }
+.tekion-sidebar__icon--ds { background: #3b82f6; }
+.tekion-sidebar__icon--om { background: #22c55e; }
+.tekion-sidebar__icon--a { background: #8b5cf6; }
+.tekion-sidebar__icon--dc { background: #3b82f6; }
+.tekion-sidebar__icon--cd { background: #3b82f6; }
+.tekion-sidebar__icon--settings { background: #22c55e; }
+.tekion-sidebar__icon--alert { background: #ef4444; }
+.tekion-sidebar__icon--clock { background: #f59e0b; }
+.tekion-sidebar__icon--pg { background: #6b7280; }
+
+.tekion-sidebar__item--active .tekion-sidebar__icon {
+  box-shadow: 0 0 0 2px #4285f4;
+}
+.tekion-sidebar__item--active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  background: #4285f4;
+  border-radius: 0 2px 2px 0;
+}
+
+.tekion-sidebar__spacer { flex: 1; }
+
+.tekion-sidebar__time {
+  font-size: 10px;
+  color: #6b7280;
+  text-align: center;
+  margin-top: 4px;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+/* ── Scene Label Bar ──────────────────────────────────────── */
+.scene-label {
+  position: fixed;
+  top: 48px;
+  left: 56px;
+  right: 0;
+  background: #161b22;
+  color: #8899aa;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 24px;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.scene-label strong { color: white; font-weight: 600; }
+.scene-label__tag {
+  background: rgba(66,133,244,0.2);
+  color: #4285f4;
+  padding: 1px 8px;
+  border-radius: var(--t1-radius-sm);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* ── Main Content Area ────────────────────────────────────── */
+.dms-main {
+  margin-left: 56px;
+  margin-top: 72px; /* 48px topbar + 24px scene-label */
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: calc(100vh - 120px);
+}
+
+/* ── Page Header ─────────────────────────────────────────── */
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.page-header__left { }
+.page-header__greeting {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--t1-text-primary);
+  margin-bottom: 4px;
+}
+.page-header__subtitle {
+  font-size: 13px;
+  color: var(--t1-text-tertiary);
+}
+.page-header__right {
+  text-align: right;
+}
+.page-header__time {
+  font-size: 13px;
+  color: var(--t1-text-tertiary);
+  margin-bottom: 4px;
+}
+.page-header__date {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t1-text-secondary);
+}
+
+/* ── KPI Stats Row ───────────────────────────────────────── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.stat-card {
+  background: var(--t1-white);
+  border: 1px solid var(--t1-border);
+  border-radius: var(--t1-radius-lg);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stat-card__label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--t1-text-quaternary);
+}
+
+.stat-card__value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--t1-text-primary);
+}
+
+.stat-card__sub {
+  font-size: 11px;
+  color: var(--t1-text-tertiary);
+}
+
+.stat-card.alert {
+  background: #fffbf3;
+  border-color: #fde2e4;
+}
+
+.stat-card.alert .stat-card__value {
+  color: var(--t1-error);
+}
+
+/* ── Tech Strip ──────────────────────────────────────────– */
+.tech-strip {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.tech-chip {
+  flex: 0 0 auto;
+  background: var(--t1-white);
+  border: 1px solid var(--t1-border);
+  border-radius: var(--t1-radius-lg);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 100ms ease;
+  white-space: nowrap;
+}
+
+.tech-chip:hover {
+  border-color: var(--t1-primary);
+  background: var(--t1-primary-light);
+}
+
+.tech-chip.busy {
+  border-color: var(--warning);
+  background: var(--warning-light);
+}
+
+.tech-chip.out {
+  opacity: 0.5;
+}
+
+.tech-chip__avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--t1-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.tech-chip.busy .tech-chip__avatar {
+  background: var(--warning);
+}
+
+.tech-chip.break .tech-chip__avatar {
+  background: var(--t1-error);
+}
+
+.tech-chip.out .tech-chip__avatar {
+  background: var(--t1-text-quaternary);
+}
+
+.tech-chip__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tech-chip__name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--t1-text-primary);
+}
+
+.tech-chip__status {
+  font-size: 10px;
+  color: var(--t1-text-tertiary);
+}
+
+.tech-chip.busy .tech-chip__status {
+  color: var(--warning);
+  font-weight: 600;
+}
+
+/* ── Filter Bar ──────────────────────────────────────────– */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--t1-white);
+  border: 1px solid var(--t1-border);
+  border-radius: var(--t1-radius-lg);
+  padding: 12px 16px;
+}
+
+.filter-pills {
+  display: flex;
+  gap: 6px;
+}
+
+.filter-pill {
+  padding: 4px 12px;
+  border-radius: var(--t1-radius-full);
+  border: 1px solid var(--t1-border);
+  background: var(--t1-white);
+  color: var(--t1-text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 100ms ease;
+  white-space: nowrap;
+}
+
+.filter-pill:hover {
+  border-color: var(--t1-primary);
+  background: var(--t1-primary-light);
+}
+
+.filter-pill.active {
+  background: var(--t1-primary);
+  color: white;
+  border-color: var(--t1-primary);
+}
+
+.filter-spacer { flex: 1; }
+
+.filter-search {
+  width: 200px;
+  padding: 6px 10px;
+  border: 1px solid var(--t1-border);
+  border-radius: var(--t1-radius-md);
+  font-size: 12px;
+  color: var(--t1-text-secondary);
+}
+
+.filter-search::placeholder {
+  color: var(--t1-text-quaternary);
+}
+
+/* ── RO Table ────────────────────────────────────────────– */
+.ro-table {
+  background: var(--t1-white);
+  border: 1px solid var(--t1-border);
+  border-radius: var(--t1-radius-lg);
+  overflow: hidden;
+}
+
+.ro-table__head {
+  display: grid;
+  grid-template-columns: 40px 120px 150px 80px 100px 90px 70px 80px;
+  gap: 0;
+  background: var(--t1-bg);
+  border-bottom: 1px solid var(--t1-border);
+  padding: 0;
+}
+
+.ro-table__header-cell {
+  padding: 12px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--t1-text-quaternary);
+  border-right: 1px solid var(--t1-border);
+}
+
+.ro-table__header-cell:last-child {
+  border-right: none;
+}
+
+.ro-table__body {
+  display: flex;
+  flex-direction: column;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.ro-row {
+  display: grid;
+  grid-template-columns: 40px 120px 150px 80px 100px 90px 70px 80px;
+  gap: 0;
+  border-bottom: 1px solid var(--t1-border);
+  background: var(--t1-white);
+  cursor: pointer;
+  transition: background 100ms ease;
+}
+
+.ro-row:hover {
+  background: var(--t1-bg-hover);
+}
+
+.ro-row.expanded + .ro-jobs {
+  display: flex;
+  flex-direction: column;
+}
+
+.ro-cell {
+  padding: 12px 14px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid var(--t1-border);
+  border-bottom: 1px solid var(--t1-border);
+}
+
+.ro-cell:last-child {
+  border-right: none;
+}
+
+.ro-cell__expander {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--t1-text-quaternary);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.ro-cell__expander.open {
+  color: var(--t1-primary);
+  font-weight: 700;
+}
+
+.ro-number {
+  font-weight: 700;
+  color: var(--t1-primary);
+}
+
+.ro-customer-vehicle {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ro-customer-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--t1-text-primary);
+}
+
+.ro-vehicle-info {
+  font-size: 11px;
+  color: var(--t1-text-tertiary);
+}
+
+.ro-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--t1-radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  background: var(--t1-bg);
+  color: var(--t1-text-secondary);
+}
+
+.ro-status.unassigned {
+  background: var(--t1-error-light);
+  color: var(--t1-error);
+}
+
+.ro-status.in-progress {
+  background: var(--warning-light);
+  color: var(--warning);
+}
+
+.ro-status.carryover {
+  background: var(--t1-bg);
+  color: var(--t1-text-secondary);
+}
+
+.ro-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.job-count {
+  font-weight: 600;
+  color: var(--t1-text-primary);
+}
+
+.tech-assigned {
+  color: var(--t1-text-secondary);
+  font-weight: 500;
+}
+
+.tech-assigned.unassigned {
+  color: var(--t1-error);
+  font-weight: 600;
+}
+
+.eta-time {
+  color: var(--t1-text-secondary);
+  font-weight: 500;
+}
+
+.priority-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.priority-badge.high {
+  background: #ef4444;
+  color: white;
+}
+
+.priority-badge.medium {
+  background: #f97316;
+  color: white;
+}
+
+.priority-badge.low {
+  background: #22c55e;
+  color: white;
+}
+
+/* ── Job Rows (Expandable) ───────────────────────────────– */
+.ro-jobs {
+  display: none;
+  flex-direction: column;
+  background: #f9fafb;
+}
+
+.job-row {
+  display: grid;
+  grid-template-columns: 40px 120px 150px 80px 100px 90px 70px 80px;
+  gap: 0;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0;
+  background: #f9fafb;
+}
+
+.job-cell {
+  padding: 10px 14px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid #e5e7eb;
+  color: var(--t1-text-secondary);
+}
+
+.job-cell:last-child {
+  border-right: none;
+}
+
+.job-indent {
+  padding-left: 40px;
+}
+
+.job-opcode {
+  font-weight: 600;
+  color: var(--t1-text-primary);
+}
+
+.job-description {
+  font-size: 11px;
+  color: var(--t1-text-secondary);
+  margin-left: 4px;
+}
+
+.pay-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 700;
+  color: white;
+}
+
+.pay-badge.cp {
+  background: #4285f4;
+}
+
+.pay-badge.w {
+  background: #f97316;
+}
+
+.pay-badge.i {
+  background: #8b5cf6;
+}
+
+.job-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 6px;
+  border-radius: var(--t1-radius-sm);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  background: var(--t1-border);
+  color: var(--t1-text-tertiary);
+}
+
+.job-status.in-progress {
+  background: var(--warning-light);
+  color: var(--warning);
+}
+
+.job-status.complete {
+  background: var(--success-light);
+  color: var(--success);
+}
+
+.job-status-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.assign-btn {
+  padding: 3px 8px;
+  border: 1px solid var(--t1-primary);
+  background: var(--t1-white);
+  color: var(--t1-primary);
+  border-radius: var(--t1-radius-sm);
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 100ms ease;
+}
+
+.assign-btn:hover {
+  background: var(--t1-primary);
+  color: white;
+}
+
+/* ── Floating Chat Popup ─────────────────────────────────– */
+.t1-chat-popup {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 340px;
+  background: var(--t1-white);
+  border: 1px solid var(--t1-border);
+  border-radius: var(--t1-radius-xl);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  overflow: hidden;
+  z-index: 210;
+  display: flex;
+  flex-direction: column;
+}
+
+.t1-chat__header {
+  background: var(--t1-primary);
+  color: white;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.t1-chat__close {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.t1-chat__messages {
+  padding: 12px 16px;
+  max-height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.t1-message {
+  display: flex;
+  gap: 8px;
+}
+
+.t1-message.bot .t1-message__avatar {
+  background: var(--t1-primary);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.t1-message__content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.t1-message.bot .t1-message__text {
+  background: var(--t1-bg);
+  padding: 8px 10px;
+  border-radius: var(--t1-radius-md);
+  font-size: 12px;
+  color: var(--t1-text-secondary);
+  line-height: 1.4;
+}
+
+.t1-message.user .t1-message__text {
+  background: var(--t1-primary);
+  color: white;
+  padding: 8px 10px;
+  border-radius: var(--t1-radius-md);
+  font-size: 12px;
+  line-height: 1.4;
+  margin-left: auto;
+}
+
+.t1-chat__input {
+  padding: 12px 16px;
+  border-top: 1px solid var(--t1-border);
+  display: flex;
+  gap: 6px;
+}
+
+.t1-chat__input input {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid var(--t1-border);
+  border-radius: var(--t1-radius-md);
+  font-size: 12px;
+  font-family: var(--t1-font);
+}
+
+.t1-chat__input button {
+  padding: 6px 10px;
+  background: var(--t1-primary);
+  color: white;
+  border: none;
+  border-radius: var(--t1-radius-md);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ── Annotation Panel ────────────────────────────────────– */
+.annotation-panel {
+  position: fixed;
+  top: 120px;
+  right: 20px;
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  background: var(--t1-white);
+  border: 1px solid var(--t1-border);
+  border-radius: var(--t1-radius-xl);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  padding: 20px;
+  display: none;
+  z-index: 240;
+}
+
+.annotation-panel.open { display: block; }
+
+.annotation-panel h3 { font-size: 14px; font-weight: 700; color: var(--t1-text-primary); margin-bottom: 12px; }
+
+.annotation-panel h4 { font-size: 12px; font-weight: 600; color: var(--t1-text-secondary); margin: 12px 0 6px; text-transform: uppercase; letter-spacing: 0.3px; }
+
+.annotation-panel p, .annotation-panel li { font-size: 12px; line-height: 1.6; color: var(--t1-text-tertiary); }
+
+.annotation-panel ul { padding-left: 16px; }
+
+.annotation-panel li { margin-bottom: 4px; }
+
+.annotation-panel code { font-size: 11px; background: var(--t1-bg); padding: 1px 5px; border-radius: var(--t1-radius-sm); color: var(--t1-primary); }
+
+/* ── Scrollbar Styling ────────────────────────────────────– */
+.ro-table__body::-webkit-scrollbar,
+.annotation-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ro-table__body::-webkit-scrollbar-track,
+.annotation-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ro-table__body::-webkit-scrollbar-thumb,
+.annotation-panel::-webkit-scrollbar-thumb {
+  background: #d0d0d0;
+  border-radius: 3px;
+}
+
+.ro-table__body::-webkit-scrollbar-thumb:hover,
+.annotation-panel::-webkit-scrollbar-thumb:hover {
+  background: #b0b0b0;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ TEKION TOP BAR ═══ -->
+<div class="tekion-topbar">
+  <div class="tekion-topbar__grid-icon">
+    <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+      <circle cx="3" cy="3" r="1.5"/><circle cx="8" cy="3" r="1.5"/><circle cx="13" cy="3" r="1.5"/>
+      <circle cx="3" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="13" cy="8" r="1.5"/>
+      <circle cx="3" cy="13" r="1.5"/><circle cx="8" cy="13" r="1.5"/><circle cx="13" cy="13" r="1.5"/>
+    </svg>
+  </div>
+
+  <div class="tekion-topbar__logo">TEKION</div>
+
+  <div class="tekion-topbar__ai-search">
+    <div class="tekion-topbar__ai-btn" title="T1 AI">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2">
+        <path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16.4l-6 4.8L8 14 2 9.2h7.6z"/>
+      </svg>
+    </div>
+    <div class="tekion-topbar__search-btn">
+      <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/></svg>
+    </div>
+  </div>
+
+  <div class="tekion-topbar__search-bar">
+    <svg width="14" height="14" viewBox="0 0 20 20" fill="#6b7280"><path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/></svg>
+    Search here...
+  </div>
+
+  <div class="tekion-topbar__actions">
+    <button class="tekion-topbar__get-help">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z"/></svg>
+      Get Help
+    </button>
+
+    <div class="tekion-topbar__icon-btn" title="Help">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="#8b949e"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg>
+    </div>
+
+    <div class="tekion-topbar__icon-btn" title="Notifications">
+      <span class="tekion-topbar__badge">3</span>
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="#8b949e"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zm0 16a3 3 0 01-3-3h6a3 3 0 01-3 3z"/></svg>
+    </div>
+
+    <div class="tekion-topbar__icon-btn" title="Chat">
+      <span class="tekion-topbar__badge">1</span>
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="#8b949e"><path d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7z"/></svg>
+    </div>
+
+    <div class="tekion-topbar__icon-btn" title="Mail">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="#8b949e"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884zm15.994 1.532L10 11.118 2.003 7.416A.5.5 0 002 7.5V14a2 2 0 002 2h12a2 2 0 002-2V7.5a.5.5 0 00-.003-.084z"/></svg>
+    </div>
+  </div>
+
+  <div class="tekion-topbar__dealer">
+    <div class="tekion-topbar__dealer-avatar">NH</div>
+    <span class="tekion-topbar__dealer-name">Napleton Honda</span>
+    <span class="tekion-topbar__dealer-chevron">&#9662;</span>
+  </div>
+</div>
+
+<!-- ═══ LEFT SIDEBAR ═══ -->
+<div class="tekion-sidebar">
+  <div class="tekion-sidebar__item" title="T1 AI" onclick="toggleT1Chat()">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--t1">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <rect width="24" height="24" rx="6" fill="url(#t1grad)"/>
+        <defs><linearGradient id="t1grad" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#e7f7f9"/><stop offset="1" stop-color="#fbf8f2"/></linearGradient></defs>
+        <path d="M12 4l1.8 5.4H20l-5 4 2 5.6L12 15l-5 4 2-5.6-5-4h6.2z" fill="#4285f4" opacity="0.8"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="tekion-sidebar__item tekion-sidebar__item--active" title="Repair Order">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--ro">RO</div>
+  </div>
+  <div class="tekion-sidebar__item" title="Deal Summary">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--ds">DS</div>
+  </div>
+  <div class="tekion-sidebar__item" title="Order Management">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--om">OM</div>
+  </div>
+  <div class="tekion-sidebar__item" title="Accounting">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--a">A</div>
+  </div>
+  <div class="tekion-sidebar__item" title="Document Center">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--dc">DC</div>
+  </div>
+  <div class="tekion-sidebar__item" title="Customer Database">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--cd">CD</div>
+  </div>
+
+  <div class="tekion-sidebar__spacer"></div>
+
+  <div class="tekion-sidebar__item" title="Settings">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--settings">
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"/></svg>
+    </div>
+  </div>
+  <div class="tekion-sidebar__item" title="Alerts">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--alert">
+      <svg width="14" height="14" viewBox="0 0 20 20" fill="white"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V5h2v4z"/></svg>
+    </div>
+  </div>
+  <div class="tekion-sidebar__item" title="Time Clock">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--clock">
+      <svg width="14" height="14" viewBox="0 0 20 20" fill="white"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 8.586V5z"/></svg>
+    </div>
+  </div>
+  <div class="tekion-sidebar__time">00:00 Hrs</div>
+  <div class="tekion-sidebar__item" title="Profile">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--pg">PG</div>
+  </div>
+  <div class="tekion-sidebar__time">7:00 AM</div>
+</div>
+
+<!-- ═══ SCENE LABEL ═══ -->
+<div class="scene-label">
+  <strong>Act 1, Scene 2</strong> — Jake's Dispatch Board (Compact Table View)
+  <span class="scene-label__tag">DISP-A02 CompactDispatch</span>
+  <span class="scene-label__tag">ASK — T1 Base</span>
+  <span style="margin-left:auto; color:#8899aa;">7:00 AM · SA T1 Dispatcher · Desktop</span>
+</div>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<div class="dms-main">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-header__left">
+      <div class="page-header__greeting">Good morning, Jake</div>
+      <div class="page-header__subtitle">Dispatch Dashboard · Ready to assign jobs</div>
+    </div>
+    <div class="page-header__right">
+      <div class="page-header__time">7:00 AM</div>
+      <div class="page-header__date">Tuesday, April 8</div>
+    </div>
+  </div>
+
+  <!-- STATS ROW -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-card__label">Unassigned Jobs</div>
+      <div class="stat-card__value">8</div>
+      <div class="stat-card__sub">4 urgent</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__label">Techs Available</div>
+      <div class="stat-card__value">3 / 6</div>
+      <div class="stat-card__sub">50% capacity</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__label">Avg Wait Time</div>
+      <div class="stat-card__value">22 min</div>
+      <div class="stat-card__sub">↓ 3 min</div>
+    </div>
+    <div class="stat-card alert">
+      <div class="stat-card__label">At Risk ROs</div>
+      <div class="stat-card__value">1</div>
+      <div class="stat-card__sub">Exceeding SLA</div>
+    </div>
+  </div>
+
+  <!-- TECH STRIP -->
+  <div style="padding-bottom: 8px;">
+    <div style="font-size: 12px; font-weight: 600; color: var(--t1-text-secondary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.3px;">Tech Status</div>
+    <div class="tech-strip">
+      <div class="tech-chip busy">
+        <div class="tech-chip__avatar">MA</div>
+        <div class="tech-chip__info">
+          <div class="tech-chip__name">Marcus</div>
+          <div class="tech-chip__status">Busy · 2 jobs</div>
+        </div>
+      </div>
+      <div class="tech-chip busy">
+        <div class="tech-chip__avatar">SA</div>
+        <div class="tech-chip__info">
+          <div class="tech-chip__name">Sarah</div>
+          <div class="tech-chip__status">Busy · 1 job</div>
+        </div>
+      </div>
+      <div class="tech-chip">
+        <div class="tech-chip__avatar">TO</div>
+        <div class="tech-chip__info">
+          <div class="tech-chip__name">Tony</div>
+          <div class="tech-chip__status">Idle</div>
+        </div>
+      </div>
+      <div class="tech-chip">
+        <div class="tech-chip__avatar">AL</div>
+        <div class="tech-chip__info">
+          <div class="tech-chip__name">Alex</div>
+          <div class="tech-chip__status">Idle</div>
+        </div>
+      </div>
+      <div class="tech-chip break">
+        <div class="tech-chip__avatar">KI</div>
+        <div class="tech-chip__info">
+          <div class="tech-chip__name">Kim</div>
+          <div class="tech-chip__status">Break</div>
+        </div>
+      </div>
+      <div class="tech-chip out">
+        <div class="tech-chip__avatar">JA</div>
+        <div class="tech-chip__info">
+          <div class="tech-chip__name">Jay</div>
+          <div class="tech-chip__status">Out</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="filter-pills">
+      <div class="filter-pill active">All 12</div>
+      <div class="filter-pill">Unassigned 4</div>
+      <div class="filter-pill">In Progress 6</div>
+      <div class="filter-pill">Carryover 2</div>
+      <div class="filter-pill">Completed 0</div>
+    </div>
+    <div class="filter-spacer"></div>
+    <input type="text" class="filter-search" placeholder="Search RO..." />
+  </div>
+
+  <!-- RO TABLE -->
+  <div class="ro-table">
+    <div class="ro-table__head">
+      <div class="ro-table__header-cell"></div>
+      <div class="ro-table__header-cell">RO#</div>
+      <div class="ro-table__header-cell">Customer / Vehicle</div>
+      <div class="ro-table__header-cell">Status</div>
+      <div class="ro-table__header-cell">Jobs</div>
+      <div class="ro-table__header-cell">Tech Assigned</div>
+      <div class="ro-table__header-cell">ETA</div>
+      <div class="ro-table__header-cell">Priority</div>
+    </div>
+
+    <div class="ro-table__body">
+      <!-- RO 4501 - EXPANDED -->
+      <div class="ro-row expanded" onclick="toggleROJobs(this)">
+        <div class="ro-cell">
+          <div class="ro-cell__expander open">−</div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-number">#4501</div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-customer-vehicle">
+            <div class="ro-customer-name">Linda Chen</div>
+            <div class="ro-vehicle-info">2021 Honda Accord</div>
+          </div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-status unassigned"><span class="ro-status-dot"></span>Unassigned</div>
+        </div>
+        <div class="ro-cell">
+          <span class="job-count">3 jobs</span>
+        </div>
+        <div class="ro-cell">
+          <div class="tech-assigned unassigned">—</div>
+        </div>
+        <div class="ro-cell">
+          <div class="eta-time">—</div>
+        </div>
+        <div class="ro-cell">
+          <div class="priority-badge high">●</div>
+        </div>
+      </div>
+
+      <!-- Jobs for RO 4501 -->
+      <div class="ro-jobs">
+        <div class="job-row">
+          <div class="job-cell"></div>
+          <div class="job-cell"><span class="job-opcode">A</span></div>
+          <div class="job-cell"><span class="job-opcode">OILCHG</span><span class="job-description">Oil Change & Filter</span></div>
+          <div class="job-cell"><span class="pay-badge cp">CP</span></div>
+          <div class="job-cell"><span class="tech-assigned unassigned">Unassigned</span></div>
+          <div class="job-cell"><span class="job-status queued">Queued</span></div>
+          <div class="job-cell"></div>
+          <div class="job-cell"><button class="assign-btn">Assign</button></div>
+        </div>
+        <div class="job-row">
+          <div class="job-cell"></div>
+          <div class="job-cell"><span class="job-opcode">B</span></div>
+          <div class="job-cell"><span class="job-opcode">BRKPAD</span><span class="job-description">Front Brake Pads</span></div>
+          <div class="job-cell"><span class="pay-badge cp">CP</span></div>
+          <div class="job-cell"><span class="tech-assigned unassigned">Unassigned</span></div>
+          <div class="job-cell"><span class="job-status queued">Queued</span></div>
+          <div class="job-cell"></div>
+          <div class="job-cell"><button class="assign-btn">Assign</button></div>
+        </div>
+        <div class="job-row">
+          <div class="job-cell"></div>
+          <div class="job-cell"><span class="job-opcode">C</span></div>
+          <div class="job-cell"><span class="job-opcode">60KMAINT</span><span class="job-description">60K Maintenance</span></div>
+          <div class="job-cell"><span class="pay-badge w">W</span></div>
+          <div class="job-cell"><span class="tech-assigned unassigned">Unassigned</span></div>
+          <div class="job-cell"><span class="job-status queued">Queued</span></div>
+          <div class="job-cell"></div>
+          <div class="job-cell"><button class="assign-btn">Assign</button></div>
+        </div>
+      </div>
+
+      <!-- RO 4498 - EXPANDED -->
+      <div class="ro-row expanded" onclick="toggleROJobs(this)">
+        <div class="ro-cell">
+          <div class="ro-cell__expander open">−</div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-number">#4498</div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-customer-vehicle">
+            <div class="ro-customer-name">Garcia</div>
+            <div class="ro-vehicle-info">2020 Honda Civic</div>
+          </div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-status in-progress"><span class="ro-status-dot"></span>In Progress</div>
+        </div>
+        <div class="ro-cell">
+          <span class="job-count">2 jobs</span>
+        </div>
+        <div class="ro-cell">
+          <div class="tech-assigned">Marcus</div>
+        </div>
+        <div class="ro-cell">
+          <div class="eta-time">10:30 AM</div>
+        </div>
+        <div class="ro-cell">
+          <div class="priority-badge medium">●</div>
+        </div>
+      </div>
+
+      <!-- Jobs for RO 4498 -->
+      <div class="ro-jobs">
+        <div class="job-row">
+          <div class="job-cell"></div>
+          <div class="job-cell"><span class="job-opcode">A</span></div>
+          <div class="job-cell"><span class="job-opcode">MPI</span><span class="job-description">Multi-Point Inspection</span></div>
+          <div class="job-cell"><span class="pay-badge cp">CP</span></div>
+          <div class="job-cell"><span class="tech-assigned">Marcus ✓</span></div>
+          <div class="job-cell"><span class="job-status complete">Complete</span></div>
+          <div class="job-cell"></div>
+          <div class="job-cell"></div>
+        </div>
+        <div class="job-row">
+          <div class="job-cell"></div>
+          <div class="job-cell"><span class="job-opcode">B</span></div>
+          <div class="job-cell"><span class="job-opcode">ALIGNMT</span><span class="job-description">4-Wheel Alignment</span></div>
+          <div class="job-cell"><span class="pay-badge cp">CP</span></div>
+          <div class="job-cell"><span class="tech-assigned">Marcus</span></div>
+          <div class="job-cell"><span class="job-status in-progress">In Progress</span></div>
+          <div class="job-cell"></div>
+          <div class="job-cell"><button class="assign-btn">Reassign</button></div>
+        </div>
+      </div>
+
+      <!-- RO 4491 -->
+      <div class="ro-row" onclick="toggleROJobs(this)">
+        <div class="ro-cell">
+          <div class="ro-cell__expander">+</div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-number">#4491</div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-customer-vehicle">
+            <div class="ro-customer-name">Thompson</div>
+            <div class="ro-vehicle-info">2023 Honda Pilot</div>
+          </div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-status in-progress"><span class="ro-status-dot"></span>In Progress</div>
+        </div>
+        <div class="ro-cell">
+          <span class="job-count">1 job</span>
+        </div>
+        <div class="ro-cell">
+          <div class="tech-assigned">Sarah</div>
+        </div>
+        <div class="ro-cell">
+          <div class="eta-time">11:00 AM</div>
+        </div>
+        <div class="ro-cell">
+          <div class="priority-badge low">●</div>
+        </div>
+      </div>
+
+      <!-- RO 4495 -->
+      <div class="ro-row" onclick="toggleROJobs(this)">
+        <div class="ro-cell">
+          <div class="ro-cell__expander">+</div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-number">#4495</div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-customer-vehicle">
+            <div class="ro-customer-name">Williams</div>
+            <div class="ro-vehicle-info">2019 Honda CR-V</div>
+          </div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-status carryover"><span class="ro-status-dot"></span>Carryover</div>
+        </div>
+        <div class="ro-cell">
+          <span class="job-count">2 jobs</span>
+        </div>
+        <div class="ro-cell">
+          <div class="tech-assigned unassigned">—</div>
+        </div>
+        <div class="ro-cell">
+          <div class="eta-time">—</div>
+        </div>
+        <div class="ro-cell">
+          <div class="priority-badge high">●</div>
+        </div>
+      </div>
+
+      <!-- RO 4502 -->
+      <div class="ro-row" onclick="toggleROJobs(this)">
+        <div class="ro-cell">
+          <div class="ro-cell__expander">+</div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-number">#4502</div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-customer-vehicle">
+            <div class="ro-customer-name">Anderson</div>
+            <div class="ro-vehicle-info">2022 Honda CR-V</div>
+          </div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-status unassigned"><span class="ro-status-dot"></span>Unassigned</div>
+        </div>
+        <div class="ro-cell">
+          <span class="job-count">2 jobs</span>
+        </div>
+        <div class="ro-cell">
+          <div class="tech-assigned unassigned">—</div>
+        </div>
+        <div class="ro-cell">
+          <div class="eta-time">—</div>
+        </div>
+        <div class="ro-cell">
+          <div class="priority-badge high">●</div>
+        </div>
+      </div>
+
+      <!-- RO 4503 -->
+      <div class="ro-row" onclick="toggleROJobs(this)">
+        <div class="ro-cell">
+          <div class="ro-cell__expander">+</div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-number">#4503</div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-customer-vehicle">
+            <div class="ro-customer-name">Jackson</div>
+            <div class="ro-vehicle-info">2021 Toyota Camry</div>
+          </div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-status in-progress"><span class="ro-status-dot"></span>In Progress</div>
+        </div>
+        <div class="ro-cell">
+          <span class="job-count">1 job</span>
+        </div>
+        <div class="ro-cell">
+          <div class="tech-assigned">Tony</div>
+        </div>
+        <div class="ro-cell">
+          <div class="eta-time">09:45 AM</div>
+        </div>
+        <div class="ro-cell">
+          <div class="priority-badge medium">●</div>
+        </div>
+      </div>
+
+      <!-- RO 4504 -->
+      <div class="ro-row" onclick="toggleROJobs(this)">
+        <div class="ro-cell">
+          <div class="ro-cell__expander">+</div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-number">#4504</div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-customer-vehicle">
+            <div class="ro-customer-name">Martinez</div>
+            <div class="ro-vehicle-info">2020 Ford F-150</div>
+          </div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-status unassigned"><span class="ro-status-dot"></span>Unassigned</div>
+        </div>
+        <div class="ro-cell">
+          <span class="job-count">3 jobs</span>
+        </div>
+        <div class="ro-cell">
+          <div class="tech-assigned unassigned">—</div>
+        </div>
+        <div class="ro-cell">
+          <div class="eta-time">—</div>
+        </div>
+        <div class="ro-cell">
+          <div class="priority-badge low">●</div>
+        </div>
+      </div>
+
+      <!-- RO 4505 -->
+      <div class="ro-row" onclick="toggleROJobs(this)">
+        <div class="ro-cell">
+          <div class="ro-cell__expander">+</div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-number">#4505</div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-customer-vehicle">
+            <div class="ro-customer-name">Rivera</div>
+            <div class="ro-vehicle-info">2023 Mazda 3</div>
+          </div>
+        </div>
+        <div class="ro-cell">
+          <div class="ro-status in-progress"><span class="ro-status-dot"></span>In Progress</div>
+        </div>
+        <div class="ro-cell">
+          <span class="job-count">1 job</span>
+        </div>
+        <div class="ro-cell">
+          <div class="tech-assigned">Alex</div>
+        </div>
+        <div class="ro-cell">
+          <div class="eta-time">02:15 PM</div>
+        </div>
+        <div class="ro-cell">
+          <div class="priority-badge low">●</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ FLOATING CHAT POPUP ═══ -->
+<div class="t1-chat-popup" id="chatPopup">
+  <div class="t1-chat__header">
+    T1 AI Assistant
+    <button class="t1-chat__close" onclick="closeT1Chat()">×</button>
+  </div>
+  <div class="t1-chat__messages">
+    <div class="t1-message bot">
+      <div class="t1-message__avatar">T1</div>
+      <div class="t1-message__content">
+        <div class="t1-message__text">Hi Jake, I've analyzed today's dispatch queue. 4 jobs are urgent and waiting assignment. Marcus and Sarah are at capacity. Tony, Alex, and Kim have availability. Ready to help you optimize assignments?</div>
+      </div>
+    </div>
+  </div>
+  <div class="t1-chat__input">
+    <input type="text" placeholder="Ask T1 anything..." />
+    <button>Send</button>
+  </div>
+</div>
+
+<!-- ═══ ANNOTATION PANEL ═══ -->
+<div class="annotation-panel" id="annotationPanel">
+  <h3>Scene 2 — Compact RO + Job Table</h3>
+
+  <h4>Key Design Changes</h4>
+  <ul>
+    <li><strong>Table-based layout</strong> replaces 4-column Kanban board — 80% more compact</li>
+    <li><strong>Expandable job rows</strong> — click RO row to reveal individual jobs as sub-rows</li>
+    <li><strong>Quick-assign buttons</strong> on each job for rapid dispatch workflow</li>
+  </ul>
+
+  <h4>Data Hierarchy</h4>
+  <ul>
+    <li><strong>RO Row:</strong> Summary level (status, job count, assigned tech, ETA)</li>
+    <li><strong>Job Rows (hidden):</strong> Opcode, description, pay type, job status, quick-assign</li>
+  </ul>
+
+  <h4>Tech Strip</h4>
+  <p>Horizontal cards showing 6 techs with live status (Idle/Busy/Break/Out) and job count for drag-drop assignment.</p>
+
+  <h4>Stats Cards</h4>
+  <p>KPI row: Unassigned Jobs, Techs Available, Avg Wait Time, At Risk ROs — critical metrics for dispatcher decision-making.</p>
+
+  <h4>Interaction Patterns</h4>
+  <p>Click RO row to expand jobs. Click job's "Assign" button to trigger dispatch modal or drag tech from strip to job.</p>
+
+  <h4>By-Scene Notes</h4>
+  <ul>
+    <li>RO #4501 and #4498 expanded by default to show job structure</li>
+    <li>8 ROs displayed (mix of Unassigned, In Progress, Carryover)</li>
+    <li>T1 chat greeting contextual to dispatch workflow</li>
+    <li>Filter pills show status breakdown for quick filtering</li>
+  </ul>
+</div>
+
+<script>
+function toggleROJobs(rowElement) {
+  const jobsDiv = rowElement.nextElementSibling;
+  const expander = rowElement.querySelector('.ro-cell__expander');
+
+  if (jobsDiv && jobsDiv.classList.contains('ro-jobs')) {
+    jobsDiv.classList.toggle('display');
+    if (jobsDiv.style.display === 'flex') {
+      jobsDiv.style.display = 'none';
+      expander.textContent = '+';
+      expander.classList.remove('open');
+      rowElement.classList.remove('expanded');
+    } else {
+      jobsDiv.style.display = 'flex';
+      expander.textContent = '−';
+      expander.classList.add('open');
+      rowElement.classList.add('expanded');
+    }
+  }
+}
+
+function toggleT1Chat() {
+  const popup = document.getElementById('chatPopup');
+  popup.style.display = popup.style.display === 'none' ? 'flex' : 'none';
+}
+
+function closeT1Chat() {
+  document.getElementById('chatPopup').style.display = 'none';
+}
+
+function toggleAnnotations() {
+  document.getElementById('annotationPanel').classList.toggle('open');
+}
+
+// Initialize chat popup as visible
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('chatPopup').style.display = 'flex';
+});
+</script>
+
+</body>
+</html>

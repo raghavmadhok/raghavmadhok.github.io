@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scene 14 — Book the Follow-Up | SA Desktop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --t1-primary: #4285f4;
+            --t1-topbar-bg: #0d1117;
+            --t1-surface-dark: #1a2332;
+            --t1-white: #ffffff;
+            --t1-bg: #f4f5f6;
+            --t1-text-primary: #161616;
+            --t1-text-secondary: #3f4757;
+            --t1-text-tertiary: #6d707a;
+            --t1-border: #e8e9eb;
+            --t1-font: "Proxima Nova", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --t1-radius-md: 4px;
+            --t1-radius-lg: 8px;
+            --t1-radius-xl: 12px;
+            --success: #3c8635;
+            --success-light: #e8f5e9;
+            --warning: #e67e22;
+            --warning-light: #fff3e0;
+            --tekion-green: #00c853;
+        }
+
+        body {
+            font-family: var(--t1-font);
+            background: var(--t1-bg);
+            color: var(--t1-text-primary);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* TEKION TOPBAR */
+        .tekion-topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 48px;
+            background: var(--t1-topbar-bg);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            z-index: 200;
+            gap: 8px;
+        }
+
+        .tekion-topbar__grid-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: var(--t1-radius-md);
+            color: #8b949e;
+            flex-shrink: 0;
+        }
+
+        .tekion-topbar__logo {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--tekion-green);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-right: 8px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .tekion-topbar__ai-search {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0 4px;
+            flex-shrink: 0;
+        }
+
+        .tekion-topbar__ai-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--t1-radius-md);
+            background: linear-gradient(135deg, #2dd4bf22, #4285f422);
+            border: 1px solid rgba(45,212,191,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .tekion-topbar__search-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--t1-radius-md);
+            background: rgba(255,255,255,0.08);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b949e;
+            cursor: pointer;
+        }
+
+        .tekion-topbar__search-bar {
+            flex: 1;
+            max-width: 400px;
+            height: 34px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--t1-radius-md);
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            color: #6b7280;
+            font-size: 13px;
+            margin: 0 auto;
+            cursor: text;
+        }
+
+        .tekion-topbar__actions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .tekion-topbar__get-help {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: var(--tekion-green);
+            color: #fff;
+            border: none;
+            border-radius: var(--t1-radius-md);
+            font-family: var(--t1-font);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .tekion-topbar__icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b949e;
+            cursor: pointer;
+            position: relative;
+            border: none;
+            background: none;
+        }
+
+        .tekion-topbar__badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            min-width: 16px;
+            height: 16px;
+            background: #ef4444;
+            color: white;
+            font-size: 9px;
+            font-weight: 700;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+
+        .tekion-topbar__dealer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 8px 4px 4px;
+            margin-left: 8px;
+            cursor: pointer;
+            border-radius: var(--t1-radius-md);
+            flex-shrink: 0;
+        }
+
+        .tekion-topbar__dealer-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #2dd4bf;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .tekion-topbar__dealer-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #e5e7eb;
+            white-space: nowrap;
+        }
+
+        /* TEKION SIDEBAR */
+        .tekion-sidebar {
+            position: fixed;
+            top: 48px;
+            left: 0;
+            width: 56px;
+            height: calc(100vh - 48px);
+            background: var(--t1-surface-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 0 8px;
+            gap: 2px;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .tekion-sidebar__item {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: var(--t1-radius-md);
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .tekion-sidebar__item:hover { background: rgba(255,255,255,0.06); }
+
+        .tekion-sidebar__icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            letter-spacing: -0.3px;
+        }
+
+        .tekion-sidebar__icon--t1 { background: none; position: relative; }
+        .tekion-sidebar__icon--ro { background: #3b82f6; }
+        .tekion-sidebar__icon--ds { background: #3b82f6; }
+        .tekion-sidebar__icon--om { background: #22c55e; }
+        .tekion-sidebar__icon--a { background: #8b5cf6; }
+        .tekion-sidebar__icon--dc { background: #3b82f6; }
+        .tekion-sidebar__icon--cd { background: #3b82f6; }
+
+        .tekion-sidebar__item--active .tekion-sidebar__icon {
+            box-shadow: 0 0 0 2px #4285f4;
+        }
+
+        .tekion-sidebar__item--active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            bottom: 10px;
+            width: 3px;
+            background: #4285f4;
+            border-radius: 0 2px 2px 0;
+        }
+
+        .tekion-sidebar__spacer { flex: 1; }
+
+        /* MAIN CONTAINER */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            margin-left: 56px;
+            margin-top: 48px;
+        }
+
+        /* TOP BAR */
+        .top-bar {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid var(--t1-border);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .top-bar-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--t1-text-secondary);
+            letter-spacing: 0.3px;
+        }
+
+        .scene-label {
+            font-size: 12px;
+            color: var(--t1-text-tertiary);
+            font-weight: 500;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--t1-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* CONTENT AREA */
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            gap: 16px;
+            padding: 16px;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .task-board-header {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--t1-text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* TASK BOARD */
+        .task-board {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--t1-border);
+            padding: 0;
+            overflow-y: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .task-board::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .task-board::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .task-board::-webkit-scrollbar-thumb {
+            background: #d0d2d8;
+            border-radius: 3px;
+        }
+
+        .task-board::-webkit-scrollbar-thumb:hover {
+            background: #b8b9bf;
+        }
+
+        /* FOLLOW-UP NUDGE TASK CARD */
+        .followup-nudge-card {
+            border-left: 4px solid var(--warning);
+            background: #fffbf8;
+            padding: 16px;
+            margin: 12px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #f0ede8;
+            border-left: 4px solid var(--warning);
+        }
+
+        .followup-nudge-card:hover {
+            box-shadow: 0 2px 8px rgba(230, 126, 34, 0.15);
+            background: #fffdf9;
+        }
+
+        .followup-nudge-card.complete {
+            background: #f1f9f1;
+            border-left-color: var(--success);
+            border-color: #e8f0e8;
+        }
+
+        .card-icon {
+            font-size: 20px;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .followup-nudge-card .card-icon {
+            color: var(--warning);
+        }
+
+        .followup-nudge-card.complete .card-icon {
+            color: var(--success);
+        }
+
+        .card-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--t1-text-primary);
+            margin-bottom: 2px;
+        }
+
+        .card-subtitle {
+            font-size: 12px;
+            color: var(--t1-text-tertiary);
+        }
+
+        .card-action-btn {
+            padding: 8px 16px;
+            background: var(--warning);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            min-width: fit-content;
+        }
+
+        .card-action-btn:hover {
+            background: #d67213;
+        }
+
+        .card-action-btn:active {
+            transform: scale(0.98);
+        }
+
+        .check-icon {
+            width: 20px;
+            height: 20px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .followup-nudge-card.complete .card-action-btn {
+            display: none;
+        }
+
+        /* INLINE CARD FLOW */
+        .inline-cards-container {
+            padding: 12px;
+            padding-top: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .service-card, .slot-card, .confirmation-card {
+            background: white;
+            border: 1px solid var(--t1-border);
+            border-radius: 6px;
+            padding: 16px;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .card-header-icon {
+            font-size: 18px;
+            min-width: 24px;
+            margin-top: 2px;
+        }
+
+        .card-body {
+            font-size: 13px;
+            color: var(--t1-text-secondary);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .service-highlight {
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 4px;
+            margin: 8px 0;
+            border-left: 3px solid var(--t1-primary);
+            font-weight: 500;
+        }
+
+        .service-note {
+            font-size: 12px;
+            color: var(--t1-text-tertiary);
+            font-style: italic;
+            margin-top: 8px;
+        }
+
+        .slot-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .slot-option {
+            padding: 12px;
+            border: 1px solid var(--t1-border);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 12px;
+        }
+
+        .slot-option:hover {
+            border-color: var(--t1-primary);
+            background: #f7f9ff;
+        }
+
+        .slot-option.selected {
+            border-color: var(--t1-primary);
+            background: #f0f6ff;
+            font-weight: 600;
+            color: var(--t1-primary);
+        }
+
+        .slot-label {
+            font-weight: 600;
+            color: var(--t1-text-primary);
+            margin-bottom: 4px;
+        }
+
+        .slot-time {
+            font-size: 12px;
+            color: var(--t1-text-tertiary);
+        }
+
+        .slot-detail {
+            font-size: 11px;
+            color: #9a9d9f;
+            margin-top: 4px;
+        }
+
+        /* CONFIRMATION CARD - HERO */
+        .confirmation-card {
+            background: #f1f9f1;
+            border: 2px solid var(--success);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .confirmation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle at center, rgba(60, 134, 53, 0.1), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .confirmation-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .confirmation-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .success-checkmark {
+            width: 32px;
+            height: 32px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .confirmation-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--t1-text-primary);
+        }
+
+        .confirmation-details {
+            background: white;
+            padding: 12px;
+            border-radius: 4px;
+            margin: 8px 0;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--t1-text-primary);
+        }
+
+        .appointment-time {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 2px;
+        }
+
+        .appointment-service {
+            font-size: 12px;
+            color: var(--t1-text-tertiary);
+        }
+
+        .confirmation-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #e8f5e8;
+            color: var(--success);
+            padding: 6px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .confirmation-badge-icon {
+            font-size: 12px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn-secondary {
+            padding: 8px 12px;
+            background: white;
+            color: var(--t1-primary);
+            border: 1px solid var(--t1-primary);
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f6ff;
+        }
+
+        .btn-primary {
+            padding: 8px 16px;
+            background: var(--t1-primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #3367d6;
+        }
+
+        /* OTHER TASKS (DIMMED) */
+        .other-task {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0.5;
+            background: white;
+        }
+
+        .other-task:last-child {
+            border-bottom: none;
+        }
+
+        .other-task-icon {
+            font-size: 16px;
+            min-width: 20px;
+            text-align: center;
+            color: #9a9d9f;
+        }
+
+        .other-task-text {
+            font-size: 12px;
+            color: var(--t1-text-tertiary);
+            flex: 1;
+        }
+
+        .other-task-date {
+            font-size: 11px;
+            color: #9a9d9f;
+        }
+
+        /* ANNOTATION PANEL */
+        .annotation-panel {
+            width: 320px;
+            background: white;
+            border: 1px solid var(--t1-border);
+            border-radius: 8px;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .annotation-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .annotation-panel::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .annotation-panel::-webkit-scrollbar-thumb {
+            background: #d0d2d8;
+            border-radius: 3px;
+        }
+
+        .annotation-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--t1-text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .annotation-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .annotation-item {
+            font-size: 12px;
+            color: var(--t1-text-secondary);
+            line-height: 1.5;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .annotation-item:last-child {
+            border-bottom: none;
+        }
+
+        .annotation-label {
+            font-weight: 600;
+            color: var(--t1-text-primary);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .annotation-value {
+            color: var(--t1-text-tertiary);
+            font-family: "Monaco", "Courier New", monospace;
+            font-size: 11px;
+        }
+
+        /* KPI SNAPSHOT */
+        .kpi-snapshot {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 4px;
+            border: 1px solid var(--t1-border);
+        }
+
+        .kpi-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .kpi-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--t1-text-primary);
+        }
+
+        .kpi-label {
+            font-size: 11px;
+            color: var(--t1-text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .kpi-delta {
+            font-size: 11px;
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* FLOW INDICATOR */
+        .flow-timeline {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 11px;
+            color: var(--t1-text-tertiary);
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .flow-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--t1-border);
+            border-radius: 50%;
+        }
+
+        .flow-dot.active {
+            background: var(--t1-primary);
+        }
+
+        .flow-separator {
+            color: #d0d2d8;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1400px) {
+            .annotation-panel {
+                width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- TEKION TOPBAR -->
+    <div class="tekion-topbar">
+        <div class="tekion-topbar__grid-icon">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+                <circle cx="3" cy="3" r="1.5"/><circle cx="8" cy="3" r="1.5"/><circle cx="13" cy="3" r="1.5"/>
+                <circle cx="3" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="13" cy="8" r="1.5"/>
+                <circle cx="3" cy="13" r="1.5"/><circle cx="8" cy="13" r="1.5"/><circle cx="13" cy="13" r="1.5"/>
+            </svg>
+        </div>
+        <div class="tekion-topbar__logo">TEKION</div>
+        <div class="tekion-topbar__ai-search">
+            <div class="tekion-topbar__ai-btn" title="T1 AI">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2">
+                    <path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16.4l-6.4 4.8L8 14 2 9.2h7.6z"/>
+                </svg>
+            </div>
+            <div class="tekion-topbar__search-btn">
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/></svg>
+            </div>
+        </div>
+        <div class="tekion-topbar__search-bar">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="#6b7280"><path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/></svg>
+            Search here...
+        </div>
+        <div class="tekion-topbar__actions">
+            <button class="tekion-topbar__get-help">Get Help</button>
+            <div class="tekion-topbar__icon-btn" title="Help">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="#8b949e"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg>
+            </div>
+            <div class="tekion-topbar__icon-btn" title="Notifications">
+                <span class="tekion-topbar__badge">99+</span>
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="#8b949e"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zm0 16a3 3 0 01-3-3h6a3 3 0 01-3 3z"/></svg>
+            </div>
+            <div class="tekion-topbar__icon-btn" title="Chat">
+                <span class="tekion-topbar__badge">1</span>
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="#8b949e"><path d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7z"/></svg>
+            </div>
+            <div class="tekion-topbar__icon-btn" title="Mail">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="#8b949e"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884zm15.994 1.532L10 11.118 2.003 7.416A.5.5 0 002 7.5V14a2 2 0 002 2h12a2 2 0 002-2V7.5a.5.5 0 00-.003-.084z"/></svg>
+            </div>
+        </div>
+        <div class="tekion-topbar__dealer">
+            <div class="tekion-topbar__dealer-avatar">NH</div>
+            <span class="tekion-topbar__dealer-name">Napleton Honda</span>
+        </div>
+    </div>
+
+    <!-- TEKION SIDEBAR -->
+    <div class="tekion-sidebar">
+        <div class="tekion-sidebar__item" title="T1 AI">
+            <div class="tekion-sidebar__icon tekion-sidebar__icon--t1">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect width="24" height="24" rx="6" fill="url(#t1grad)"/>
+                    <defs><linearGradient id="t1grad" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#e7f7f9"/><stop offset="1" stop-color="#fbf8f2"/></linearGradient></defs>
+                    <path d="M12 4l1.8 5.4H20l-5 4 2 5.6L12 15l-5 4 2-5.6-5-4h6.2z" fill="#4285f4" opacity="0.8"/>
+                </svg>
+            </div>
+        </div>
+        <div class="tekion-sidebar__item tekion-sidebar__item--active" title="Repair Order">
+            <div class="tekion-sidebar__icon tekion-sidebar__icon--ro">RO</div>
+        </div>
+        <div class="tekion-sidebar__item" title="Deal Summary">
+            <div class="tekion-sidebar__icon tekion-sidebar__icon--ds">DS</div>
+        </div>
+        <div class="tekion-sidebar__item" title="Order Management">
+            <div class="tekion-sidebar__icon tekion-sidebar__icon--om">OM</div>
+        </div>
+        <div class="tekion-sidebar__item" title="Accounting">
+            <div class="tekion-sidebar__icon tekion-sidebar__icon--a">A</div>
+        </div>
+        <div class="tekion-sidebar__item" title="Document Center">
+            <div class="tekion-sidebar__icon tekion-sidebar__icon--dc">DC</div>
+        </div>
+        <div class="tekion-sidebar__item" title="Customer Database">
+            <div class="tekion-sidebar__icon tekion-sidebar__icon--cd">CD</div>
+        </div>
+        <div class="tekion-sidebar__spacer"></div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="main-container">
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <div class="top-bar-title">SA T1 Homepage</div>
+                <div class="scene-label">Act 7, Scene 14 — Book the Follow-Up</div>
+            </div>
+            <div class="top-bar-right">
+                <div class="user-avatar">M</div>
+            </div>
+        </div>
+
+        <!-- CONTENT AREA -->
+        <div class="content-wrapper">
+            <!-- MAIN CONTENT -->
+            <div class="main-content">
+                <!-- FLOW TIMELINE -->
+                <div class="flow-timeline">
+                    <span style="font-size: 12px; font-weight: 600; color: var(--t1-text-primary);">Card Progression (15s experience):</span>
+                    <div class="flow-step">
+                        <div class="flow-dot active"></div>
+                        <span>Task Card</span>
+                    </div>
+                    <div class="flow-separator">→</div>
+                    <div class="flow-step">
+                        <div class="flow-dot active"></div>
+                        <span>Service Card</span>
+                    </div>
+                    <div class="flow-separator">→</div>
+                    <div class="flow-step">
+                        <div class="flow-dot active"></div>
+                        <span>Slot Card</span>
+                    </div>
+                    <div class="flow-separator">→</div>
+                    <div class="flow-step">
+                        <div class="flow-dot active"></div>
+                        <span>Confirmation</span>
+                    </div>
+                </div>
+
+                <!-- TASK BOARD -->
+                <div class="task-board">
+                    <!-- FOLLOW-UP NUDGE TASK CARD (INLINE HINT) -->
+                    <div class="followup-nudge-card complete">
+                        <div class="card-icon">✓</div>
+                        <div class="card-content">
+                            <div class="card-title">Book follow-up: Mrs. Chen</div>
+                            <div class="card-subtitle">60K maintenance, due in ~3 months</div>
+                        </div>
+                        <div class="check-icon">✓</div>
+                    </div>
+
+                    <!-- INLINE CARDS FLOW -->
+                    <div class="inline-cards-container">
+                        <!-- FOLLOW-UP SERVICE CARD -->
+                        <div class="service-card">
+                            <div class="card-header">
+                                <div class="card-header-icon">🔧</div>
+                                <div>
+                                    <div class="card-title">Follow-up Service Available</div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                Mrs. Chen has 1 follow-up service:
+                                <div class="service-highlight">
+                                    60K maintenance package — due at ~60,200 miles, estimated in 3 months
+                                </div>
+                                <div class="service-note">
+                                    Note: Deferred brake work was completed today — removed from follow-up list.
+                                </div>
+                            </div>
+                            <div class="card-body">Want to book?</div>
+                            <div class="card-actions">
+                                <button class="btn-secondary">Not now</button>
+                                <button class="btn-primary">Yes, book it</button>
+                            </div>
+                        </div>
+
+                        <!-- SLOT SUGGESTION CARD -->
+                        <div class="slot-card">
+                            <div class="card-header">
+                                <div class="card-header-icon">🗓️</div>
+                                <div>
+                                    <div class="card-title">Available Slots</div>
+                                </div>
+                            </div>
+                            <div class="card-body">Which slot works best for Mrs. Chen?</div>
+                            <div class="slot-options">
+                                <div class="slot-option">
+                                    <div class="slot-label">Option A</div>
+                                    <div class="slot-time">July 8, 8:30 AM</div>
+                                    <div class="slot-detail">Light day, 2 advisors available</div>
+                                </div>
+                                <div class="slot-option selected">
+                                    <div class="slot-label">Option B</div>
+                                    <div class="slot-time">July 10, 10:00 AM</div>
+                                    <div class="slot-detail">Your schedule is open</div>
+                                </div>
+                                <div class="slot-option">
+                                    <div class="slot-label">Option C</div>
+                                    <div class="slot-time">July 15, 9:00 AM</div>
+                                    <div class="slot-detail">Standard capacity</div>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-secondary">Suggest more</button>
+                                <button class="btn-primary">Book Option B</button>
+                            </div>
+                        </div>
+
+                        <!-- BOOKING CONFIRMATION CARD (HERO) -->
+                        <div class="confirmation-card">
+                            <div class="confirmation-content">
+                                <div class="confirmation-header">
+                                    <div class="success-checkmark">✓</div>
+                                    <div class="confirmation-title">Booking Complete</div>
+                                </div>
+                                <div class="confirmation-details">
+                                    <div class="appointment-time">July 10, 10:00 AM</div>
+                                    <div class="appointment-service">60K maintenance — Mrs. Chen</div>
+                                </div>
+                                <div class="card-body" style="margin: 0; font-size: 12px;">
+                                    Your task board is updated. Mrs. Chen will receive a confirmation text shortly.
+                                </div>
+                                <div class="confirmation-badge">
+                                    <span class="confirmation-badge-icon">💬</span>
+                                    <span>Confirmation sent via text</span>
+                                </div>
+                                <div class="card-actions">
+                                    <button class="btn-secondary">View details</button>
+                                    <button class="btn-primary">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- OTHER TASKS (CONTEXT) -->
+                    <div class="other-task">
+                        <div class="other-task-icon">📋</div>
+                        <div class="other-task-text">Follow-up: Mr. Patel — tire rotation</div>
+                        <div class="other-task-date">Due soon</div>
+                    </div>
+                    <div class="other-task">
+                        <div class="other-task-icon">🔧</div>
+                        <div class="other-task-text">Service: 2024 Honda Civic — scheduled</div>
+                        <div class="other-task-date">Jul 5</div>
+                    </div>
+                    <div class="other-task">
+                        <div class="other-task-icon">⚠️</div>
+                        <div class="other-task-text">Recall: 2 vehicles need attention</div>
+                        <div class="other-task-date">Today</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANNOTATION PANEL -->
+            <div class="annotation-panel">
+                <div class="annotation-title">Scene Details</div>
+
+                <div class="annotation-section">
+                    <div class="annotation-item">
+                        <span class="annotation-label">Intent</span>
+                        <span class="annotation-value">SA-E07 BookFollowUpAppointment</span>
+                    </div>
+                </div>
+
+                <div class="annotation-section">
+                    <div class="annotation-label">Trigger</div>
+                    <div class="annotation-item">
+                        <span class="annotation-value">Within 5 minutes of RO closure, nudge task appears on homepage task board</span>
+                    </div>
+                </div>
+
+                <div class="annotation-section">
+                    <div class="annotation-label">T1 Chat Prompts</div>
+                    <div class="annotation-item">
+                        <span class="annotation-value">→ Schedule follow-up for Mrs. Chen</span>
+                    </div>
+                    <div class="annotation-item">
+                        <span class="annotation-value">→ Check available slots</span>
+                    </div>
+                    <div class="annotation-item">
+                        <span class="annotation-value">→ Send booking confirmation</span>
+                    </div>
+                </div>
+
+                <div class="annotation-section">
+                    <div class="annotation-label">Flow Steps</div>
+                    <div class="annotation-item">
+                        <span class="annotation-value">1. Task card with nudge (inline hint)</span>
+                    </div>
+                    <div class="annotation-item">
+                        <span class="annotation-value">2. Service card shows 60K details</span>
+                    </div>
+                    <div class="annotation-item">
+                        <span class="annotation-value">3. Slot card with 3 options</span>
+                    </div>
+                    <div class="annotation-item">
+                        <span class="annotation-value">4. Confirmation (hero card)</span>
+                    </div>
+                </div>
+
+                <div class="annotation-section">
+                    <div class="annotation-label">Duration</div>
+                    <div class="annotation-item">
+                        <span class="annotation-value">~15 seconds total experience</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid var(--t1-border);">
+                    <div class="annotation-title">KPI Impact</div>
+                    <div class="kpi-snapshot">
+                        <div class="kpi-item">
+                            <div class="kpi-value">7</div>
+                            <div class="kpi-label">Follow-ups Booked</div>
+                            <div class="kpi-delta">+2 vs avg</div>
+                        </div>
+                        <div class="kpi-item">
+                            <div class="kpi-value">3:24</div>
+                            <div class="kpi-label">Avg Task Time</div>
+                            <div class="kpi-delta">-2min vs baseline</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

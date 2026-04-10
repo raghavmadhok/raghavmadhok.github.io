@@ -1,99 +1,548 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Chatbot</title>
-  <meta name="description" content="This is a test chatbot for HR-EY">
-  <meta name="author" content="Varnit Jain" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=trying">
-  <link rel="stylesheet" media="screen" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T1 Service Demo Story — Prototype Index</title>
+<style>
+  :root {
+    --t1-gradient: linear-gradient(143.74deg, rgb(231,247,249) 0%, rgb(251,248,242) 100%);
+    --color-bg: #f4f5f6;
+    --color-surface: #ffffff;
+    --color-border: #e8e9eb;
+    --color-text-primary: #161616;
+    --color-text-secondary: #3f4757;
+    --color-text-muted: #969aa3;
+    --color-primary: #4285f4;
+    --color-sa: #3b82f6;
+    --color-dispatcher: #8b5cf6;
+    --color-tech: #22c55e;
+    --color-customer: #f59e0b;
+    --topbar-bg: #0d1117;
+    --tekion-green: #00c853;
+    --font: 'Proxima Nova', system-ui, -apple-system, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font);
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Tekion Top Bar ── */
+  .tekion-topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 48px;
+    background: var(--topbar-bg);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 200;
+    gap: 12px;
+  }
+  .tekion-topbar__grid {
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    color: #8b949e; cursor: pointer;
+  }
+  .tekion-topbar__logo {
+    font-size: 18px; font-weight: 800;
+    color: var(--tekion-green);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .tekion-topbar__spacer { flex: 1; }
+  .tekion-topbar__badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px;
+    background: rgba(66,133,244,0.15);
+    color: #93c5fd;
+    border-radius: 6px;
+    font-size: 12px; font-weight: 600;
+  }
+  .tekion-topbar__badge svg { width: 14px; height: 14px; }
+  .tekion-topbar__dealer {
+    display: flex; align-items: center; gap: 8px;
+    color: #e5e7eb; font-size: 13px; font-weight: 600;
+  }
+  .tekion-topbar__dealer-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: #2dd4bf; color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: var(--t1-gradient);
+    padding: 80px 40px 48px;
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .hero__t1-icon {
+    display: inline-flex;
+    width: 48px; height: 48px;
+    background: white;
+    border-radius: 14px;
+    align-items: center; justify-content: center;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .hero h1 {
+    font-size: 32px; font-weight: 700; line-height: 40px;
+    color: var(--color-text-primary);
+    margin-bottom: 8px; letter-spacing: -0.5px;
+  }
+  .hero p {
+    font-size: 16px; line-height: 24px;
+    color: var(--color-text-secondary);
+    max-width: 640px; margin: 0 auto;
+  }
+  .hero__stats {
+    display: flex; justify-content: center; gap: 32px; margin-top: 28px;
+  }
+  .hero__stat { text-align: center; }
+  .hero__stat-value { font-size: 28px; font-weight: 700; color: var(--color-text-primary); }
+  .hero__stat-label { font-size: 13px; font-weight: 500; color: var(--color-text-muted); margin-top: 2px; }
+
+  /* ── Container ── */
+  .container { max-width: 1120px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 16px;
+    justify-content: center; margin-bottom: 40px;
+    padding: 14px 20px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+  }
+  .legend__item {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; font-weight: 500; color: var(--color-text-secondary);
+  }
+  .legend__dot { width: 10px; height: 10px; border-radius: 3px; }
+
+  /* ── Act Section ── */
+  .act { margin-bottom: 48px; }
+  .act__header {
+    display: flex; align-items: baseline; gap: 12px;
+    margin-bottom: 20px; padding-bottom: 12px;
+    border-bottom: 2px solid var(--color-border);
+  }
+  .act__number {
+    font-size: 13px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    color: var(--color-primary); white-space: nowrap;
+  }
+  .act__title { font-size: 22px; font-weight: 700; color: var(--color-text-primary); letter-spacing: -0.3px; }
+
+  /* ── Scene Cards ── */
+  .scenes { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+  .scene-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px; overflow: hidden;
+    text-decoration: none; color: inherit;
+    transition: box-shadow 200ms ease, transform 200ms ease;
+    display: flex; flex-direction: column;
+  }
+  .scene-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .scene-card__top { padding: 20px 20px 16px; flex: 1; }
+  .scene-card__meta { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .scene-card__badge {
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.6px;
+    padding: 3px 8px; border-radius: 4px; color: #fff;
+  }
+  .scene-card__badge--sa { background: var(--color-sa); }
+  .scene-card__badge--dispatcher { background: var(--color-dispatcher); }
+  .scene-card__badge--tech { background: var(--color-tech); }
+  .scene-card__badge--multi { background: #64748b; }
+  .scene-card__device {
+    font-size: 11px; font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .scene-card__title { font-size: 17px; font-weight: 600; line-height: 24px; color: var(--color-text-primary); margin-bottom: 6px; }
+  .scene-card__desc { font-size: 14px; line-height: 20px; color: var(--color-text-secondary); }
+  .scene-card__footer {
+    padding: 12px 20px;
+    border-top: 1px solid var(--color-border);
+    display: flex; align-items: center; justify-content: space-between;
+    background: #fafbfc;
+  }
+  .scene-card__intent { font-size: 12px; font-weight: 600; color: var(--color-text-muted); }
+  .scene-card__intent span {
+    display: inline-block; padding: 2px 6px; border-radius: 3px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.4px; margin-left: 4px;
+  }
+  .intent--inform { background: #e0f2fe; color: #0369a1; }
+  .intent--ask { background: #f0fdf4; color: #15803d; }
+  .intent--decide { background: #fef3c7; color: #92400e; }
+  .intent--execute { background: #ede9fe; color: #6d28d9; }
+  .scene-card__arrow { font-size: 18px; color: var(--color-primary); font-weight: 600; }
+
+  .page-footer {
+    text-align: center; padding: 32px 24px;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-muted); font-size: 13px;
+  }
+
+  @media (max-width: 720px) {
+    .hero { padding: 64px 20px 36px; }
+    .hero h1 { font-size: 24px; line-height: 32px; }
+    .scenes { grid-template-columns: 1fr; }
+    .container { padding: 24px 16px 60px; }
+  }
+</style>
 </head>
 <body>
 
-<!--THIS IS BOT CODE
-
-  <link href="https://api.motion.ai/sdk/webchat.css" rel="stylesheet" type="text/css">
-<script src="https://api.motion.ai/sdk/webchat.js"></script>
-<script>
-   motionAI_Init('62448?color=62a8ea&sendBtn=SEND&inputBox=Type%20something...&token=64037f1d2b16170b8ff865deb4aca1b6',true,400,470,'https://api.motion.ai/sdk/botbtn.png');
-   /* You may also invoke motionAI_Open() to manually open the modal. */
-</script>
-
-<!--END BOT CODE-->
-
-<!-- count particles 
-<div class="count-particles">
-  <span class="js-count-particles"></span> particles
-</div>-->
-
-<!-- particles.js container -->
-<div id="particles-js">
-
-  <div id="Onscreen">
-
-    <img src="logo2.png">
-    
-
-    <div id="oneline">
-      <h4 align="center">
-        This is a chatbot made for demonstration purposes.<br/>
-        Click the button below to login.
-      </h4>
-    </div>
-
-    <a href="login.html">
-    <div class="box-1">
-      <div class="btn btn-one">
-        
-          <span>Login</span>
-        
-     </div>
-    </div>
-    </a>
-
-    <!--<div class="button-container-2">
-      <span class="mas">Login</span>
-      <button type="button" name="Hover">Login</button>
-    </div>-->
-
-
+<!-- Tekion Top Bar -->
+<div class="tekion-topbar">
+  <div class="tekion-topbar__grid">
+    <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+      <circle cx="3" cy="3" r="1.5"/><circle cx="8" cy="3" r="1.5"/><circle cx="13" cy="3" r="1.5"/>
+      <circle cx="3" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="13" cy="8" r="1.5"/>
+      <circle cx="3" cy="13" r="1.5"/><circle cx="8" cy="13" r="1.5"/><circle cx="13" cy="13" r="1.5"/>
+    </svg>
   </div>
-
+  <div class="tekion-topbar__logo">TEKION</div>
+  <div class="tekion-topbar__spacer"></div>
+  <div class="tekion-topbar__badge">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16.4l-6.4 4.8L8 14 2 9.2h7.6z"/></svg>
+    T1 Service Demo Story
+  </div>
+  <div class="tekion-topbar__spacer"></div>
+  <div class="tekion-topbar__dealer">
+    <div class="tekion-topbar__dealer-avatar">NH</div>
+    Napleton Honda
+  </div>
 </div>
 
-<!-- scripts -->
-<script src="js/particles.js"></script>
-<script src="js/app.js"></script>
+<!-- Hero -->
+<header class="hero">
+  <div class="hero__t1-icon">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16.4l-6.4 4.8L8 14 2 9.2h7.6z" fill="#4285f4"/>
+    </svg>
+  </div>
+  <h1>One RO, Three Personas, One AI</h1>
+  <p>The T1 Service Demo Story — Interactive design prototypes following Mrs. Chen's 2021 Honda Accord through an AI-native service department at Napleton Honda.</p>
+  <div class="hero__stats">
+    <div class="hero__stat">
+      <div class="hero__stat-value">7</div>
+      <div class="hero__stat-label">Acts</div>
+    </div>
+    <div class="hero__stat">
+      <div class="hero__stat-value">15</div>
+      <div class="hero__stat-label">Scenes</div>
+    </div>
+    <div class="hero__stat">
+      <div class="hero__stat-value">3</div>
+      <div class="hero__stat-label">Personas</div>
+    </div>
+  </div>
+</header>
 
+<main class="container">
+  <div class="legend">
+    <div class="legend__item"><div class="legend__dot" style="background:var(--color-sa)"></div> Maya — Service Advisor</div>
+    <div class="legend__item"><div class="legend__dot" style="background:var(--color-dispatcher)"></div> Jake — Dispatcher</div>
+    <div class="legend__item"><div class="legend__dot" style="background:var(--color-tech)"></div> Marcus — Technician</div>
+    <div class="legend__item"><div class="legend__dot" style="background:var(--color-customer)"></div> Mrs. Chen — Customer</div>
+  </div>
 
-<!--
-<script>
-  var count_particles, stats, update;
-  stats = new Stats;
-  stats.setMode(0);
-  stats.domElement.style.position = 'absolute';
-  stats.domElement.style.left = '0px';
-  stats.domElement.style.top = '0px';
-  document.body.appendChild(stats.domElement);
-  count_particles = document.querySelector('.js-count-particles');
-  update = function() {
-    stats.begin();
-    stats.end();
-    if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
-      count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
-    }
-    requestAnimationFrame(update);
-  };
-  requestAnimationFrame(update);
-</script>
+  <!-- ACT 1 -->
+  <section class="act">
+    <div class="act__header">
+      <span class="act__number">Act 1</span>
+      <span class="act__title">Morning Opens</span>
+    </div>
+    <div class="scenes">
+      <a class="scene-card" href="scene-01-maya-morning-briefing.html">
+        <div class="scene-card__top">
+          <div class="scene-card__meta">
+            <span class="scene-card__badge scene-card__badge--sa">Maya</span>
+            <span class="scene-card__device">Desktop</span>
+          </div>
+          <div class="scene-card__title">Scene 1 — Maya's Morning Briefing</div>
+          <div class="scene-card__desc">SA Homepage with AI-prioritized task board, morning briefing card, KPI snapshot, and upcoming appointments. Mrs. Chen's 60K service flagged with upsell opportunity.</div>
+        </div>
+        <div class="scene-card__footer">
+          <span class="scene-card__intent">Mode: <span class="intent--inform">INFORM</span></span>
+          <span class="scene-card__arrow">&rarr;</span>
+        </div>
+      </a>
+      <a class="scene-card" href="scene-02-jake-dispatch-board.html">
+        <div class="scene-card__top">
+          <div class="scene-card__meta">
+            <span class="scene-card__badge scene-card__badge--dispatcher">Jake</span>
+            <span class="scene-card__device">Desktop</span>
+          </div>
+          <div class="scene-card__title">Scene 2 — Jake's Dispatch Board</div>
+          <div class="scene-card__desc">Compact RO table with expandable job-level rows showing tech assignment per job. Quick stats, tech availability strip, and inline assign actions.</div>
+        </div>
+        <div class="scene-card__footer">
+          <span class="scene-card__intent">Mode: <span class="intent--inform">INFORM</span></span>
+          <span class="scene-card__arrow">&rarr;</span>
+        </div>
+      </a>
+    </div>
+  </section>
 
--->
+  <!-- ACT 2 -->
+  <section class="act">
+    <div class="act__header">
+      <span class="act__number">Act 2</span>
+      <span class="act__title">The Customer Arrives</span>
+    </div>
+    <div class="scenes">
+      <a class="scene-card" href="scene-03-mrs-chen-lane2.html">
+        <div class="scene-card__top">
+          <div class="scene-card__meta">
+            <span class="scene-card__badge scene-card__badge--sa">Maya</span>
+            <span class="scene-card__device">Desktop</span>
+          </div>
+          <div class="scene-card__title">Scene 3 — Mrs. Chen Arrives at Lane 2</div>
+          <div class="scene-card__desc">Maya asks T1 from the homepage about Mrs. Chen. T1 surfaces customer profile, service history with hyperlinked ROs, upsell recommendations, and OEM schedule in the T1 Surface Area.</div>
+        </div>
+        <div class="scene-card__footer">
+          <span class="scene-card__intent">Mode: <span class="intent--ask">ASK</span></span>
+          <span class="scene-card__arrow">&rarr;</span>
+        </div>
+      </a>
+      <a class="scene-card" href="scene-04a-ro-creation-tablet.html">
+        <div class="scene-card__top">
+          <div class="scene-card__meta">
+            <span class="scene-card__badge scene-card__badge--sa">Maya</span>
+            <span class="scene-card__device">Tablet</span>
+          </div>
+          <div class="scene-card__title">Scene 4A — RO Creation (Tablet)</div>
+          <div class="scene-card__desc">Cart UI + T1 Decision Cards panel. T1 walks Maya through: tag scan, damage photos, deferred brake service ($380 upsell), and RO confirmation. Guided checklist flow.</div>
+        </div>
+        <div class="scene-card__footer">
+          <span class="scene-card__intent">Mode: <span class="intent--execute">EXECUTE</span></span>
+          <span class="scene-card__arrow">&rarr;</span>
+        </div>
+      </a>
+      <a class="scene-card" href="scene-04b-ro-creation-iphone.html">
+        <div class="scene-card__top">
+          <div class="scene-card__meta">
+            <span class="scene-card__badge scene-card__badge--sa">Maya</span>
+            <span class="scene-card__device">iPhone</span>
+          </div>
+          <div class="scene-card__title">Scene 4B — RO Creation (iPhone)</div>
+          <div class="scene-card__desc">Same T1 Decision Cards as bottom-sheet overlays on the phone Cart screen. Progress dots track 4 steps. Tap-friendly buttons for quick advisor decisions.</div>
+        </div>
+        <div class="scene-card__footer">
+          <span class="scene-card__intent">Mode: <span class="intent--execute">EXECUTE</span></span>
+          <span class="scene-card__arrow">&rarr;</span>
+        </div>
+      </a>
+      <a class="scene-card" href="scene-05-upsell-suggestion.html">
+        <div class="scene-card__top">
+          <div class="scene-card__meta">
+            <span class="scene-card__badge scene-card__badge--sa">Maya</span>
+            <span class="scene-card__device">Tablet</span>
+          </div>
+          <div class="scene-card__title">Scene 5 — AI-Driven Upsell Suggestion</div>
+          <div class="scene-card__desc">T1 surfaces AI Suggested recommendations matching the real Tekion pattern — brake pads ($380, 73%) and 60K maintenance ($289). One-tap Add to Cart.</div>
+        </div>
+        <div class="scene-card__footer">
+          <span class="scene-card__intent">Mode: <span class="intent--decide">DECIDE</span></span>
+          <span class="scene-card__arrow">&rarr;</span>
+        </div>
+      </a>
+    </div>
+  </section>
 
+  <!-- ACT 3 -->
+  <section class="act">
+    <div class="act__header">
+      <span class="act__number">Act 3</span>
+      <span class="act__title">Dispatch &amp; Assignment</span>
+    </div>
+    <div class="scenes">
+      <a class="scene-card" href="scene-06-smart-dispatch.html">
+        <div class="scene-card__top">
+          <div class="scene-card__meta">
+            <span class="scene-card__badge scene-card__badge--dispatcher">Jake</span>
+            <span class="scene-card__device">Desktop</span>
+          </div>
+          <div class="scene-card__title">Scene 6 — Smart Dispatch</div>
+          <div class="scene-card__desc">T1 Surface Area on dispatcher homepage shows ranked tech cards (Marcus 94%, Sarah 82%, Tony 68%) with scoring rationale. Same surface area pattern used by Scene 12 alerts.</div>
+        </div>
+        <div class="scene-card__footer">
+          <span class="scene-card__intent">Mode: <span class="intent--decide">DECIDE</span></span>
+          <span class="scene-card__arrow">&rarr;</span>
+        </div>
+      </a>
+    </div>
+  </section>
 
+  <!-- ACT 4 -->
+  <section class="act">
+    <div class="act__header">
+      <span class="act__number">Act 4</span>
+      <span class="act__title">The Technician Works</span>
+    </div>
+    <div class="scenes">
+      <a class="scene-card" href="scene-07-marcus-clocks-in.html">
+        <div class="scene-card__top">
+          <div class="scene-card__meta">
+            <span class="scene-card__badge scene-card__badge--tech">Marcus</span>
+            <span class="scene-card__device">Mobile</span>
+          </div>
+          <div class="scene-card__title">Scene 7 — Marcus Clocks In</div>
+          <div class="scene-card__desc">Mobile job queue with voice clock-in. RO #4501 transitions to "In Progress" with live timer. Tekion-branded phone frame.</div>
+        </div>
+        <div class="scene-card__footer">
+          <span class="scene-card__intent">Mode: <span class="intent--execute">EXECUTE</span></span>
+          <span class="scene-card__arrow">&rarr;</span>
+        </div>
+      </a>
+      <a class="scene-card" href="scene-08-inspection-parts.html">
+        <div class="scene-card__top">
+          <div class="scene-card__meta">
+            <span class="scene-card__badge scene-card__badge--tech">Marcus</span>
+            <span class="scene-card__device">Mobile</span>
+          </div>
+          <div class="scene-card__title">Scene 8 — Inspection &amp; Parts</div>
+          <div class="scene-card__desc">MPI grid with green/yellow/red indicators. Voice-activated parts lookup via T1 bottom-sheet with availability card.</div>
+        </div>
+        <div class="scene-card__footer">
+          <span class="scene-card__intent">Mode: <span class="intent--ask">ASK</span></span>
+          <span class="scene-card__arrow">&rarr;</span>
+        </div>
+      </a>
+      <a class="scene-card" href="scene-09-tech-recommendation.html">
+        <div class="scene-card__top">
+          <div class="scene-card__meta">
+            <span class="scene-card__badge scene-card__badge--tech">Marcus</span>
+            <span class="scene-card__device">Mobile</span>
+          </div>
+          <div class="scene-card__title">Scene 9 — Tech Recommendation</div>
+          <div class="scene-card__desc">Voice-created recommendations for brake pads ($380) and exhaust shield ($52). Confirmation card with "Sent to Advisor" badge.</div>
+        </div>
+        <div class="scene-card__footer">
+          <span class="scene-card__intent">Mode: <span class="intent--execute">EXECUTE</span></span>
+          <span class="scene-card__arrow">&rarr;</span>
+        </div>
+      </a>
+    </div>
+  </section>
 
+  <!-- ACT 5 -->
+  <section class="act">
+    <div class="act__header">
+      <span class="act__number">Act 5</span>
+      <span class="act__title">Advisor Translates &amp; Communicates</span>
+    </div>
+    <div class="scenes">
+      <a class="scene-card" href="scene-10-jargon-rewrite.html">
+        <div class="scene-card__top">
+          <div class="scene-card__meta">
+            <span class="scene-card__badge scene-card__badge--sa">Maya</span>
+            <span class="scene-card__device">Desktop</span>
+          </div>
+          <div class="scene-card__title">Scene 10 — Jargon Rewrite</div>
+          <div class="scene-card__desc">RO Details page with Recommendations tab. Before/after transformation with editable preview cards. Combined estimate $432.</div>
+        </div>
+        <div class="scene-card__footer">
+          <span class="scene-card__intent">Mode: <span class="intent--decide">DECIDE</span></span>
+          <span class="scene-card__arrow">&rarr;</span>
+        </div>
+      </a>
+      <a class="scene-card" href="scene-11-send-to-customer.html">
+        <div class="scene-card__top">
+          <div class="scene-card__meta">
+            <span class="scene-card__badge scene-card__badge--sa">Maya</span>
+            <span class="scene-card__device">Desktop</span>
+          </div>
+          <div class="scene-card__title">Scene 11 — Send to Customer</div>
+          <div class="scene-card__desc">RO Details communication timeline. Approval request sent (10:48 AM), customer approval (10:52 AM). Voice-triggered send.</div>
+        </div>
+        <div class="scene-card__footer">
+          <span class="scene-card__intent">Mode: <span class="intent--execute">EXECUTE</span></span>
+          <span class="scene-card__arrow">&rarr;</span>
+        </div>
+      </a>
+    </div>
+  </section>
 
+  <!-- ACT 6 -->
+  <section class="act">
+    <div class="act__header">
+      <span class="act__number">Act 6</span>
+      <span class="act__title">Proactive Risk &amp; Resolution</span>
+    </div>
+    <div class="scenes">
+      <a class="scene-card" href="scene-12-risk-detection.html">
+        <div class="scene-card__top">
+          <div class="scene-card__meta">
+            <span class="scene-card__badge scene-card__badge--multi">Jake + Maya</span>
+            <span class="scene-card__device">Desktop</span>
+          </div>
+          <div class="scene-card__title">Scene 12 — Risk Detection</div>
+          <div class="scene-card__desc">Split-screen: Jake's risk alert (RO #4471, 4.5hr parts wait) with inline action buttons + Maya's RO status card.</div>
+        </div>
+        <div class="scene-card__footer">
+          <span class="scene-card__intent">Mode: <span class="intent--inform">INFORM</span></span>
+          <span class="scene-card__arrow">&rarr;</span>
+        </div>
+      </a>
+    </div>
+  </section>
 
+  <!-- ACT 7 -->
+  <section class="act">
+    <div class="act__header">
+      <span class="act__number">Act 7</span>
+      <span class="act__title">Close &amp; Follow-Up</span>
+    </div>
+    <div class="scenes">
+      <a class="scene-card" href="scene-13-invoice-close.html">
+        <div class="scene-card__top">
+          <div class="scene-card__meta">
+            <span class="scene-card__badge scene-card__badge--sa">Maya</span>
+            <span class="scene-card__device">Desktop + Tablet</span>
+          </div>
+          <div class="scene-card__title">Scene 13 — Invoice &amp; Close</div>
+          <div class="scene-card__desc">RO Details with pre-flight checklist ($521.95 total), voice-triggered close, and tablet signature capture inset.</div>
+        </div>
+        <div class="scene-card__footer">
+          <span class="scene-card__intent">Mode: <span class="intent--execute">EXECUTE</span></span>
+          <span class="scene-card__arrow">&rarr;</span>
+        </div>
+      </a>
+      <a class="scene-card" href="scene-14-follow-up-booking.html">
+        <div class="scene-card__top">
+          <div class="scene-card__meta">
+            <span class="scene-card__badge scene-card__badge--sa">Maya</span>
+            <span class="scene-card__device">Desktop</span>
+          </div>
+          <div class="scene-card__title">Scene 14 — Follow-Up Booking</div>
+          <div class="scene-card__desc">Task board nudge card with inline flow: Follow-Up Service &rarr; Slot Suggestion &rarr; Booking Confirmation. July 10 at 10:00 AM.</div>
+        </div>
+        <div class="scene-card__footer">
+          <span class="scene-card__intent">Mode: <span class="intent--execute">EXECUTE</span></span>
+          <span class="scene-card__arrow">&rarr;</span>
+        </div>
+      </a>
+    </div>
+  </section>
 
+</main>
+
+<footer class="page-footer">
+  T1 Service Demo Story — Tekion One Conference &middot; One RO, Three Personas, One AI &middot; 15 Hi-Fi Prototypes
+</footer>
 
 </body>
 </html>

@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scene 10 — Tech Jargon to Customer Language | T1 DMS</title>
+    <style>
+        /* ── Reset & Tokens ─────────────────────────────────────── */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+          --t1-primary: #4285f4;
+          --t1-primary-hover: #0060ff;
+          --t1-primary-light: #ebf4ff;
+          --t1-error: #c42106;
+          --t1-error-light: #f9e2e0;
+          --t1-white: #ffffff;
+          --t1-bg: #f4f5f6;
+          --t1-bg-hover: #edeef0;
+          --t1-bg-active: #e8e9eb;
+          --t1-surface-dark: #1a2332;
+          --t1-topbar-bg: #0d1117;
+          --t1-text-primary: #161616;
+          --t1-text-secondary: #3f4757;
+          --t1-text-tertiary: #6d707a;
+          --t1-text-quaternary: #969aa3;
+          --t1-border: #e8e9eb;
+          --t1-border-strong: #969aa3;
+          --t1-font: "Proxima Nova", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          --t1-radius-sm: 2px;
+          --t1-radius-md: 4px;
+          --t1-radius-lg: 8px;
+          --t1-radius-xl: 12px;
+          --t1-radius-full: 100px;
+          --success: #3c8635;
+          --success-light: #e8f5e9;
+          --warning: #e67e22;
+          --warning-light: #fff3e0;
+          --t1-gradient: linear-gradient(143.74deg, rgb(231,247,249) 0%, rgb(251,248,242) 100%);
+          --tekion-green: #00c853;
+        }
+
+        body {
+          font-family: var(--t1-font);
+          font-size: 14px;
+          line-height: 1.5;
+          color: var(--t1-text-primary);
+          background: var(--t1-bg);
+          -webkit-font-smoothing: antialiased;
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           TEKION DMS SHELL — Pixel-matched from production
+           ══════════════════════════════════════════════════════════ */
+
+        /* ── Top Navigation Bar (48px, dark) ─────────────────────── */
+        .tekion-topbar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 48px;
+          background: var(--t1-topbar-bg);
+          display: flex;
+          align-items: center;
+          padding: 0 16px;
+          z-index: 200;
+          gap: 8px;
+        }
+
+        .tekion-topbar__grid-icon {
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          border-radius: var(--t1-radius-md);
+          color: #8b949e;
+          flex-shrink: 0;
+        }
+        .tekion-topbar__grid-icon:hover { background: rgba(255,255,255,0.08); }
+
+        .tekion-topbar__logo {
+          font-size: 18px;
+          font-weight: 800;
+          color: var(--tekion-green);
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          margin-right: 8px;
+          flex-shrink: 0;
+          cursor: pointer;
+        }
+
+        .tekion-topbar__ai-search {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          padding: 0 4px;
+          flex-shrink: 0;
+        }
+        .tekion-topbar__ai-btn {
+          width: 32px;
+          height: 32px;
+          border-radius: var(--t1-radius-md);
+          background: linear-gradient(135deg, #2dd4bf22, #4285f422);
+          border: 1px solid rgba(45,212,191,0.3);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+        .tekion-topbar__search-btn {
+          width: 32px;
+          height: 32px;
+          border-radius: var(--t1-radius-md);
+          background: rgba(255,255,255,0.08);
+          border: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #8b949e;
+          cursor: pointer;
+        }
+
+        .tekion-topbar__search-bar {
+          flex: 1;
+          max-width: 400px;
+          height: 34px;
+          background: rgba(255,255,255,0.08);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: var(--t1-radius-md);
+          display: flex;
+          align-items: center;
+          padding: 0 12px;
+          color: #6b7280;
+          font-size: 13px;
+          margin: 0 auto;
+          cursor: text;
+        }
+        .tekion-topbar__search-bar svg { margin-right: 8px; flex-shrink: 0; }
+
+        .tekion-topbar__actions {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          margin-left: auto;
+          flex-shrink: 0;
+        }
+
+        .tekion-topbar__get-help {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 14px;
+          background: var(--tekion-green);
+          color: #fff;
+          border: none;
+          border-radius: var(--t1-radius-md);
+          font-family: var(--t1-font);
+          font-size: 13px;
+          font-weight: 600;
+          cursor: pointer;
+          white-space: nowrap;
+        }
+        .tekion-topbar__get-help svg { width: 14px; height: 14px; }
+        .tekion-topbar__get-help::after {
+          content: '';
+          width: 0;
+          height: 0;
+          border-left: 4px solid transparent;
+          border-right: 4px solid transparent;
+          border-top: 4px solid white;
+          margin-left: 4px;
+        }
+
+        .tekion-topbar__icon-btn {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #8b949e;
+          cursor: pointer;
+          position: relative;
+          border: none;
+          background: none;
+        }
+        .tekion-topbar__icon-btn:hover { background: rgba(255,255,255,0.08); }
+
+        .tekion-topbar__badge {
+          position: absolute;
+          top: 2px;
+          right: 2px;
+          min-width: 16px;
+          height: 16px;
+          background: #ef4444;
+          color: white;
+          font-size: 9px;
+          font-weight: 700;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0 4px;
+        }
+
+        .tekion-topbar__dealer {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 4px 8px 4px 4px;
+          margin-left: 8px;
+          cursor: pointer;
+          border-radius: var(--t1-radius-md);
+          flex-shrink: 0;
+        }
+        .tekion-topbar__dealer:hover { background: rgba(255,255,255,0.06); }
+
+        .tekion-topbar__dealer-avatar {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background: #2dd4bf;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 12px;
+          font-weight: 700;
+        }
+
+        .tekion-topbar__dealer-name {
+          font-size: 13px;
+          font-weight: 600;
+          color: #e5e7eb;
+          white-space: nowrap;
+        }
+        .tekion-topbar__dealer-chevron {
+          color: #6b7280;
+          font-size: 10px;
+        }
+
+        /* ── Left Sidebar (56px, dark) ────────────────────────────── */
+        .tekion-sidebar {
+          position: fixed;
+          top: 48px;
+          left: 0;
+          width: 56px;
+          height: calc(100vh - 48px);
+          background: var(--t1-surface-dark);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 10px 0 8px;
+          gap: 2px;
+          z-index: 100;
+          overflow-y: auto;
+        }
+
+        .tekion-sidebar__item {
+          width: 44px;
+          height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          border-radius: var(--t1-radius-md);
+          position: relative;
+          flex-shrink: 0;
+        }
+        .tekion-sidebar__item:hover { background: rgba(255,255,255,0.06); }
+
+        .tekion-sidebar__icon {
+          width: 34px;
+          height: 34px;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 12px;
+          font-weight: 700;
+          color: white;
+          letter-spacing: -0.3px;
+        }
+
+        .tekion-sidebar__icon--t1 {
+          background: none;
+          position: relative;
+        }
+        .tekion-sidebar__icon--ro { background: #3b82f6; }
+        .tekion-sidebar__icon--ds { background: #3b82f6; }
+        .tekion-sidebar__icon--om { background: #22c55e; }
+        .tekion-sidebar__icon--a { background: #8b5cf6; }
+        .tekion-sidebar__icon--dc { background: #3b82f6; }
+        .tekion-sidebar__icon--cd { background: #3b82f6; }
+        .tekion-sidebar__icon--settings { background: #22c55e; }
+        .tekion-sidebar__icon--alert { background: #ef4444; }
+        .tekion-sidebar__icon--clock { background: #f59e0b; }
+        .tekion-sidebar__icon--pg { background: #6b7280; }
+
+        .tekion-sidebar__item--active .tekion-sidebar__icon {
+          box-shadow: 0 0 0 2px #4285f4;
+        }
+        .tekion-sidebar__item--active::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 10px;
+          bottom: 10px;
+          width: 3px;
+          background: #4285f4;
+          border-radius: 0 2px 2px 0;
+        }
+
+        .tekion-sidebar__spacer { flex: 1; }
+
+        .tekion-sidebar__time {
+          font-size: 10px;
+          color: #6b7280;
+          text-align: center;
+          margin-top: 4px;
+          line-height: 1.2;
+          flex-shrink: 0;
+        }
+
+        /* ── Scene Label Bar ──────────────────────────────────────── */
+        .scene-label {
+          position: fixed;
+          top: 48px;
+          left: 56px;
+          right: 0;
+          background: #161b22;
+          color: #8899aa;
+          font-size: 11px;
+          font-weight: 500;
+          padding: 4px 24px;
+          z-index: 90;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .scene-label strong { color: white; font-weight: 600; }
+
+        /* ── RO Details Info Bar ──────────────────────────────────── */
+        .ro-details-bar {
+          position: fixed;
+          top: 72px;
+          left: 56px;
+          right: 0;
+          background: #ffffff;
+          border-bottom: 1px solid var(--t1-border);
+          padding: 12px 24px;
+          z-index: 80;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          font-size: 13px;
+          color: var(--t1-text-secondary);
+        }
+
+        .ro-details-bar__info {
+          display: flex;
+          align-items: center;
+          gap: 24px;
+          flex: 1;
+        }
+
+        .ro-details-bar__detail {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .ro-details-bar__tabs {
+          display: flex;
+          align-items: center;
+          gap: 24px;
+          margin-left: auto;
+        }
+
+        .ro-details-bar__tab {
+          font-size: 13px;
+          color: var(--t1-text-secondary);
+          cursor: pointer;
+          border-bottom: 2px solid transparent;
+          padding-bottom: 2px;
+          transition: all 0.2s;
+        }
+
+        .ro-details-bar__tab:hover {
+          color: var(--t1-text-primary);
+        }
+
+        .ro-details-bar__tab.active {
+          color: var(--t1-primary);
+          border-bottom-color: var(--t1-primary);
+        }
+
+        /* ── Main Content Area ────────────────────────────────────── */
+        .dms-main {
+          margin-left: 56px;
+          margin-top: 104px; /* 48px topbar + 24px scene-label + 32px ro-details-bar */
+          padding: 24px;
+          height: calc(100vh - 104px);
+          overflow-y: auto;
+          display: flex;
+          gap: 24px;
+        }
+
+        /* ── Main panel ──────────────────────────────────────────– */
+        .main-panel {
+          flex: 1;
+          min-width: 0;
+        }
+
+        /* ── Recommendations module ──────────────────────────────── */
+        .recommendations-module {
+          background-color: var(--t1-white);
+          border: 1px solid var(--t1-border);
+          border-radius: var(--t1-radius-lg);
+          overflow: hidden;
+        }
+
+        .module-header {
+          padding: 16px 20px;
+          border-bottom: 1px solid var(--t1-border);
+          background-color: var(--t1-bg);
+        }
+
+        .module-title {
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--t1-text-primary);
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .module-content {
+          padding: 20px;
+        }
+
+        /* ── Recommendation item ─────────────────────────────────── */
+        .recommendation-item {
+          margin-bottom: 24px;
+          border: 1px solid var(--t1-border);
+          border-radius: var(--t1-radius-lg);
+          overflow: hidden;
+        }
+
+        .recommendation-item:last-child {
+          margin-bottom: 0;
+        }
+
+        /* ── Before/After comparison ─────────────────────────────── */
+        .before-after-container {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+        }
+
+        .before-card, .after-card {
+          padding: 16px;
+          border-radius: var(--t1-radius-md);
+          border: 1px solid var(--t1-border);
+        }
+
+        .before-card {
+          background-color: #f9f3f0;
+          border-color: var(--warning);
+        }
+
+        .card-label {
+          font-size: 11px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 8px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .before-label {
+          color: #c42106;
+        }
+
+        .after-label {
+          color: var(--success);
+        }
+
+        .before-text {
+          font-size: 13px;
+          color: var(--t1-text-tertiary);
+          text-decoration: line-through;
+          font-style: italic;
+          line-height: 1.5;
+          margin-bottom: 12px;
+        }
+
+        .after-card {
+          background-color: #f0f8f4;
+          border-color: var(--success);
+        }
+
+        .after-text {
+          font-size: 13px;
+          color: var(--t1-text-primary);
+          line-height: 1.6;
+          margin-bottom: 12px;
+        }
+
+        .after-text textarea {
+          width: 100%;
+          border: 1px solid var(--success);
+          border-radius: var(--t1-radius-md);
+          padding: 10px;
+          font-family: inherit;
+          font-size: 13px;
+          color: var(--t1-text-primary);
+          line-height: 1.6;
+          resize: vertical;
+          min-height: 100px;
+          background-color: white;
+        }
+
+        .after-text textarea:focus {
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+          border-color: var(--t1-primary);
+        }
+
+        .price-section {
+          margin-top: 12px;
+          padding-top: 12px;
+          border-top: 1px solid rgba(60, 134, 53, 0.2);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .price-label {
+          font-size: 12px;
+          color: var(--t1-text-secondary);
+          font-weight: 500;
+        }
+
+        .price-amount {
+          font-size: 16px;
+          font-weight: 700;
+          color: var(--success);
+        }
+
+        /* ── Action buttons ──────────────────────────────────────– */
+        .item-actions {
+          padding: 16px;
+          background-color: #f9f9f9;
+          border-top: 1px solid var(--t1-border);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .rewrite-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 4px 10px;
+          background-color: var(--success-light);
+          border: 1px solid var(--success);
+          border-radius: var(--t1-radius-sm);
+          font-size: 11px;
+          font-weight: 600;
+          color: var(--success);
+          text-transform: uppercase;
+          letter-spacing: 0.3px;
+        }
+
+        .rewrite-badge::before {
+          content: "✓";
+          font-weight: bold;
+        }
+
+        .btn-primary {
+          background-color: var(--t1-primary);
+          color: white;
+          padding: 8px 16px;
+          border-radius: var(--t1-radius-md);
+          font-size: 13px;
+          font-weight: 600;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+          background-color: #3367d6;
+          box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
+        }
+
+        .btn-primary:active {
+          background-color: #2d5cb8;
+        }
+
+        /* ── Combined estimate ───────────────────────────────────– */
+        .combined-estimate {
+          background-color: #f0f8f4;
+          border: 1px solid var(--success);
+          border-radius: var(--t1-radius-lg);
+          padding: 16px 20px;
+          margin-top: 24px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .combined-label {
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--t1-text-primary);
+        }
+
+        .combined-price {
+          font-size: 24px;
+          font-weight: 700;
+          color: var(--success);
+        }
+
+        /* ── Send to Customer section ────────────────────────────– */
+        .send-section {
+          margin-top: 24px;
+          text-align: right;
+        }
+
+        .btn-send {
+          background-color: var(--success);
+          color: white;
+          padding: 12px 28px;
+          border-radius: var(--t1-radius-md);
+          font-size: 14px;
+          font-weight: 600;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .btn-send:hover {
+          background-color: #2d6729;
+          box-shadow: 0 2px 8px rgba(60, 134, 53, 0.3);
+        }
+
+        .btn-send:active {
+          background-color: #225520;
+        }
+
+        .btn-send::before {
+          content: "→";
+          font-weight: bold;
+        }
+
+        /* ── T1 Chat Popup ───────────────────────────────────────– */
+        .t1-chat-popup {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          width: 360px;
+          background: var(--t1-white);
+          border: 1px solid var(--t1-border);
+          border-radius: var(--t1-radius-xl);
+          box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+          display: flex;
+          flex-direction: column;
+          max-height: 500px;
+          z-index: 150;
+          opacity: 0;
+          transform: translateY(20px) scale(0.95);
+          transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+          pointer-events: none;
+        }
+
+        .t1-chat-popup.open {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          pointer-events: auto;
+        }
+
+        .t1-chat-popup__header {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 16px;
+          border-bottom: 1px solid var(--t1-border);
+          background: var(--t1-bg);
+          border-radius: var(--t1-radius-xl) var(--t1-radius-xl) 0 0;
+        }
+
+        .t1-chat-popup__header-icon {
+          width: 32px;
+          height: 32px;
+          border-radius: var(--t1-radius-md);
+          background: linear-gradient(135deg, rgba(66, 133, 244, 0.2), rgba(45, 212, 191, 0.2));
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .t1-chat-popup__header-icon svg {
+          width: 18px;
+          height: 18px;
+          fill: var(--t1-primary);
+        }
+
+        .t1-chat-popup__header-text {
+          flex: 1;
+        }
+
+        .t1-chat-popup__header-title {
+          font-size: 13px;
+          font-weight: 600;
+          color: var(--t1-text-primary);
+        }
+
+        .t1-chat-popup__header-close {
+          width: 28px;
+          height: 28px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          border: none;
+          background: none;
+          color: var(--t1-text-quaternary);
+          border-radius: var(--t1-radius-md);
+          transition: background 100ms ease;
+        }
+
+        .t1-chat-popup__header-close:hover {
+          background: rgba(0, 0, 0, 0.06);
+        }
+
+        .t1-chat-popup__greeting-area {
+          padding: 20px 16px 12px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        }
+
+        .t1-chat-popup__greeting-icon {
+          width: 40px;
+          height: 40px;
+          margin-bottom: 12px;
+        }
+
+        .t1-chat-popup__greeting {
+          font-size: 15px;
+          font-weight: 600;
+          color: var(--t1-text-primary);
+        }
+
+        .t1-chat-popup__greeting-sub {
+          font-size: 12px;
+          color: var(--t1-text-tertiary);
+          margin-top: 2px;
+        }
+
+        .t1-chat-popup__prompts {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          padding: 12px 16px;
+          max-height: 180px;
+          overflow-y: auto;
+        }
+
+        .t1-chat-popup__prompt {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 10px 12px;
+          background: var(--t1-bg);
+          border: 1px solid var(--t1-border);
+          border-radius: var(--t1-radius-lg);
+          font-size: 12px;
+          color: var(--t1-text-secondary);
+          cursor: pointer;
+          transition: all 100ms ease;
+        }
+
+        .t1-chat-popup__prompt:hover {
+          background: var(--t1-bg-hover);
+          border-color: var(--t1-border-strong);
+        }
+
+        .t1-chat-popup__prompt svg {
+          width: 14px;
+          height: 14px;
+          flex-shrink: 0;
+        }
+
+        .t1-chat-popup__input-area {
+          padding: 12px 16px 16px;
+          border-top: 1px solid var(--t1-border);
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .t1-chat-popup__context-btn {
+          font-size: 12px;
+          color: var(--t1-text-secondary);
+          background: none;
+          border: none;
+          cursor: pointer;
+          margin-bottom: 8px;
+        }
+
+        .t1-chat-popup__input-row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          background: var(--t1-bg);
+          border: 1px solid var(--t1-border);
+          border-radius: var(--t1-radius-lg);
+          padding: 8px 12px;
+        }
+
+        .t1-chat-popup__input {
+          flex: 1;
+          border: none;
+          background: none;
+          font-family: var(--t1-font);
+          font-size: 13px;
+          color: var(--t1-text-primary);
+          outline: none;
+        }
+
+        .t1-chat-popup__input::placeholder { color: var(--t1-text-quaternary); }
+
+        .t1-chat-popup__input-icon {
+          width: 28px;
+          height: 28px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--t1-text-quaternary);
+          cursor: pointer;
+          border: none;
+          background: none;
+          border-radius: 50%;
+        }
+
+        .t1-chat-popup__input-icon:hover { background: rgba(0,0,0,0.06); }
+
+        .t1-chat-popup__send {
+          width: 28px;
+          height: 28px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--t1-text-quaternary);
+          cursor: pointer;
+          border: none;
+          background: none;
+          border-radius: 50%;
+        }
+
+        .t1-chat-popup__disclaimer {
+          text-align: center;
+          font-size: 11px;
+          color: var(--t1-text-quaternary);
+          padding: 6px 12px 8px;
+          flex-shrink: 0;
+        }
+
+        /* ── T1 FAB ──────────────────────────────────────────────– */
+        .t1-fab {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          width: 56px;
+          height: 56px;
+          background: var(--t1-primary);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          box-shadow: 0 4px 16px rgba(66, 133, 244, 0.4);
+          z-index: 140;
+          transition: all 200ms ease;
+        }
+
+        .t1-fab:hover {
+          background: #3367d6;
+          box-shadow: 0 6px 24px rgba(66, 133, 244, 0.5);
+        }
+
+        .t1-fab.hidden {
+          display: none;
+        }
+
+        .t1-fab svg {
+          width: 24px;
+          height: 24px;
+          fill: white;
+        }
+
+        /* ── Annotation panel ────────────────────────────────────– */
+        .annotation-panel {
+          width: 320px;
+          background-color: var(--t1-white);
+          border: 1px solid var(--t1-border);
+          border-radius: var(--t1-radius-lg);
+          padding: 16px;
+          flex-shrink: 0;
+          overflow-y: auto;
+          max-height: calc(100vh - 150px);
+        }
+
+        .annotation-title {
+          font-size: 13px;
+          font-weight: 600;
+          color: var(--t1-text-primary);
+          margin-bottom: 12px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .annotation-item {
+          margin-bottom: 16px;
+          padding-bottom: 16px;
+          border-bottom: 1px solid var(--t1-border);
+        }
+
+        .annotation-item:last-child {
+          border-bottom: none;
+          margin-bottom: 0;
+          padding-bottom: 0;
+        }
+
+        .annotation-label {
+          font-size: 11px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.3px;
+          color: var(--t1-text-quaternary);
+          margin-bottom: 6px;
+        }
+
+        .annotation-text {
+          font-size: 12px;
+          line-height: 1.5;
+          color: var(--t1-text-tertiary);
+        }
+
+        .annotation-highlight {
+          background-color: #fffacd;
+          padding: 2px 4px;
+          border-radius: var(--t1-radius-sm);
+          font-weight: 500;
+        }
+
+        /* ── Scrollbar styling ───────────────────────────────────– */
+        ::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+          background: var(--t1-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background: #c5c7cc;
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+          background: #a8aab0;
+        }
+
+        /* ── Responsive adjustments ──────────────────────────────– */
+        @media (max-width: 1400px) {
+          .before-after-container {
+            grid-template-columns: 1fr;
+          }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══ TEKION TOP BAR ═══ -->
+<div class="tekion-topbar">
+  <div class="tekion-topbar__grid-icon">
+    <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+      <circle cx="3" cy="3" r="1.5"/><circle cx="8" cy="3" r="1.5"/><circle cx="13" cy="3" r="1.5"/>
+      <circle cx="3" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="13" cy="8" r="1.5"/>
+      <circle cx="3" cy="13" r="1.5"/><circle cx="8" cy="13" r="1.5"/><circle cx="13" cy="13" r="1.5"/>
+    </svg>
+  </div>
+  <div class="tekion-topbar__logo">TEKION</div>
+  <div class="tekion-topbar__ai-search">
+    <div class="tekion-topbar__ai-btn" title="T1 AI">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2">
+        <path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16.4l-6.4 4.8L8 14 2 9.2h7.6z"/>
+      </svg>
+    </div>
+    <div class="tekion-topbar__search-btn">
+      <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/></svg>
+    </div>
+  </div>
+  <div class="tekion-topbar__search-bar">
+    <svg width="14" height="14" viewBox="0 0 20 20" fill="#6b7280"><path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/></svg>
+    Search here...
+  </div>
+  <div class="tekion-topbar__actions">
+    <button class="tekion-topbar__get-help">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z"/></svg>
+      Get Help
+    </button>
+    <div class="tekion-topbar__icon-btn" title="Help">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="#8b949e"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg>
+    </div>
+    <div class="tekion-topbar__icon-btn" title="Notifications">
+      <span class="tekion-topbar__badge">99+</span>
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="#8b949e"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zm0 16a3 3 0 01-3-3h6a3 3 0 01-3 3z"/></svg>
+    </div>
+    <div class="tekion-topbar__icon-btn" title="Chat">
+      <span class="tekion-topbar__badge">1</span>
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="#8b949e"><path d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7z"/></svg>
+    </div>
+    <div class="tekion-topbar__icon-btn" title="Mail">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="#8b949e"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884zm15.994 1.532L10 11.118 2.003 7.416A.5.5 0 002 7.5V14a2 2 0 002 2h12a2 2 0 002-2V7.5a.5.5 0 00-.003-.084z"/></svg>
+    </div>
+  </div>
+  <div class="tekion-topbar__dealer">
+    <div class="tekion-topbar__dealer-avatar">NH</div>
+    <span class="tekion-topbar__dealer-name">Napleton Honda</span>
+    <span class="tekion-topbar__dealer-chevron">&#9662;</span>
+  </div>
+</div>
+
+<!-- ═══ LEFT SIDEBAR ═══ -->
+<div class="tekion-sidebar">
+  <div class="tekion-sidebar__item" title="T1 AI" onclick="toggleT1Chat()">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--t1">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <rect width="24" height="24" rx="6" fill="url(#t1grad)"/>
+        <defs><linearGradient id="t1grad" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#e7f7f9"/><stop offset="1" stop-color="#fbf8f2"/></linearGradient></defs>
+        <path d="M12 4l1.8 5.4H20l-5 4 2 5.6L12 15l-5 4 2-5.6-5-4h6.2z" fill="#4285f4" opacity="0.8"/>
+      </svg>
+    </div>
+  </div>
+  <div class="tekion-sidebar__item tekion-sidebar__item--active" title="Repair Order">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--ro">RO</div>
+  </div>
+  <div class="tekion-sidebar__item" title="Deal Summary">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--ds">DS</div>
+  </div>
+  <div class="tekion-sidebar__item" title="Order Management">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--om">OM</div>
+  </div>
+  <div class="tekion-sidebar__item" title="Accounting">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--a">A</div>
+  </div>
+  <div class="tekion-sidebar__spacer"></div>
+  <div class="tekion-sidebar__item" title="Settings">
+    <div class="tekion-sidebar__icon tekion-sidebar__icon--settings">
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"/></svg>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCENE LABEL ═══ -->
+<div class="scene-label">
+  <strong>Act 5, Scene 10</strong> — Tech Jargon to Customer Language
+</div>
+
+<!-- ═══ RO DETAILS BAR ═══ -->
+<div class="ro-details-bar">
+  <div class="ro-details-bar__info">
+    <div class="ro-details-bar__detail">
+      <span style="color: #969aa3;">RO#</span>
+      <span style="font-weight: 600;">00004501</span>
+    </div>
+    <div class="ro-details-bar__detail">
+      <span style="color: #969aa3;">Tag#</span>
+      <span>—</span>
+    </div>
+    <div class="ro-details-bar__detail">
+      <span style="font-weight: 600;">2021 Honda Accord [H+]</span>
+    </div>
+    <div class="ro-details-bar__detail">
+      <span style="font-weight: 600;">Linda Chen</span>
+      <span style="color: #969aa3;">+1 (555) 234-5678</span>
+    </div>
+  </div>
+  <div class="ro-details-bar__tabs">
+    <div class="ro-details-bar__tab">Jobs (3)</div>
+    <div class="ro-details-bar__tab active">Recommendations (2)</div>
+  </div>
+</div>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<div class="dms-main">
+  <!-- Main panel -->
+  <div class="main-panel">
+    <!-- Recommendations Module -->
+    <div class="recommendations-module">
+      <div class="module-header">
+        <div class="module-title">
+          <span>📌 Recommended Work</span>
+        </div>
+      </div>
+
+      <div class="module-content">
+        <!-- Recommendation 1: Brake pads -->
+        <div class="recommendation-item">
+          <div style="padding: 16px 16px 0 16px;">
+            <div class="before-after-container">
+              <!-- Before -->
+              <div class="before-card">
+                <div class="card-label before-label">🔧 Tech Note</div>
+                <div class="before-text">Frt brk pds 4mm — rec replace. Cat conv hshld bolt loose — tighten w/ new kit.</div>
+              </div>
+
+              <!-- After -->
+              <div class="after-card">
+                <div class="card-label after-label">✓ Rewritten for Customer</div>
+                <div class="after-text">Your front brake pads are worn to 4mm — the safety minimum is 2mm. We recommend replacing them now to avoid rotor damage, which would cost 2–3x more. We have the parts in stock and can complete it today alongside your oil change, adding about 45 minutes to your visit.</div>
+                <div class="price-section">
+                  <span class="price-label">Estimated Cost</span>
+                  <span class="price-amount">$380</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="item-actions">
+            <div class="rewrite-badge">Rewritten by T1</div>
+            <button class="btn-primary">Edit Recommendation</button>
+          </div>
+        </div>
+
+        <!-- Recommendation 2: Heat shield -->
+        <div class="recommendation-item">
+          <div style="padding: 16px 16px 0 16px;">
+            <div class="before-after-container">
+              <!-- Before -->
+              <div class="before-card">
+                <div class="card-label before-label">🔧 Tech Note</div>
+                <div class="before-text">Frt brk pds 4mm — rec replace. Cat conv hshld bolt loose — tighten w/ new kit.</div>
+              </div>
+
+              <!-- After -->
+              <div class="after-card">
+                <div class="card-label after-label">✓ Rewritten for Customer</div>
+                <div class="after-text">During the inspection, we found a loose bolt on your exhaust heat shield. It's a quick fix — about 15 minutes — and prevents a rattle or potential heat damage underneath the car.</div>
+                <div class="price-section">
+                  <span class="price-label">Estimated Cost</span>
+                  <span class="price-amount">$52</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="item-actions">
+            <div class="rewrite-badge">Rewritten by T1</div>
+            <button class="btn-primary">Edit Recommendation</button>
+          </div>
+        </div>
+
+        <!-- Combined Estimate -->
+        <div class="combined-estimate">
+          <div class="combined-label">Combined Estimate</div>
+          <div class="combined-price">$432</div>
+        </div>
+
+        <!-- Send to Customer -->
+        <div class="send-section">
+          <button class="btn-send">Send to Customer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotation Panel -->
+  <div class="annotation-panel">
+    <div class="annotation-title">📝 Design Notes</div>
+
+    <div class="annotation-item">
+      <div class="annotation-label">Transformation Hero</div>
+      <div class="annotation-text">
+        The before/after side-by-side layout is the visual centerpiece. <span class="annotation-highlight">Tech jargon → customer language</span> shows T1's value in real-time.
+      </div>
+    </div>
+
+    <div class="annotation-item">
+      <div class="annotation-label">Editable Preview</div>
+      <div class="annotation-text">
+        Text areas allow Maya to <span class="annotation-highlight">refine the rewrite</span> before sending. This maintains human control while leveraging AI assistance.
+      </div>
+    </div>
+
+    <div class="annotation-item">
+      <div class="annotation-label">Price Prominence</div>
+      <div class="annotation-text">
+        Each recommendation shows estimated cost prominently. Combined total ($432) reinforces value and justification for the work.
+      </div>
+    </div>
+
+    <div class="annotation-item">
+      <div class="annotation-label">AI Badge</div>
+      <div class="annotation-text">
+        "Rewritten by T1" badge <span class="annotation-highlight">signals AI assistance</span> and validates the transformation. Transparent AI disclosure.
+      </div>
+    </div>
+
+    <div class="annotation-item">
+      <div class="annotation-label">Action Flow</div>
+      <div class="annotation-text">
+        Primary CTA: "Send to Customer" (green, large). Secondary: "Edit Recommendation" per item. Clear intent hierarchy.
+      </div>
+    </div>
+
+    <div class="annotation-item">
+      <div class="annotation-label">Context Clues</div>
+      <div class="annotation-text">
+        Customer benefit language: "safety minimum," "parts in stock," "today," "rotor damage" — reasons why, not just what. Builds trust.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ T1 FAB ═══ -->
+<div class="t1-fab" id="t1Fab" onclick="toggleT1Chat()">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16.4l-6.4 4.8L8 14 2 9.2h7.6z" fill="white" opacity="0.8"/>
+  </svg>
+</div>
+
+<!-- ═══ T1 CHAT POPUP ═══ -->
+<div class="t1-chat-popup" id="t1Popup">
+  <div class="t1-chat-popup__header">
+    <div class="t1-chat-popup__header-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16.4l-6.4 4.8L8 14 2 9.2h7.6z" fill="currentColor" opacity="0.8"/>
+      </svg>
+    </div>
+    <div class="t1-chat-popup__header-text">
+      <div class="t1-chat-popup__header-title">T1 Assistant</div>
+    </div>
+    <button class="t1-chat-popup__header-close" onclick="toggleT1Chat()">✕</button>
+  </div>
+
+  <div class="t1-chat-popup__greeting-area">
+    <div class="t1-chat-popup__greeting-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16.4l-6.4 4.8L8 14 2 9.2h7.6z" fill="#4285f4" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="t1-chat-popup__greeting">Hi Maya,</div>
+    <div class="t1-chat-popup__greeting-sub">How can I help you today?</div>
+
+    <div class="t1-chat-popup__prompts">
+      <div class="t1-chat-popup__prompt">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7z"/></svg>
+        Rewrite for customer
+      </div>
+      <div class="t1-chat-popup__prompt">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7z"/></svg>
+        Edit recommendation text
+      </div>
+      <div class="t1-chat-popup__prompt">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7z"/></svg>
+        Preview customer message
+      </div>
+    </div>
+  </div>
+
+  <div class="t1-chat-popup__input-area">
+    <button class="t1-chat-popup__context-btn">+ Add Context</button>
+    <div class="t1-chat-popup__input-row">
+      <input class="t1-chat-popup__input" placeholder="Ask me anything..." readonly />
+      <button class="t1-chat-popup__input-icon" title="Attach">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M15.621 4.379a3.25 3.25 0 00-4.596 0l-7.07 7.07a2.25 2.25 0 003.182 3.182l7.07-7.07a1.25 1.25 0 00-1.768-1.768l-7.07 7.07a.25.25 0 00.354.354l7.07-7.07a2.25 2.25 0 013.182 3.182l-7.07 7.07a3.25 3.25 0 01-4.597-4.596l7.07-7.07a4.25 4.25 0 016.011 6.01l-7.07 7.071"/></svg>
+      </button>
+      <button class="t1-chat-popup__input-icon" title="Voice">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z"/></svg>
+      </button>
+      <button class="t1-chat-popup__send" title="Send">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-11a1 1 0 112 0v3.586l1.293-1.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414L9 10.586V7z" transform="rotate(180 10 10)"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="t1-chat-popup__disclaimer">AI Assistant can make mistakes, so please verify responses.</div>
+</div>
+
+<script>
+function toggleT1Chat() {
+  const popup = document.getElementById('t1Popup');
+  const fab = document.getElementById('t1Fab');
+  const isOpen = popup.classList.contains('open');
+  popup.classList.toggle('open');
+  if (isOpen) {
+    fab.style.display = 'flex';
+  } else {
+    fab.style.display = 'none';
+  }
+}
+</script>
+
+</body>
+</html>

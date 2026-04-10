@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scene 4 — RO Creation by Voice | Cart + T1 Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-primary: #4285f4;
+            --color-primary-hover: #0060ff;
+            --color-primary-light: #ebf4ff;
+            --color-success: #3c8635;
+            --color-success-light: #e8f5e9;
+            --color-warning: #e67e22;
+            --color-background: #f4f5f6;
+            --color-surface-dark: #1a2332;
+            --color-text-primary: #161616;
+            --color-text-secondary: #3f4757;
+            --color-text-tertiary: #6d707a;
+            --color-text-quaternary: #969aa3;
+            --color-border: #e8e9eb;
+            --color-white: #ffffff;
+            --gradient-t1: linear-gradient(143.74deg, rgb(231,247,249) 0%, rgb(251,248,242) 100%);
+            --font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --radius-md: 4px;
+            --radius-lg: 8px;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, #e8eef5 0%, #f0e8f5 100%);
+            color: var(--color-text-primary);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .prototype-container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .scene-label {
+            background: var(--color-surface-dark);
+            color: var(--color-white);
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            margin-bottom: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .scene-label-title {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .scene-label-tags {
+            display: flex;
+            gap: 8px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: var(--radius-md);
+            font-size: 11px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tag.intent {
+            background: rgba(66, 133, 244, 0.2);
+            border-color: rgba(66, 133, 244, 0.4);
+            color: var(--color-primary);
+        }
+
+        .device-frame {
+            width: 1024px;
+            height: 768px;
+            background: var(--color-white);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .device-frame::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 28px;
+            background: var(--color-surface-dark);
+            border-radius: 20px 20px 0 0;
+            z-index: 10;
+        }
+
+        .tablet-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .status-bar {
+            height: 28px;
+            background: var(--color-surface-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-size: 11px;
+            color: var(--color-white);
+            position: relative;
+            z-index: 11;
+        }
+
+        .status-bar-left, .status-bar-right {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .status-bar-center {
+            flex: 1;
+            text-align: center;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        /* CART LAYOUT */
+        .main-content {
+            flex: 1;
+            display: flex;
+            gap: 0;
+            background: var(--color-white);
+            overflow: hidden;
+        }
+
+        /* LEFT: Cart UI */
+        .left-panel {
+            flex: 0 0 50%;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            border-right: 1px solid var(--color-border);
+            background: var(--color-white);
+        }
+
+        .cart-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--color-border);
+            flex-shrink: 0;
+        }
+
+        .dealer-info {
+            font-size: 11px;
+            color: var(--color-text-tertiary);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .vehicle-card {
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 12px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .vehicle-silhouette {
+            width: 50px;
+            height: 35px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .vehicle-details {
+            flex: 1;
+        }
+
+        .vehicle-make-model {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: 4px;
+        }
+
+        .vehicle-meta {
+            font-size: 11px;
+            color: var(--color-text-tertiary);
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Job List Section */
+        .jobs-section {
+            padding: 16px 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .job-item {
+            background: var(--color-background);
+            padding: 12px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 8px;
+            border: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .job-opcode {
+            font-size: 10px;
+            font-weight: 700;
+            background: var(--color-primary);
+            color: white;
+            padding: 2px 6px;
+            border-radius: var(--radius-md);
+            min-width: 32px;
+            text-align: center;
+            margin-right: 8px;
+        }
+
+        .job-name {
+            flex: 1;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .job-price {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--color-text-primary);
+        }
+
+        /* Edit Job Form */
+        .edit-form-section {
+            background: var(--color-primary-light);
+            padding: 16px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-primary);
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 12px;
+            margin-bottom: 8px;
+            font-family: var(--font-family);
+            background: var(--color-white);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .radio-option input {
+            cursor: pointer;
+        }
+
+        /* Totals Section */
+        .totals-section {
+            padding: 16px 20px;
+            border-top: 1px solid var(--color-border);
+            background: var(--color-background);
+            flex-shrink: 0;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .total-row.final {
+            border-top: 1px solid var(--color-border);
+            padding-top: 8px;
+            font-weight: 700;
+            color: var(--color-success);
+            font-size: 16px;
+        }
+
+        .checkout-button {
+            width: 100%;
+            padding: 12px;
+            background: var(--color-success);
+            color: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: background 0.2s;
+        }
+
+        .checkout-button:hover {
+            background: #2d6a28;
+        }
+
+        /* RIGHT: T1 Chat Overlay */
+        .right-panel {
+            flex: 0 0 50%;
+            display: flex;
+            flex-direction: column;
+            background: var(--color-white);
+        }
+
+        .t1-header {
+            background: var(--gradient-t1);
+            padding: 16px;
+            border-bottom: 1px solid var(--color-border);
+            flex-shrink: 0;
+        }
+
+        .t1-header-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--color-text-primary);
+        }
+
+        .t1-header-subtitle {
+            font-size: 11px;
+            color: var(--color-text-tertiary);
+            margin-top: 4px;
+        }
+
+        .t1-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: var(--color-background);
+        }
+
+        .chat-bubble {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+            margin-bottom: 8px;
+        }
+
+        .chat-bubble.user {
+            justify-content: flex-end;
+        }
+
+        .chat-bubble-content {
+            background: var(--color-background);
+            padding: 10px 12px;
+            border-radius: var(--radius-lg);
+            font-size: 12px;
+            line-height: 1.4;
+            max-width: 80%;
+            color: var(--color-text-primary);
+        }
+
+        .chat-bubble.user .chat-bubble-content {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .chat-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .chat-avatar.ai {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .chat-avatar.user {
+            background: var(--color-success);
+            color: white;
+        }
+
+        /* Voice State Indicator */
+        .voice-state {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 12px;
+            background: var(--color-primary-light);
+            border-radius: var(--radius-lg);
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: var(--color-primary);
+        }
+
+        .voice-pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .t1-footer {
+            padding: 12px 16px;
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--color-white);
+            flex-shrink: 0;
+        }
+
+        .voice-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
+        }
+
+        .voice-button:hover {
+            background: var(--color-primary-hover);
+        }
+
+        .voice-placeholder {
+            flex: 1;
+            color: var(--color-text-quaternary);
+            font-size: 12px;
+        }
+
+        /* Annotation Panel */
+        .annotation-panel {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 280px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .annotation-panel.collapsed {
+            width: 60px;
+            height: 60px;
+        }
+
+        .annotation-header {
+            background: var(--color-surface-dark);
+            color: white;
+            padding: 12px 16px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .annotation-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .annotation-content {
+            padding: 16px;
+            font-size: 11px;
+            line-height: 1.5;
+            color: var(--color-text-secondary);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .annotation-note {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .annotation-note:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .annotation-label {
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .annotation-panel.collapsed .annotation-content {
+            display: none;
+        }
+
+        .annotation-panel.collapsed .annotation-header {
+            width: 100%;
+            height: 100%;
+            border-radius: var(--radius-lg);
+            padding: 0;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .annotation-panel.collapsed .annotation-header span {
+            display: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-border);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-text-tertiary);
+        }
+
+        @media (max-width: 1400px) {
+            .device-frame {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 1024 / 768;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="prototype-container">
+        <div class="scene-label">
+            <div class="scene-label-title">Act 2, Scene 4 — RO Creation by Voice (Cart + T1)</div>
+            <div class="scene-label-tags">
+                <span class="tag intent">SA-E01 CreateRO</span>
+                <span class="tag">Voice First</span>
+                <span class="tag">Cart UI</span>
+                <span class="tag">iPad 1024x768</span>
+            </div>
+        </div>
+
+        <div class="device-frame">
+            <div class="tablet-content">
+                <div class="status-bar">
+                    <div class="status-bar-left">
+                        <span>9:58</span>
+                    </div>
+                    <div class="status-bar-center">Tekion Service Cart</div>
+                    <div class="status-bar-right">
+                        <span>📡</span>
+                        <span>🔋</span>
+                    </div>
+                </div>
+
+                <div class="main-content">
+                    <!-- LEFT: Cart UI -->
+                    <div class="left-panel">
+                        <!-- Dealer & Vehicle Header -->
+                        <div class="cart-header">
+                            <div class="dealer-info">Napleton Honda</div>
+                            <div class="vehicle-card">
+                                <div class="vehicle-silhouette">🚗</div>
+                                <div class="vehicle-details">
+                                    <div class="vehicle-make-model">2021 Honda Accord</div>
+                                    <div class="vehicle-meta">
+                                        <span>VIN ...4827</span>
+                                        <span>58K mi</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Jobs Section -->
+                        <div class="jobs-section">
+                            <div class="section-title">Services Added</div>
+                            <div class="job-item">
+                                <div style="display: flex; align-items: center; flex: 1;">
+                                    <div class="job-opcode">OILCHG</div>
+                                    <div class="job-name">Oil Change</div>
+                                </div>
+                                <div class="job-price">$89.95</div>
+                            </div>
+                            <div class="job-item">
+                                <div style="display: flex; align-items: center; flex: 1;">
+                                    <div class="job-opcode">BRKPAD</div>
+                                    <div class="job-name">Front Brake Pads</div>
+                                </div>
+                                <div class="job-price">$380.00</div>
+                            </div>
+                            <div class="job-item">
+                                <div style="display: flex; align-items: center; flex: 1;">
+                                    <div class="job-opcode">60KMAINT</div>
+                                    <div class="job-name">60K Maintenance</div>
+                                </div>
+                                <div class="job-price">$289.00</div>
+                            </div>
+
+                            <!-- Edit Form for Active Job -->
+                            <div style="margin-top: 16px;">
+                                <div class="section-title">Editing: 60K Maintenance</div>
+                                <div class="edit-form-section">
+                                    <label class="form-label">Concern</label>
+                                    <div class="radio-group">
+                                        <div class="radio-option">
+                                            <input type="radio" id="c-s" name="concern" value="c/s">
+                                            <label for="c-s" style="font-size: 12px;">C/S</label>
+                                        </div>
+                                        <div class="radio-option">
+                                            <input type="radio" id="c-r" name="concern" value="c/r">
+                                            <label for="c-r" style="font-size: 12px;">C/R</label>
+                                        </div>
+                                        <div class="radio-option">
+                                            <input type="radio" id="none" name="concern" value="none" checked>
+                                            <label for="none" style="font-size: 12px;">None</label>
+                                        </div>
+                                    </div>
+
+                                    <label class="form-label">Pay Type</label>
+                                    <select class="form-input">
+                                        <option selected>CFL (Customer Flat Labor)</option>
+                                        <option>I (Internal)</option>
+                                        <option>W (Warranty)</option>
+                                        <option>+ (Additional)</option>
+                                    </select>
+
+                                    <label class="form-label">Payer</label>
+                                    <select class="form-input">
+                                        <option selected>Customer</option>
+                                        <option>Warranty</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Totals & Checkout -->
+                        <div class="totals-section">
+                            <div class="total-row">
+                                <span>Labor</span>
+                                <span>$400.00</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Parts</span>
+                                <span>$358.95</span>
+                            </div>
+                            <div class="total-row final">
+                                <span>Total Estimate</span>
+                                <span>$758.95</span>
+                            </div>
+                            <button class="checkout-button">Checkout ($758.95)</button>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: T1 Chat -->
+                    <div class="right-panel">
+                        <div class="t1-header">
+                            <div class="t1-header-title">T1 Voice RO Creation</div>
+                            <div class="t1-header-subtitle">Creating RO #4501...</div>
+                        </div>
+
+                        <div class="t1-messages">
+                            <!-- User Request -->
+                            <div class="chat-bubble user">
+                                <div class="chat-bubble-content">
+                                    Create an RO for the customer at Lane 2. Add oil change, brake pads, and 60K service.
+                                </div>
+                                <div class="chat-avatar user">M</div>
+                            </div>
+
+                            <!-- Voice State -->
+                            <div class="voice-state">
+                                <div class="voice-pulse"></div>
+                                Processing voice input...
+                            </div>
+
+                            <!-- T1 Confirmation -->
+                            <div class="chat-bubble">
+                                <div class="chat-avatar ai">T1</div>
+                                <div class="chat-bubble-content">
+                                    RO #4501 created for Mrs. Chen. Added: Oil Change ($89.95), Brake Pads ($380.00), 60K Maintenance ($289.00). Total: $758.95. Ready to proceed?
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="t1-footer">
+                            <button class="voice-button" title="Listening...">🎤</button>
+                            <div class="voice-placeholder">Listening for commands...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Annotation Panel -->
+    <div class="annotation-panel" id="annotationPanel">
+        <div class="annotation-header" onclick="toggleAnnotationPanel()">
+            <span>Design Notes</span>
+            <button class="annotation-toggle" id="annotationToggle">−</button>
+        </div>
+        <div class="annotation-content">
+            <div class="annotation-note">
+                <span class="annotation-label">Split View Layout</span>
+                Left 50%: Tekion Cart UI showing dealer, vehicle, job items, edit form, and totals. Right 50%: T1 chat showing voice interaction flow.
+            </div>
+            <div class="annotation-note">
+                <span class="annotation-label">Voice-First RO Creation</span>
+                Maya says "Create an RO for the customer at Lane 2." T1 instantly populates all fields and creates RO #4501 with pre-filled services.
+            </div>
+            <div class="annotation-note">
+                <span class="annotation-label">Cart Pattern</span>
+                Vehicle header, job items with opcodes, Concern/Pay Type/Payer form fields, and green Checkout button—all from Tekion mobile check-in UX.
+            </div>
+            <div class="annotation-note">
+                <span class="annotation-label">Voice State Indicator</span>
+                Pulsing mic icon + "Processing voice input..." shows active listening state. Chat bubble shows user command and T1 confirmation.
+            </div>
+            <div class="annotation-note">
+                <span class="annotation-label">Real-time Pricing</span>
+                Totals update automatically: $89.95 + $380.00 + $289.00 = $758.95. Labor/parts breakdown shown at bottom.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnnotationPanel() {
+            const panel = document.getElementById('annotationPanel');
+            const toggle = document.getElementById('annotationToggle');
+            panel.classList.toggle('collapsed');
+            toggle.textContent = panel.classList.contains('collapsed') ? '+' : '−';
+        }
+    </script>
+</body>
+</html>

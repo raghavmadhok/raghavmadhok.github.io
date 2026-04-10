@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scene 9 — Tech Creates Recommendation | T1 Mobile</title>
+    <style>
+        :root {
+            --t1-primary: #4285f4;
+            --t1-primary-hover: #0060ff;
+            --t1-primary-light: #ebf4ff;
+            --t1-error: #c42106;
+            --t1-error-light: #f9e2e0;
+            --t1-white: #ffffff;
+            --t1-bg: #f4f5f6;
+            --t1-bg-hover: #edeef0;
+            --t1-bg-active: #e8e9eb;
+            --t1-surface-dark: #1a2332;
+            --t1-topbar-bg: #0d1117;
+            --t1-text-primary: #161616;
+            --t1-text-secondary: #3f4757;
+            --t1-text-tertiary: #6d707a;
+            --t1-text-quaternary: #969aa3;
+            --t1-border: #e8e9eb;
+            --t1-border-strong: #969aa3;
+            --t1-font: "Proxima Nova", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --t1-radius-sm: 2px;
+            --t1-radius-md: 4px;
+            --t1-radius-lg: 8px;
+            --t1-radius-xl: 12px;
+            --t1-radius-full: 100px;
+            --success: #3c8635;
+            --success-light: #e8f5e9;
+            --warning: #e67e22;
+            --warning-light: #fff3e0;
+            --t1-gradient: linear-gradient(143.74deg, rgb(231,247,249) 0%, rgb(251,248,242) 100%);
+            --tekion-green: #00c853;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--t1-font);
+            background: var(--t1-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .scene-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .scene-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--t1-text-primary);
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .viewport-wrapper {
+            display: flex;
+            gap: 32px;
+            align-items: flex-start;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* MOBILE DEVICE FRAME */
+        .mobile-frame {
+            width: 390px;
+            height: 844px;
+            background: #000;
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .mobile-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 28px;
+            background: #000;
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+        }
+
+        .mobile-screen {
+            width: 100%;
+            height: 100%;
+            background: var(--t1-bg);
+            border-radius: 35px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* STATUS BAR */
+        .status-bar {
+            background: var(--t1-topbar-bg);
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 44px;
+            padding-top: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-left {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .status-center {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--tekion-green);
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+        .status-right {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        /* HEADER */
+        .header {
+            background: #fff;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--t1-border);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .header-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--t1-text-primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ro-badge {
+            background: var(--t1-bg);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--t1-text-secondary);
+            font-weight: 500;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: var(--success);
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* CONVERSATIONAL OVERLAY */
+        .conversation-panel {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: var(--t1-bg);
+        }
+
+        .conversation-panel::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .conversation-panel::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .conversation-panel::-webkit-scrollbar-thumb {
+            background: #d0d2d7;
+            border-radius: 2px;
+        }
+
+        .message-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        /* USER MESSAGE */
+        .message-bubble {
+            max-width: 85%;
+            padding: 12px 14px;
+            border-radius: 16px;
+            font-size: 13px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background: var(--t1-primary);
+            color: #fff;
+            align-self: flex-end;
+            margin-right: 8px;
+        }
+
+        .message-timestamp {
+            font-size: 11px;
+            color: var(--t1-text-tertiary);
+            margin-top: 4px;
+            text-align: right;
+            padding-right: 8px;
+        }
+
+        /* AI RESPONSE MESSAGE */
+        .ai-message {
+            background: #fff;
+            color: var(--t1-text-primary);
+            align-self: flex-start;
+            margin-left: 8px;
+            border: 1px solid var(--t1-border);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        /* RECOMMENDATION CONFIRMATION CARD (HERO) */
+        .recommendation-card {
+            background: #fff;
+            border: 2px solid var(--success);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 8px 4px;
+            box-shadow: 0 2px 8px rgba(60, 134, 53, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 8px;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--t1-text-primary);
+        }
+
+        .card-badge {
+            background: var(--success);
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .badge-icon {
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .badge-icon::after {
+            content: '✓';
+            position: absolute;
+            top: -7px;
+            left: 1px;
+            font-size: 8px;
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .recommendation-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .recommendation-item {
+            background: #f9fafb;
+            border: 1px solid var(--t1-border);
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .item-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--t1-text-primary);
+            flex: 1;
+        }
+
+        .item-opcode {
+            background: var(--t1-bg);
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--t1-primary);
+            white-space: nowrap;
+        }
+
+        .item-details {
+            font-size: 11px;
+            color: var(--t1-text-secondary);
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .detail-label {
+            color: var(--t1-text-tertiary);
+        }
+
+        .detail-value {
+            font-weight: 500;
+            color: var(--t1-text-primary);
+        }
+
+        .item-total {
+            background: var(--t1-primary-light);
+            padding: 8px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            border-left: 3px solid var(--t1-primary);
+        }
+
+        .total-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--t1-text-primary);
+        }
+
+        .total-amount {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--t1-primary);
+        }
+
+        /* FLOATING MIC BUTTON */
+        .mic-button {
+            position: absolute;
+            bottom: 20px;
+            right: 16px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--t1-primary) 0%, var(--t1-primary-hover) 100%);
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            animation: mic-pulse 2s ease-in-out infinite;
+            transition: transform 0.2s ease;
+        }
+
+        .mic-button:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes mic-pulse {
+            0%, 100% {
+                box-shadow: 0 4px 12px rgba(66, 133, 244, 0.4),
+                           0 0 0 0 rgba(66, 133, 244, 0.3);
+            }
+            50% {
+                box-shadow: 0 4px 12px rgba(66, 133, 244, 0.4),
+                           0 0 0 12px rgba(66, 133, 244, 0.1);
+            }
+        }
+
+        .listening-indicator {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            animation: listening-blink 1s ease-in-out infinite;
+        }
+
+        @keyframes listening-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* ANNOTATION PANEL */
+        .annotation-panel {
+            background: #fff;
+            border: 1px solid var(--t1-border);
+            border-radius: 8px;
+            padding: 16px;
+            min-width: 300px;
+            flex: 0 0 auto;
+        }
+
+        .annotation-panel h3 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--t1-text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .annotation-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .annotation-item {
+            padding: 8px 12px;
+            background: #f9fafb;
+            border-left: 2px solid var(--t1-primary);
+            border-radius: 4px;
+            color: var(--t1-text-secondary);
+        }
+
+        .annotation-item strong {
+            color: var(--t1-text-primary);
+            font-weight: 600;
+        }
+
+        .annotation-icon {
+            width: 14px;
+            height: 14px;
+            display: inline-block;
+            background: var(--t1-primary);
+            border-radius: 50%;
+            color: #fff;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .viewport-wrapper {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .annotation-panel {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scene-container">
+        <div class="scene-label">Act 4, Scene 9 — Tech Creates Recommendation</div>
+
+        <div class="viewport-wrapper">
+            <!-- MOBILE PHONE FRAME -->
+            <div class="mobile-frame">
+                <div class="mobile-screen">
+                    <!-- STATUS BAR with Tekion branding -->
+                    <div class="status-bar">
+                        <div class="status-left">9:41</div>
+                        <div class="status-center">
+                            <span style="width: 8px; height: 8px; background: var(--tekion-green); border-radius: 50%; display: inline-block; margin-right: 4px;"></span>
+                            TEKION
+                        </div>
+                        <div class="status-right">
+                            <span>📡</span>
+                            <span>🔋</span>
+                        </div>
+                    </div>
+
+                    <!-- HEADER -->
+                    <div class="header">
+                        <div class="header-title">
+                            <span>Job Queue</span>
+                            <span class="ro-badge">RO #4501</span>
+                        </div>
+                        <div style="font-size: 12px; color: var(--t1-text-tertiary);">
+                            2021 Honda Accord • Chen
+                        </div>
+                        <div class="status-indicator">
+                            <span class="status-dot"></span>
+                            <span>In Progress</span>
+                        </div>
+                    </div>
+
+                    <!-- CONVERSATIONAL OVERLAY -->
+                    <div class="conversation-panel">
+                        <!-- USER MESSAGE (Marcus) -->
+                        <div class="message-group">
+                            <div class="message-bubble user-message">
+                                Create a recommendation — brake pads are at 4mm, recommend replacement. Also found a loose catalytic converter heat shield bolt, recommend tightening with new bolt kit.
+                            </div>
+                            <div class="message-timestamp">Just now</div>
+                        </div>
+
+                        <!-- AI RESPONSE (T1) -->
+                        <div class="message-group">
+                            <div class="message-bubble ai-message">
+                                Two recommendations created on RO #4501:
+                                <br><br>
+                                (1) <strong>Front brake pad replacement</strong> — pads at 4mm, safety threshold 2mm
+                                <br><br>
+                                (2) <strong>Catalytic converter heat shield bolt tightening</strong> — loose bolt detected during MPI
+                                <br><br>
+                                Both flagged for advisor review.
+                            </div>
+                            <div class="message-timestamp" style="text-align: left; padding-left: 8px;">Now</div>
+                        </div>
+
+                        <!-- RECOMMENDATION CONFIRMATION CARD (HERO) -->
+                        <div class="recommendation-card">
+                            <div class="card-header">
+                                <div class="card-title">2 Recommendations Created</div>
+                                <div class="card-badge">
+                                    <span class="badge-icon"></span>
+                                    Sent to Advisor
+                                </div>
+                            </div>
+
+                            <div class="recommendation-items">
+                                <!-- RECOMMENDATION 1: BRAKE PADS -->
+                                <div class="recommendation-item">
+                                    <div class="item-header">
+                                        <div class="item-title">Front brake pad replacement</div>
+                                        <div class="item-opcode">BRKPAD</div>
+                                    </div>
+                                    <div class="item-details">
+                                        <div class="detail-row">
+                                            <span class="detail-label">Condition:</span>
+                                            <span class="detail-value">Pads at 4mm (safety: 2mm)</span>
+                                        </div>
+                                        <div class="detail-row">
+                                            <span class="detail-label">Labor:</span>
+                                            <span class="detail-value">1.2 hours</span>
+                                        </div>
+                                        <div class="detail-row">
+                                            <span class="detail-label">Parts:</span>
+                                            <span class="detail-value">Front brake pad set</span>
+                                        </div>
+                                        <div class="detail-row">
+                                            <span class="detail-label">Parts cost:</span>
+                                            <span class="detail-value">$68.50</span>
+                                        </div>
+                                    </div>
+                                    <div class="item-total">
+                                        <span class="total-label">Recommendation Total</span>
+                                        <span class="total-amount">$380</span>
+                                    </div>
+                                </div>
+
+                                <!-- RECOMMENDATION 2: CATALYTIC CONVERTER BOLT -->
+                                <div class="recommendation-item">
+                                    <div class="item-header">
+                                        <div class="item-title">Catalytic converter heat shield bolt tightening</div>
+                                        <div class="item-opcode">EXHSHLD</div>
+                                    </div>
+                                    <div class="item-details">
+                                        <div class="detail-row">
+                                            <span class="detail-label">Condition:</span>
+                                            <span class="detail-value">Loose bolt detected (MPI)</span>
+                                        </div>
+                                        <div class="detail-row">
+                                            <span class="detail-label">Labor:</span>
+                                            <span class="detail-value">0.3 hours</span>
+                                        </div>
+                                        <div class="detail-row">
+                                            <span class="detail-label">Parts:</span>
+                                            <span class="detail-value">Bolt kit</span>
+                                        </div>
+                                        <div class="detail-row">
+                                            <span class="detail-label">Parts cost:</span>
+                                            <span class="detail-value">$12.30</span>
+                                        </div>
+                                    </div>
+                                    <div class="item-total">
+                                        <span class="total-label">Recommendation Total</span>
+                                        <span class="total-amount">$52</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FLOATING MIC BUTTON -->
+                    <button class="mic-button">
+                        <span class="listening-indicator"></span>
+                        🎤
+                    </button>
+                </div>
+            </div>
+
+            <!-- ANNOTATION PANEL -->
+            <div class="annotation-panel">
+                <h3>
+                    <span class="annotation-icon">i</span>
+                    Key Interactions
+                </h3>
+                <div class="annotation-list">
+                    <div class="annotation-item">
+                        <strong>Voice Input:</strong> Marcus speaks recommendation request to T1 Voice. Mic button pulses with listening state active.
+                    </div>
+                    <div class="annotation-item">
+                        <strong>AI Processing:</strong> T1 processes request and creates structured recommendations with full details (opcode, labor, parts, pricing).
+                    </div>
+                    <div class="annotation-item">
+                        <strong>Confirmation Card:</strong> Hero card displays both recommendations with green success border and "Sent to Advisor" badge.
+                    </div>
+                    <div class="annotation-item">
+                        <strong>Real-time Sync:</strong> Simultaneously, Maya on desktop receives task notification: "Review MPI results on Chen Accord — 2 recommendations from Marcus."
+                    </div>
+                    <div class="annotation-item">
+                        <strong>Status Indicators:</strong> Green badge confirms delivery. Opcode references allow quick lookup. Pricing breakdown visible for advisor review.
+                    </div>
+                    <div class="annotation-item">
+                        <strong>Tekion Branding:</strong> Dark status bar with TEKION logo, Tekion color palette throughout, voice interface matches T1 design system.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

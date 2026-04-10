@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Act 7, Scene 13 — Invoice & Close | SA Desktop + Tablet Signature</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --t1-primary: #4285f4;
+            --t1-topbar-bg: #0d1117;
+            --t1-surface-dark: #1a2332;
+            --t1-white: #ffffff;
+            --t1-bg: #f4f5f6;
+            --t1-text-primary: #161616;
+            --t1-text-secondary: #3f4757;
+            --t1-text-tertiary: #6d707a;
+            --t1-border: #e8e9eb;
+            --t1-font: "Proxima Nova", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --t1-radius-md: 4px;
+            --t1-radius-lg: 8px;
+            --t1-radius-xl: 12px;
+            --success: #3c8635;
+            --success-light: #e8f5e9;
+            --warning: #e67e22;
+            --warning-light: #fff3e0;
+            --tekion-green: #00c853;
+        }
+
+        body {
+            font-family: var(--t1-font);
+            background: var(--t1-bg);
+            color: var(--t1-text-primary);
+            overflow-x: hidden;
+        }
+
+        /* TEKION TOPBAR */
+        .tekion-topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 48px;
+            background: var(--t1-topbar-bg);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            z-index: 200;
+            gap: 8px;
+        }
+
+        .tekion-topbar__grid-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: var(--t1-radius-md);
+            color: #8b949e;
+            flex-shrink: 0;
+        }
+
+        .tekion-topbar__logo {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--tekion-green);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-right: 8px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .tekion-topbar__ai-search {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0 4px;
+            flex-shrink: 0;
+        }
+
+        .tekion-topbar__ai-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--t1-radius-md);
+            background: linear-gradient(135deg, #2dd4bf22, #4285f422);
+            border: 1px solid rgba(45,212,191,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .tekion-topbar__search-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--t1-radius-md);
+            background: rgba(255,255,255,0.08);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b949e;
+            cursor: pointer;
+        }
+
+        .tekion-topbar__search-bar {
+            flex: 1;
+            max-width: 400px;
+            height: 34px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--t1-radius-md);
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            color: #6b7280;
+            font-size: 13px;
+            margin: 0 auto;
+            cursor: text;
+        }
+
+        .tekion-topbar__actions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .tekion-topbar__get-help {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: var(--tekion-green);
+            color: #fff;
+            border: none;
+            border-radius: var(--t1-radius-md);
+            font-family: var(--t1-font);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .tekion-topbar__icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b949e;
+            cursor: pointer;
+            position: relative;
+            border: none;
+            background: none;
+        }
+
+        .tekion-topbar__badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            min-width: 16px;
+            height: 16px;
+            background: #ef4444;
+            color: white;
+            font-size: 9px;
+            font-weight: 700;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+
+        .tekion-topbar__dealer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 8px 4px 4px;
+            margin-left: 8px;
+            cursor: pointer;
+            border-radius: var(--t1-radius-md);
+            flex-shrink: 0;
+        }
+
+        .tekion-topbar__dealer-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #2dd4bf;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .tekion-topbar__dealer-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #e5e7eb;
+            white-space: nowrap;
+        }
+
+        /* TEKION SIDEBAR */
+        .tekion-sidebar {
+            position: fixed;
+            top: 48px;
+            left: 0;
+            width: 56px;
+            height: calc(100vh - 48px);
+            background: var(--t1-surface-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 0 8px;
+            gap: 2px;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .tekion-sidebar__item {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: var(--t1-radius-md);
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .tekion-sidebar__item:hover { background: rgba(255,255,255,0.06); }
+
+        .tekion-sidebar__icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            letter-spacing: -0.3px;
+        }
+
+        .tekion-sidebar__icon--t1 { background: none; position: relative; }
+        .tekion-sidebar__icon--ro { background: #3b82f6; }
+        .tekion-sidebar__icon--ds { background: #3b82f6; }
+        .tekion-sidebar__icon--om { background: #22c55e; }
+        .tekion-sidebar__icon--a { background: #8b5cf6; }
+        .tekion-sidebar__icon--dc { background: #3b82f6; }
+        .tekion-sidebar__icon--cd { background: #3b82f6; }
+
+        .tekion-sidebar__item--active .tekion-sidebar__icon {
+            box-shadow: 0 0 0 2px #4285f4;
+        }
+
+        .tekion-sidebar__item--active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            bottom: 10px;
+            width: 3px;
+            background: #4285f4;
+            border-radius: 0 2px 2px 0;
+        }
+
+        .tekion-sidebar__spacer { flex: 1; }
+
+        .scene-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: var(--t1-bg);
+        }
+
+        /* ===== SCENE LABEL ===== */
+        .scene-label {
+            background: #161b22;
+            color: white;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-left: 56px;
+            margin-top: 48px;
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .scene-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            gap: 24px;
+            padding: 24px;
+            position: relative;
+            margin-left: 56px;
+            margin-top: 0;
+        }
+
+        /* ===== DESKTOP VIEW (left) ===== */
+        .desktop-view {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        /* Desktop DMS Shell */
+        .dms-shell {
+            display: flex;
+            height: 100%;
+            background: white;
+        }
+
+        .dms-sidebar {
+            width: 240px;
+            background: var(--t1-surface-dark);
+            color: white;
+            padding: 16px;
+            border-right: 1px solid var(--t1-border);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .dms-sidebar-header {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--t1-text-tertiary);
+            margin-bottom: 8px;
+        }
+
+        .dms-sidebar-item {
+            font-size: 14px;
+            padding: 10px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            color: #bbb;
+            transition: all 0.2s ease;
+        }
+
+        .dms-sidebar-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dms-sidebar-item.active {
+            background: var(--t1-primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Top bar */
+        .dms-topbar {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid var(--t1-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            flex-shrink: 0;
+        }
+
+        .dms-topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dms-topbar-breadcrumb {
+            font-size: 12px;
+            color: var(--t1-text-tertiary);
+            font-weight: 500;
+        }
+
+        .dms-topbar-breadcrumb strong {
+            color: var(--t1-text-primary);
+        }
+
+        .dms-topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .dms-user-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--t1-text-secondary);
+        }
+
+        .dms-user-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--t1-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Main content area */
+        .dms-main {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* RO Details panel */
+        .ro-details-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 24px;
+            gap: 20px;
+        }
+
+        /* RO Header Info Bar */
+        .ro-header-info {
+            background: var(--t1-bg);
+            border: 1px solid var(--t1-border);
+            border-radius: var(--t1-radius-lg);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            font-size: 13px;
+        }
+
+        .ro-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .ro-info-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--t1-text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .ro-info-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--t1-text-primary);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid var(--t1-border);
+            margin-bottom: 12px;
+        }
+
+        .tab {
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--t1-text-tertiary);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .tab:hover {
+            color: var(--t1-text-primary);
+        }
+
+        .tab.active {
+            color: var(--t1-primary);
+            border-bottom-color: var(--t1-primary);
+        }
+
+        /* Invoicing panel content */
+        .invoicing-content {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* RO Header */
+        .ro-header {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .ro-id {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--t1-text-primary);
+        }
+
+        .ro-status {
+            font-size: 12px;
+            color: var(--success);
+            font-weight: 600;
+            background: var(--success-light);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        /* Invoice Pre-flight Checklist Card (HERO) */
+        .invoice-preflight-card {
+            border: 2px solid var(--success);
+            border-radius: 8px;
+            background: #f5fff5;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .preflight-header {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--t1-text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .preflight-header-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--success);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .preflight-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .preflight-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--t1-text-primary);
+        }
+
+        .preflight-checkmark {
+            width: 20px;
+            height: 20px;
+            background: var(--success);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .preflight-divider {
+            height: 1px;
+            background: #d4edda;
+            margin: 8px 0;
+        }
+
+        /* Line items */
+        .line-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .line-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .line-item-name {
+            color: var(--t1-text-secondary);
+        }
+
+        .line-item-price {
+            color: var(--t1-text-primary);
+            font-weight: 600;
+        }
+
+        /* Total section */
+        .preflight-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding-top: 12px;
+            border-top: 1px solid #d4edda;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--t1-text-primary);
+        }
+
+        .total-amount {
+            font-size: 18px;
+            color: var(--success);
+        }
+
+        /* Payment info */
+        .payment-info {
+            background: var(--success-light);
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: var(--t1-text-secondary);
+        }
+
+        .payment-info-label {
+            color: var(--t1-text-tertiary);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        /* ===== T1 CONVERSATIONAL PANEL (right side) ===== */
+        .t1-conversational-panel {
+            width: 320px;
+            background: white;
+            border: 1px solid var(--t1-border);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .t1-panel-header {
+            background: var(--t1-surface-dark);
+            color: white;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--t1-border);
+        }
+
+        .t1-panel-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        /* Dialogue messages */
+        .t1-message {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .t1-message.user {
+            justify-content: flex-end;
+        }
+
+        .t1-message.assistant {
+            justify-content: flex-start;
+        }
+
+        .t1-message-bubble {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .t1-message.user .t1-message-bubble {
+            background: var(--t1-primary);
+            color: white;
+            border-radius: 12px 4px 12px 12px;
+        }
+
+        .t1-message.assistant .t1-message-bubble {
+            background: var(--t1-bg);
+            color: var(--t1-text-primary);
+            border-radius: 4px 12px 12px 12px;
+        }
+
+        .t1-message.success .t1-message-bubble {
+            background: var(--success-light);
+            color: var(--success);
+            border-left: 3px solid var(--success);
+            font-weight: 500;
+        }
+
+        .t1-message-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        .t1-message.assistant .t1-message-icon {
+            background: var(--t1-surface-dark);
+            color: white;
+        }
+
+        .t1-message.user .t1-message-icon {
+            background: var(--t1-primary);
+            color: white;
+        }
+
+        .t1-message.success .t1-message-icon {
+            background: var(--success);
+            color: white;
+        }
+
+        .t1-transaction-info {
+            background: var(--t1-bg);
+            border: 1px solid var(--t1-border);
+            border-radius: 6px;
+            padding: 12px;
+            margin: 12px 0;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .t1-transaction-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .t1-transaction-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .t1-transaction-label {
+            color: var(--t1-text-tertiary);
+            font-weight: 500;
+        }
+
+        .t1-transaction-value {
+            color: var(--t1-text-primary);
+            font-weight: 600;
+        }
+
+        .t1-transaction-status {
+            background: var(--success-light);
+            color: var(--success);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        /* ===== TABLET VIEW (inset overlay) ===== */
+        .tablet-view {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            width: 380px;
+            height: 540px;
+            background: white;
+            border: 2px solid var(--t1-primary);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .tablet-frame {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: var(--t1-bg);
+        }
+
+        .tablet-statusbar {
+            height: 32px;
+            background: var(--t1-surface-dark);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .tablet-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            gap: 20px;
+            overflow-y: auto;
+            background: white;
+        }
+
+        .tablet-header {
+            text-align: center;
+        }
+
+        .tablet-header-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--t1-text-primary);
+            margin-bottom: 4px;
+        }
+
+        .tablet-header-subtitle {
+            font-size: 13px;
+            color: var(--t1-text-tertiary);
+        }
+
+        /* Signature pad */
+        .signature-pad-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .signature-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--t1-text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .signature-canvas {
+            flex: 1;
+            border: 2px solid var(--t1-border);
+            border-radius: 6px;
+            background: white;
+            cursor: crosshair;
+            position: relative;
+            min-height: 120px;
+        }
+
+        .signature-canvas-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #bbb;
+            font-size: 12px;
+        }
+
+        .signature-canvas.active {
+            border-color: var(--t1-primary);
+            background: #f9fbff;
+        }
+
+        .signature-canvas.signed {
+            background: #f5f5f5;
+        }
+
+        /* Tablet buttons */
+        .tablet-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .tablet-btn {
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tablet-btn-secondary {
+            background: var(--t1-bg);
+            color: var(--t1-text-tertiary);
+            border: 1px solid var(--t1-border);
+        }
+
+        .tablet-btn-secondary:hover {
+            background: var(--t1-border);
+            color: var(--t1-text-primary);
+        }
+
+        .tablet-btn-primary {
+            background: var(--t1-primary);
+            color: white;
+            flex: 1;
+        }
+
+        .tablet-btn-primary:hover {
+            background: #3567d8;
+        }
+
+        .tablet-btn-primary:disabled {
+            background: #bbb;
+            cursor: not-allowed;
+        }
+
+        /* ===== ANNOTATION PANEL ===== */
+        .annotation-panel {
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            width: 280px;
+            background: white;
+            border: 1px solid var(--t1-border);
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            font-size: 12px;
+            line-height: 1.6;
+            color: var(--t1-text-secondary);
+        }
+
+        .annotation-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--t1-text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .annotation-icon {
+            width: 16px;
+            height: 16px;
+            background: var(--t1-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            flex-shrink: 0;
+        }
+
+        .annotation-item {
+            margin-bottom: 8px;
+        }
+
+        .annotation-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .annotation-label {
+            color: var(--t1-text-tertiary);
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .annotation-value {
+            color: var(--t1-text-secondary);
+        }
+
+        /* ===== RESPONSIVE / SCROLLBARS ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--t1-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d0d1d5;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #bbb;
+        }
+    </style>
+</head>
+<body>
+    <!-- TEKION TOPBAR -->
+    <div class="tekion-topbar">
+        <div class="tekion-topbar__grid-icon">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+                <circle cx="3" cy="3" r="1.5"/><circle cx="8" cy="3" r="1.5"/><circle cx="13" cy="3" r="1.5"/>
+                <circle cx="3" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="13" cy="8" r="1.5"/>
+                <circle cx="3" cy="13" r="1.5"/><circle cx="8" cy="13" r="1.5"/><circle cx="13" cy="13" r="1.5"/>
+            </svg>
+        </div>
+        <div class="tekion-topbar__logo">TEKION</div>
+        <div class="tekion-topbar__ai-search">
+            <div class="tekion-topbar__ai-btn" title="T1 AI">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2">
+                    <path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16.4l-6.4 4.8L8 14 2 9.2h7.6z"/>
+                </svg>
+            </div>
+            <div class="tekion-topbar__search-btn">
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/></svg>
+            </div>
+        </div>
+        <div class="tekion-topbar__search-bar">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="#6b7280"><path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/></svg>
+            Search here...
+        </div>
+        <div class="tekion-topbar__actions">
+            <button class="tekion-topbar__get-help">Get Help</button>
+            <div class="tekion-topbar__icon-btn" title="Help">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="#8b949e"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg>
+            </div>
+            <div class="tekion-topbar__icon-btn" title="Notifications">
+                <span class="tekion-topbar__badge">99+</span>
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="#8b949e"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zm0 16a3 3 0 01-3-3h6a3 3 0 01-3 3z"/></svg>
+            </div>
+            <div class="tekion-topbar__icon-btn" title="Chat">
+                <span class="tekion-topbar__badge">1</span>
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="#8b949e"><path d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7z"/></svg>
+            </div>
+            <div class="tekion-topbar__icon-btn" title="Mail">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="#8b949e"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884zm15.994 1.532L10 11.118 2.003 7.416A.5.5 0 002 7.5V14a2 2 0 002 2h12a2 2 0 002-2V7.5a.5.5 0 00-.003-.084z"/></svg>
+            </div>
+        </div>
+        <div class="tekion-topbar__dealer">
+            <div class="tekion-topbar__dealer-avatar">NH</div>
+            <span class="tekion-topbar__dealer-name">Napleton Honda</span>
+        </div>
+    </div>
+
+    <!-- TEKION SIDEBAR -->
+    <div class="tekion-sidebar">
+        <div class="tekion-sidebar__item" title="T1 AI">
+            <div class="tekion-sidebar__icon tekion-sidebar__icon--t1">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect width="24" height="24" rx="6" fill="url(#t1grad)"/>
+                    <defs><linearGradient id="t1grad" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#e7f7f9"/><stop offset="1" stop-color="#fbf8f2"/></linearGradient></defs>
+                    <path d="M12 4l1.8 5.4H20l-5 4 2 5.6L12 15l-5 4 2-5.6-5-4h6.2z" fill="#4285f4" opacity="0.8"/>
+                </svg>
+            </div>
+        </div>
+        <div class="tekion-sidebar__item tekion-sidebar__item--active" title="Repair Order">
+            <div class="tekion-sidebar__icon tekion-sidebar__icon--ro">RO</div>
+        </div>
+        <div class="tekion-sidebar__item" title="Deal Summary">
+            <div class="tekion-sidebar__icon tekion-sidebar__icon--ds">DS</div>
+        </div>
+        <div class="tekion-sidebar__item" title="Order Management">
+            <div class="tekion-sidebar__icon tekion-sidebar__icon--om">OM</div>
+        </div>
+        <div class="tekion-sidebar__item" title="Accounting">
+            <div class="tekion-sidebar__icon tekion-sidebar__icon--a">A</div>
+        </div>
+        <div class="tekion-sidebar__item" title="Document Center">
+            <div class="tekion-sidebar__icon tekion-sidebar__icon--dc">DC</div>
+        </div>
+        <div class="tekion-sidebar__item" title="Customer Database">
+            <div class="tekion-sidebar__icon tekion-sidebar__icon--cd">CD</div>
+        </div>
+        <div class="tekion-sidebar__spacer"></div>
+    </div>
+
+    <div class="scene-container">
+        <div class="scene-label">Act 7, Scene 13 — Invoice & Close (SA Desktop, Invoicing Panel + Tablet Signature)</div>
+
+        <div class="scene-content">
+            <!-- DESKTOP VIEW -->
+            <div class="desktop-view">
+                <div class="dms-shell">
+                    <div class="dms-sidebar">
+                        <div class="dms-sidebar-header">Dashboard</div>
+                        <div class="dms-sidebar-item">Home</div>
+                        <div class="dms-sidebar-item active">RO Details</div>
+                        <div class="dms-sidebar-item">Customers</div>
+                        <div class="dms-sidebar-item">Inventory</div>
+                        <div class="dms-sidebar-header" style="margin-top: 16px;">Tools</div>
+                        <div class="dms-sidebar-item">Reports</div>
+                        <div class="dms-sidebar-item">Settings</div>
+                    </div>
+
+                    <div style="flex: 1; display: flex; flex-direction: column;">
+                        <div class="dms-topbar">
+                            <div class="dms-topbar-left">
+                                <div class="dms-topbar-breadcrumb">
+                                    <strong>RO #4501</strong> › Invoicing
+                                </div>
+                            </div>
+                            <div class="dms-topbar-right">
+                                <div class="dms-user-badge">
+                                    <div>Maya Chen</div>
+                                    <div class="dms-user-avatar">MC</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dms-main">
+                            <div class="ro-details-panel">
+                                <!-- RO Header Info Bar -->
+                                <div class="ro-header-info">
+                                    <div class="ro-info-item">
+                                        <div class="ro-info-label">RO #</div>
+                                        <div class="ro-info-value">00004501</div>
+                                    </div>
+                                    <div style="width: 1px; background: var(--t1-border); height: 40px;"></div>
+                                    <div class="ro-info-item">
+                                        <div class="ro-info-label">Vehicle</div>
+                                        <div class="ro-info-value">2021 Honda Accord</div>
+                                    </div>
+                                    <div style="width: 1px; background: var(--t1-border); height: 40px;"></div>
+                                    <div class="ro-info-item">
+                                        <div class="ro-info-label">Customer</div>
+                                        <div class="ro-info-value">Linda Chen</div>
+                                    </div>
+                                </div>
+
+                                <div class="ro-header">
+                                    <div class="ro-id">Invoice</div>
+                                    <div class="ro-status">Ready for Closeout</div>
+                                </div>
+
+                                <div class="tabs">
+                                    <div class="tab">Overview</div>
+                                    <div class="tab active">Invoicing</div>
+                                    <div class="tab">History</div>
+                                </div>
+
+                                <div class="invoicing-content">
+                                    <!-- Invoice Pre-flight Checklist Card (HERO) -->
+                                    <div class="invoice-preflight-card">
+                                        <div class="preflight-header">
+                                            <div class="preflight-header-icon">✓</div>
+                                            Pre-flight Checklist Complete
+                                        </div>
+
+                                        <div class="preflight-items">
+                                            <div class="preflight-item">
+                                                <div class="preflight-checkmark">✓</div>
+                                                <span>All jobs complete</span>
+                                            </div>
+                                            <div class="preflight-item">
+                                                <div class="preflight-checkmark">✓</div>
+                                                <span>Parts reconciled</span>
+                                            </div>
+                                            <div class="preflight-item">
+                                                <div class="preflight-checkmark">✓</div>
+                                                <span>Customer approval captured (text, 10:52 AM)</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="preflight-divider"></div>
+
+                                        <div class="line-items">
+                                            <div class="line-item">
+                                                <span class="line-item-name">Oil Change</span>
+                                                <span class="line-item-price">$89.95</span>
+                                            </div>
+                                            <div class="line-item">
+                                                <span class="line-item-name">Brake Pads</span>
+                                                <span class="line-item-price">$380.00</span>
+                                            </div>
+                                            <div class="line-item">
+                                                <span class="line-item-name">Heat Shield</span>
+                                                <span class="line-item-price">$52.00</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="preflight-total">
+                                            <span>Total</span>
+                                            <span class="total-amount">$521.95</span>
+                                        </div>
+
+                                        <div class="payment-info">
+                                            <div class="payment-info-label">Customer Pay</div>
+                                            <div>Visa ending in 4242 (card on file)</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- T1 CONVERSATIONAL PANEL -->
+            <div class="t1-conversational-panel">
+                <div class="t1-panel-header">Hi Maya,</div>
+                <div class="t1-panel-content">
+                    <div class="t1-message assistant">
+                        <div class="t1-message-icon">T</div>
+                        <div class="t1-message-bubble">RO #4501 ready to close?</div>
+                    </div>
+
+                    <div class="t1-message user">
+                        <div class="t1-message-bubble">Yes, run the pre-flight checks</div>
+                        <div class="t1-message-icon">M</div>
+                    </div>
+
+                    <div class="t1-message success">
+                        <div class="t1-message-icon">✓</div>
+                        <div class="t1-message-bubble">
+                            <div style="font-weight: 700; margin-bottom: 8px;">Pre-flight Passed</div>
+                            <div style="font-size: 12px;">All items approved</div>
+                        </div>
+                    </div>
+
+                    <div class="t1-message assistant">
+                        <div class="t1-message-icon">T</div>
+                        <div class="t1-message-bubble">Ready to process payment?</div>
+                    </div>
+
+                    <div class="t1-message user">
+                        <div class="t1-message-bubble">Generate invoice</div>
+                        <div class="t1-message-icon">M</div>
+                    </div>
+
+                    <div class="t1-message success">
+                        <div class="t1-message-icon">✓</div>
+                        <div class="t1-message-bubble">
+                            <div style="font-weight: 700; margin-bottom: 8px;">Invoice Generated</div>
+                            <div style="font-size: 12px;">$521.95 — ready for signature</div>
+                        </div>
+                    </div>
+
+                    <div class="t1-message assistant">
+                        <div class="t1-message-icon">T</div>
+                        <div class="t1-message-bubble">Capture signature on tablet?</div>
+                    </div>
+
+                    <div class="prompt-suggestion" style="background: var(--t1-bg); border: 1px solid var(--t1-border); border-radius: 6px; padding: 12px; margin: 8px 0; font-size: 12px; color: var(--t1-text-secondary); cursor: pointer; transition: all 0.2s;">→ Run pre-flight check</div>
+                    <div class="prompt-suggestion" style="background: var(--t1-bg); border: 1px solid var(--t1-border); border-radius: 6px; padding: 12px; margin: 8px 0; font-size: 12px; color: var(--t1-text-secondary); cursor: pointer; transition: all 0.2s;">→ Generate invoice</div>
+                    <div class="prompt-suggestion" style="background: var(--t1-bg); border: 1px solid var(--t1-border); border-radius: 6px; padding: 12px; margin: 8px 0; font-size: 12px; color: var(--t1-text-secondary); cursor: pointer; transition: all 0.2s;">→ Capture signature</div>
+                </div>
+            </div>
+
+            <!-- TABLET VIEW (inset overlay) -->
+            <div class="tablet-view">
+                <div class="tablet-frame">
+                    <div class="tablet-statusbar">
+                        <span>9:42</span>
+                        <span>Signal • WiFi • Battery</span>
+                    </div>
+
+                    <div class="tablet-content">
+                        <div class="tablet-header">
+                            <div class="tablet-header-title">Signature</div>
+                            <div class="tablet-header-subtitle">Mrs. Chen</div>
+                        </div>
+
+                        <div class="signature-pad-container">
+                            <div class="signature-label">Please sign below</div>
+                            <div class="signature-canvas active">
+                                <div class="signature-canvas-placeholder">[Signature Pad]</div>
+                            </div>
+                        </div>
+
+                        <div class="tablet-buttons">
+                            <button class="tablet-btn tablet-btn-secondary">Clear</button>
+                            <button class="tablet-btn tablet-btn-primary">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANNOTATION PANEL -->
+            <div class="annotation-panel">
+                <div class="annotation-title">
+                    <div class="annotation-icon">i</div>
+                    Scene Notes
+                </div>
+
+                <div class="annotation-item">
+                    <div class="annotation-label">Voice Trigger</div>
+                    <div class="annotation-value">Maya: "Close out RO 4501"</div>
+                </div>
+
+                <div class="annotation-item">
+                    <div class="annotation-label">Flow</div>
+                    <div class="annotation-value">Pre-flight → Invoice → Signature</div>
+                </div>
+
+                <div class="annotation-item">
+                    <div class="annotation-label">Key Action</div>
+                    <div class="annotation-value">T1 prompts: "Run pre-flight check", "Generate invoice", "Capture signature"</div>
+                </div>
+
+                <div class="annotation-item">
+                    <div class="annotation-label">Payment</div>
+                    <div class="annotation-value">Card-on-file charged; T1 confirms TXN</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

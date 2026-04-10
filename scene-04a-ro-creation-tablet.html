@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scene 4a — RO Creation: T1 Decision Cards (Tablet) | Tekion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-primary: #4285f4;
+            --color-primary-hover: #0060ff;
+            --color-primary-light: #ebf4ff;
+            --color-success: #3c8635;
+            --color-success-light: #e8f5e9;
+            --color-warning: #e67e22;
+            --color-warning-light: #fff3e0;
+            --color-error: #c42106;
+            --color-error-light: #f9e2e0;
+            --color-background: #f4f5f6;
+            --color-surface-dark: #1a2332;
+            --color-text-primary: #161616;
+            --color-text-secondary: #3f4757;
+            --color-text-tertiary: #6d707a;
+            --color-text-quaternary: #969aa3;
+            --color-border: #e8e9eb;
+            --color-white: #ffffff;
+            --gradient-t1: linear-gradient(143.74deg, rgb(231,247,249) 0%, rgb(251,248,242) 100%);
+            --font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --radius-md: 4px;
+            --radius-lg: 8px;
+            --color-amber: #f59e0b;
+            --color-blue: #3b82f6;
+            --color-cyan: #06b6d4;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, #e8eef5 0%, #f0e8f5 100%);
+            color: var(--color-text-primary);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .prototype-container {
+            width: 100%;
+            max-width: 1280px;
+        }
+
+        .scene-label {
+            background: var(--color-surface-dark);
+            color: var(--color-white);
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            margin-bottom: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .scene-label-title {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .scene-label-tags {
+            display: flex;
+            gap: 8px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: var(--radius-md);
+            font-size: 11px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tag.intent {
+            background: rgba(66, 133, 244, 0.2);
+            border-color: rgba(66, 133, 244, 0.4);
+            color: var(--color-primary);
+        }
+
+        .device-frame {
+            width: 1024px;
+            height: 768px;
+            background: var(--color-white);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .device-frame::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 28px;
+            background: var(--color-surface-dark);
+            border-radius: 20px 20px 0 0;
+            z-index: 10;
+        }
+
+        .tablet-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .status-bar {
+            height: 28px;
+            background: var(--color-surface-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-size: 11px;
+            color: var(--color-white);
+            position: relative;
+            z-index: 11;
+        }
+
+        .status-bar-left, .status-bar-right {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .status-bar-center {
+            flex: 1;
+            text-align: center;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        /* CART LAYOUT */
+        .main-content {
+            flex: 1;
+            display: flex;
+            gap: 0;
+            background: var(--color-white);
+            overflow: hidden;
+        }
+
+        /* LEFT: Cart UI */
+        .left-panel {
+            flex: 0 0 55%;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            border-right: 1px solid var(--color-border);
+            background: var(--color-white);
+        }
+
+        .cart-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--color-border);
+            flex-shrink: 0;
+        }
+
+        .dealer-info {
+            font-size: 11px;
+            color: var(--color-text-tertiary);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .vehicle-card {
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 12px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .vehicle-silhouette {
+            width: 50px;
+            height: 35px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .vehicle-details {
+            flex: 1;
+        }
+
+        .vehicle-make-model {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: 4px;
+        }
+
+        .vehicle-meta {
+            font-size: 11px;
+            color: var(--color-text-tertiary);
+            display: flex;
+            gap: 10px;
+        }
+
+        .customer-name {
+            font-size: 11px;
+            color: var(--color-text-secondary);
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        /* Job List Section */
+        .jobs-section {
+            padding: 16px 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .job-item {
+            background: var(--color-background);
+            padding: 12px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 8px;
+            border: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .job-opcode {
+            font-size: 10px;
+            font-weight: 700;
+            background: var(--color-primary);
+            color: white;
+            padding: 2px 6px;
+            border-radius: var(--radius-md);
+            min-width: 32px;
+            text-align: center;
+            margin-right: 8px;
+        }
+
+        .job-name {
+            flex: 1;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .job-price {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--color-text-primary);
+        }
+
+        /* Totals Section */
+        .totals-section {
+            padding: 16px 20px;
+            border-top: 1px solid var(--color-border);
+            background: var(--color-background);
+            flex-shrink: 0;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .total-row.final {
+            border-top: 1px solid var(--color-border);
+            padding-top: 8px;
+            font-weight: 700;
+            color: var(--color-success);
+            font-size: 16px;
+        }
+
+        .checkout-button {
+            width: 100%;
+            padding: 12px;
+            background: var(--color-success);
+            color: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: background 0.2s;
+        }
+
+        .checkout-button:hover {
+            background: #2d6a28;
+        }
+
+        /* RIGHT: T1 Chat Panel */
+        .right-panel {
+            flex: 0 0 45%;
+            display: flex;
+            flex-direction: column;
+            background: var(--color-white);
+        }
+
+        .t1-header {
+            background: var(--gradient-t1);
+            padding: 16px;
+            border-bottom: 1px solid var(--color-border);
+            flex-shrink: 0;
+        }
+
+        .t1-header-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--color-text-primary);
+        }
+
+        .t1-header-subtitle {
+            font-size: 11px;
+            color: var(--color-text-tertiary);
+            margin-top: 4px;
+        }
+
+        .t1-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: var(--color-background);
+        }
+
+        .chat-bubble {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+            margin-bottom: 8px;
+        }
+
+        .chat-bubble.user {
+            justify-content: flex-end;
+        }
+
+        .chat-bubble-content {
+            background: var(--color-white);
+            padding: 10px 12px;
+            border-radius: var(--radius-lg);
+            font-size: 12px;
+            line-height: 1.4;
+            max-width: 80%;
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-border);
+        }
+
+        .chat-bubble.user .chat-bubble-content {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+        }
+
+        .chat-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .chat-avatar.ai {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .chat-avatar.user {
+            background: var(--color-success);
+            color: white;
+        }
+
+        /* Decision Cards */
+        .decision-card {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            border: 2px solid;
+            padding: 12px;
+            margin: 8px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .decision-card.pending {
+            border-color: var(--color-border);
+            opacity: 0.5;
+        }
+
+        .decision-card.active {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .decision-card.completed {
+            border-color: var(--color-success);
+            background: var(--color-success-light);
+            opacity: 0.7;
+        }
+
+        .decision-card.completed .card-content {
+            display: none;
+        }
+
+        .decision-card.completed .card-title::before {
+            content: "✓ ";
+            color: var(--color-success);
+            font-weight: 700;
+        }
+
+        /* Card: Tag Number (orange) */
+        .decision-card.tag-number {
+            border-color: var(--color-warning);
+        }
+
+        .decision-card.tag-number .card-title::before {
+            content: "⚠️ ";
+            margin-right: 4px;
+        }
+
+        /* Card: Damage Inspection (blue) */
+        .decision-card.damage-inspection {
+            border-color: var(--color-blue);
+        }
+
+        .decision-card.damage-inspection .card-title::before {
+            content: "📸 ";
+            margin-right: 4px;
+        }
+
+        /* Card: Deferred Service (amber) */
+        .decision-card.deferred-service {
+            border-color: var(--color-amber);
+        }
+
+        .decision-card.deferred-service .card-title::before {
+            content: "🔄 ";
+            margin-right: 4px;
+        }
+
+        /* Card: RO Summary (green) */
+        .decision-card.ro-summary {
+            border-color: var(--color-success);
+        }
+
+        .decision-card.ro-summary .card-title::before {
+            content: "✅ ";
+            margin-right: 4px;
+        }
+
+        .card-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--color-text-primary);
+        }
+
+        .card-description {
+            font-size: 11px;
+            color: var(--color-text-secondary);
+            line-height: 1.4;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .card-meta {
+            background: var(--color-background);
+            padding: 8px;
+            border-radius: var(--radius-md);
+            font-size: 11px;
+            color: var(--color-text-secondary);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card-meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-meta-label {
+            font-size: 10px;
+            color: var(--color-text-tertiary);
+            font-weight: 500;
+        }
+
+        .card-meta-value {
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin-top: 2px;
+        }
+
+        .card-input-group {
+            display: flex;
+            gap: 6px;
+        }
+
+        .card-input {
+            flex: 1;
+            padding: 6px 8px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 11px;
+            font-family: var(--font-family);
+        }
+
+        .card-scan-button {
+            padding: 6px 8px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .card-photos-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .photo-slot {
+            aspect-ratio: 1;
+            background: var(--color-background);
+            border: 1px dashed var(--color-border);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--color-text-tertiary);
+        }
+
+        .photo-slot.filled {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%234285f4" width="100" height="100"/><text x="50" y="55" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Image</text></svg>');
+            background-size: cover;
+            border: none;
+        }
+
+        .card-buttons {
+            display: flex;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .card-button {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--color-border);
+            background: var(--color-white);
+            border-radius: var(--radius-md);
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--color-text-primary);
+            transition: all 0.2s;
+        }
+
+        .card-button:hover {
+            background: var(--color-background);
+        }
+
+        .card-button.primary {
+            background: var(--color-success);
+            color: white;
+            border: none;
+        }
+
+        .card-button.primary:hover {
+            background: #2d6a28;
+        }
+
+        .t1-footer {
+            padding: 12px 16px;
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--color-white);
+            flex-shrink: 0;
+        }
+
+        .voice-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
+            animation: pulse 1.5s infinite;
+        }
+
+        .voice-button:hover {
+            background: var(--color-primary-hover);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        .voice-placeholder {
+            flex: 1;
+            color: var(--color-text-quaternary);
+            font-size: 12px;
+        }
+
+        /* Annotation Panel */
+        .annotation-panel {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 280px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .annotation-panel.collapsed {
+            width: 60px;
+            height: 60px;
+        }
+
+        .annotation-header {
+            background: var(--color-surface-dark);
+            color: white;
+            padding: 12px 16px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .annotation-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .annotation-content {
+            padding: 16px;
+            font-size: 11px;
+            line-height: 1.5;
+            color: var(--color-text-secondary);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .annotation-note {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .annotation-note:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .annotation-label {
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .annotation-panel.collapsed .annotation-content {
+            display: none;
+        }
+
+        .annotation-panel.collapsed .annotation-header {
+            width: 100%;
+            height: 100%;
+            border-radius: var(--radius-lg);
+            padding: 0;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .annotation-panel.collapsed .annotation-header span {
+            display: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-border);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-text-tertiary);
+        }
+
+        @media (max-width: 1400px) {
+            .device-frame {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 1024 / 768;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="prototype-container">
+        <div class="scene-label">
+            <div class="scene-label-title">Act 2, Scene 4a — RO Creation: T1 Decision Cards (Tablet)</div>
+            <div class="scene-label-tags">
+                <span class="tag intent">SA-E01 CreateRO</span>
+                <span class="tag">Decision Cards</span>
+                <span class="tag">iPad 1024x768</span>
+            </div>
+        </div>
+
+        <div class="device-frame">
+            <div class="tablet-content">
+                <div class="status-bar">
+                    <div class="status-bar-left">
+                        <span>9:58</span>
+                    </div>
+                    <div class="status-bar-center">TEKION</div>
+                    <div class="status-bar-right">
+                        <span>📡</span>
+                        <span>🔋</span>
+                    </div>
+                </div>
+
+                <div class="main-content">
+                    <!-- LEFT: Cart UI (55%) -->
+                    <div class="left-panel">
+                        <div class="cart-header">
+                            <div class="dealer-info">Napleton Honda</div>
+                            <div class="vehicle-card">
+                                <div class="vehicle-silhouette">🚗</div>
+                                <div class="vehicle-details">
+                                    <div class="vehicle-make-model">2021 Honda Accord</div>
+                                    <div class="vehicle-meta">
+                                        <span>VIN ...4827</span>
+                                        <span>58K mi</span>
+                                    </div>
+                                    <div class="customer-name">Mrs. Linda Chen</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="jobs-section">
+                            <div class="section-title">Services Added</div>
+                            <div class="job-item">
+                                <div style="display: flex; align-items: center; flex: 1;">
+                                    <div class="job-opcode">OILCHG</div>
+                                    <div class="job-name">Oil Change</div>
+                                </div>
+                                <div class="job-price">$89.95</div>
+                            </div>
+                        </div>
+
+                        <div class="totals-section">
+                            <div class="total-row">
+                                <span>Subtotal</span>
+                                <span>$89.95</span>
+                            </div>
+                            <div class="total-row final">
+                                <span>Total Estimate</span>
+                                <span>$89.95</span>
+                            </div>
+                            <button class="checkout-button">Checkout ($89.95)</button>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: T1 Decision Cards (45%) -->
+                    <div class="right-panel">
+                        <div class="t1-header">
+                            <div class="t1-header-title">T1 RO Creation</div>
+                            <div class="t1-header-subtitle">Creating RO #4501... 3 decisions needed</div>
+                        </div>
+
+                        <div class="t1-messages">
+                            <!-- Card 1: Tag Number (COMPLETED) -->
+                            <div class="decision-card tag-number completed active">
+                                <div class="card-title">Tag Number</div>
+                                <div class="card-content">
+                                    <div class="card-description">Tag number detected. ✓</div>
+                                </div>
+                            </div>
+
+                            <!-- Card 2: Damage Inspection (IN PROGRESS) -->
+                            <div class="decision-card damage-inspection active">
+                                <div class="card-title">Damage Inspection</div>
+                                <div class="card-content">
+                                    <div class="card-description">Walk-around damage inspection. Capture photos of any existing damage before service begins.</div>
+                                    <div class="card-photos-grid">
+                                        <div class="photo-slot">🏞️</div>
+                                        <div class="photo-slot">🏞️</div>
+                                        <div class="photo-slot filled"></div>
+                                        <div class="photo-slot filled"></div>
+                                    </div>
+                                    <div class="card-buttons">
+                                        <button class="card-button">Skip Inspection</button>
+                                        <button class="card-button primary">Photos Captured ✓</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 3: Deferred Service (ACTIVE) -->
+                            <div class="decision-card deferred-service active">
+                                <div class="card-title">Deferred Service from Previous Visit</div>
+                                <div class="card-content">
+                                    <div class="card-description">Mrs. Chen declined front brake pad replacement on Jan 15, 2026. Pads were at 5mm — now estimated at 3mm. Add to this RO?</div>
+                                    <div class="card-meta">
+                                        <div class="card-meta-item">
+                                            <span class="card-meta-label">Service</span>
+                                            <span class="card-meta-value">Front Brake Pads</span>
+                                        </div>
+                                        <div class="card-meta-item">
+                                            <span class="card-meta-label">Price</span>
+                                            <span class="card-meta-value">$380</span>
+                                        </div>
+                                        <div class="card-meta-item">
+                                            <span class="card-meta-label">Acceptance</span>
+                                            <span class="card-meta-value">73%</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-buttons">
+                                        <button class="card-button">Decline Again</button>
+                                        <button class="card-button primary">Add to RO — $380</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 4: RO Summary (PENDING) -->
+                            <div class="decision-card ro-summary pending">
+                                <div class="card-title">Confirm RO Summary</div>
+                                <div class="card-content">
+                                    <div class="card-description">RO #4501 ready for approval.</div>
+                                    <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 4px;">
+                                        • Oil Change $89.95<br/>
+                                        • (Additional items pending)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="t1-footer">
+                            <button class="voice-button" title="Listening...">🎤</button>
+                            <div class="voice-placeholder">Listening for commands...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Annotation Panel -->
+    <div class="annotation-panel" id="annotationPanel">
+        <div class="annotation-header" onclick="toggleAnnotationPanel()">
+            <span>Design Notes</span>
+            <button class="annotation-toggle" id="annotationToggle">−</button>
+        </div>
+        <div class="annotation-content">
+            <div class="annotation-note">
+                <span class="annotation-label">T1 Decision Cards Pattern</span>
+                Four decision cards guide advisors through RO creation: Tag detection (orange), damage photos (blue), deferred service upsell (amber), and final summary (green). Each card shows actionable buttons and relevant context.
+            </div>
+            <div class="annotation-note">
+                <span class="annotation-label">Card States</span>
+                Completed: green border + dimmed + checkmark prefix. Active: full color + prominent shadow + buttons visible. Pending: gray border + dimmed until reached.
+            </div>
+            <div class="annotation-note">
+                <span class="annotation-label">Left Panel: Cart UI (55%)</span>
+                Tekion Cart pattern with vehicle header, job items with opcode badges, and pricing. Totals update as cards are actioned.
+            </div>
+            <div class="annotation-note">
+                <span class="annotation-label">Right Panel: T1 Chat (45%)</span>
+                Stacked decision cards with icons/emojis, titles, descriptions, and buttons. Completed cards collapse with green check. Active card (deferred service #3) is fully expanded.
+            </div>
+            <div class="annotation-note">
+                <span class="annotation-label">Deferred Service Upsell</span>
+                Shows historical context ("Jan 15, 2026"), wear data ("5mm → 3mm"), and conversion rate ("73%") to help advisor make informed decision. Primary CTA is to add the service.
+            </div>
+            <div class="annotation-note">
+                <span class="annotation-label">Voice Integration</span>
+                Pulsing mic button + "Listening..." text allows advisor to speak commands. T1 processes voice and surfaces next decision card automatically.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnnotationPanel() {
+            const panel = document.getElementById('annotationPanel');
+            const toggle = document.getElementById('annotationToggle');
+            panel.classList.toggle('collapsed');
+            toggle.textContent = panel.classList.contains('collapsed') ? '+' : '−';
+        }
+    </script>
+</body>
+</html>
